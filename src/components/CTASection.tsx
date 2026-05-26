@@ -197,36 +197,36 @@ export default function CTASection() {
       {/* ════════════════════════════════════════ */}
       {/* ── CTA block ──                         */}
       {/* ════════════════════════════════════════ */}
-      <div className="relative z-[2] flex flex-col items-center text-center px-[60px] pt-28 pb-24 max-md:px-6 max-md:pt-20 max-md:pb-20">
+      <div className="relative z-[2] flex flex-col items-center text-center px-[60px] pt-28 pb-24 max-md:px-6 max-md:pt-16 max-md:pb-16">
 
-        <p ref={eyebrowRef} className="text-[11.5px] text-white/45 tracking-[0.12em] uppercase mb-7">
+        <p ref={eyebrowRef} className="text-[11.5px] text-white/45 tracking-[0.12em] uppercase mb-6 max-md:mb-5">
           Delta Trading Academy · Dubai
         </p>
 
-        {/* Clip-reveal headline */}
-        <h2 className="font-normal tracking-[-0.04em] text-white max-w-[680px] mb-7 max-md:text-[42px]">
-          <span className="block overflow-hidden text-[70px] leading-[1.0]">
+        {/* Clip-reveal headline — font size on spans so max-md works */}
+        <h2 className="font-normal tracking-[-0.04em] text-white max-w-[680px] mb-7 max-md:mb-5">
+          <span className="block overflow-hidden text-[70px] leading-[1.0] max-md:text-[38px]">
             <span ref={hLine1Ref} className="block">Start trading</span>
           </span>
-          <span className="block overflow-hidden text-[70px] leading-[1.0]">
+          <span className="block overflow-hidden text-[70px] leading-[1.0] max-md:text-[38px]">
             <span ref={hLine2Ref} className="block">with confidence.</span>
           </span>
         </h2>
 
-        <p ref={ctaBodyRef} className="text-[15.5px] text-white/50 leading-[1.7] max-w-[420px] tracking-[0.003em] mb-11">
+        <p ref={ctaBodyRef} className="text-[15.5px] text-white/50 leading-[1.7] max-w-[420px] tracking-[0.003em] mb-9 max-md:text-[14px] max-md:max-w-full max-md:mb-7">
           Join thousands of traders who have transformed their skills with Dubai's most accredited trading institution.
         </p>
 
         <button
           ref={ctaBtnRef}
           onClick={trigger}
-          className="inline-flex items-center gap-2.5 bg-white text-[#0f0e0c] text-[15px] tracking-[0.005em] px-9 py-[17px] rounded-full hover:bg-white/90 transition-all hover:-translate-y-px active:scale-[0.98]"
+          className="inline-flex items-center gap-2.5 bg-white text-[#0f0e0c] text-[15px] tracking-[0.005em] px-9 py-[17px] rounded-full hover:bg-white/90 transition-all hover:-translate-y-px active:scale-[0.98] max-md:px-7 max-md:py-[15px] max-md:text-[14px]"
         >
           Enroll Now
           <span className="text-[12px]">→</span>
         </button>
 
-        <p ref={trustRef} className="text-[12.5px] text-white/28 tracking-[0.005em] mt-8">
+        <p ref={trustRef} className="text-[12.5px] text-white/28 tracking-[0.005em] mt-7 max-md:text-[11.5px] max-md:mt-5">
           KHDA Accredited &nbsp;·&nbsp; Guinness World Record &nbsp;·&nbsp; 518+ Google Reviews
         </p>
 
@@ -235,14 +235,14 @@ export default function CTASection() {
       {/* ════════════════════════════════════════ */}
       {/* ── White footer card ──                 */}
       {/* ════════════════════════════════════════ */}
-      <div ref={footerCardRef} className="relative z-[2] w-[98%] mx-auto mb-2 bg-white rounded-lg">
-        <div className="max-w-[1240px] mx-auto px-[60px] pt-14 pb-10 max-md:px-6">
+      <div ref={footerCardRef} className="relative z-[2] w-[98%] mx-auto mb-2 bg-white rounded-xl">
+        <div className="max-w-[1240px] mx-auto px-[60px] pt-14 pb-10 max-md:px-5 max-md:pt-10 max-md:pb-8">
 
           {/* ── Top row: brand + nav ── */}
-          <div className="flex justify-between gap-16 pb-12 max-lg:flex-col max-lg:gap-12">
+          <div className="flex justify-between gap-16 pb-12 max-lg:flex-col max-lg:gap-10 max-md:pb-8">
 
             {/* Brand + email CTA */}
-            <div ref={footerBrandRef} className="max-w-[340px]">
+            <div ref={footerBrandRef} className="max-w-[340px] max-md:max-w-full">
               <p className="text-[19px] text-black tracking-[-0.02em] mb-3 leading-tight">
                 Delta Trading Hub
               </p>
@@ -261,7 +261,7 @@ export default function CTASection() {
                 />
                 <button
                   type="submit"
-                  className="flex-shrink-0 bg-[#0f0e0c] text-white text-[13px] tracking-[0.005em] px-5 py-2.5 rounded-full hover:bg-[#2a2825] transition-colors"
+                  className="flex-shrink-0 bg-[#0f0e0c] text-white text-[13px] tracking-[0.005em] px-4 py-2.5 rounded-full hover:bg-[#2a2825] transition-colors whitespace-nowrap"
                 >
                   Get started
                 </button>

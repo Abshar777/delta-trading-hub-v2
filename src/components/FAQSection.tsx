@@ -101,11 +101,11 @@ export default function FAQSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="faq" className="bg-white py-24 px-[60px] font-nb max-md:px-6">
+    <section ref={sectionRef} id="faq" className="bg-white py-24 px-[60px] font-nb max-md:px-6 max-md:py-14">
       <div className="max-w-[1240px] mx-auto">
 
         {/* ── Two-column layout ── */}
-        <div className="grid grid-cols-[1fr_1.2fr] gap-20 max-lg:grid-cols-1 max-lg:gap-14">
+        <div className="grid grid-cols-[1fr_1.2fr] gap-20 max-lg:grid-cols-1 max-lg:gap-10">
 
           {/* ── Left: heading ── */}
           <div className="max-lg:max-w-[560px]">
@@ -114,24 +114,24 @@ export default function FAQSection() {
               FAQ
             </p>
 
-            {/* Clip-reveal headline */}
-            <h2 className="tracking-[-0.03em] text-black mb-6 max-md:text-[34px]">
-              <span className="block overflow-hidden text-[48px] leading-[1.05]">
+            {/* Clip-reveal headline — font size lives on the spans so responsive works */}
+            <h2 className="tracking-[-0.03em] text-black mb-6">
+              <span className="block overflow-hidden text-[48px] leading-[1.05] max-md:text-[32px]">
                 <span ref={hLine1Ref} className="block">Frequently</span>
               </span>
-              <span className="block overflow-hidden text-[48px] leading-[1.05]">
+              <span className="block overflow-hidden text-[48px] leading-[1.05] max-md:text-[32px]">
                 <span ref={hLine2Ref} className="block">asked questions</span>
               </span>
             </h2>
 
-            <p ref={descRef} className="text-[15px] text-black/45 leading-[1.7] tracking-[0.003em] mb-10 max-w-[380px]">
+            <p ref={descRef} className="text-[15px] text-black/45 leading-[1.7] tracking-[0.003em] mb-8 max-w-[380px] max-md:max-w-full max-md:text-[14px]">
               Everything you need to know about our programs, enrollment process, and what to expect as a Delta student.
             </p>
 
             <button
               ref={ctaBtnRef}
               onClick={trigger}
-              className="inline-flex items-center gap-2 text-[14px] text-black tracking-[0.005em] border-b border-black/20 pb-px hover:border-black transition-all hover:gap-3"
+              className="inline-flex items-center gap-2 text-[14px] text-black tracking-[0.005em] border-b border-black/20 pb-px hover:border-black transition-all hover:gap-3 max-md:text-[13.5px]"
             >
               Still have questions? Get in touch
               <span className="text-[11px]">→</span>
@@ -150,11 +150,11 @@ export default function FAQSection() {
 
                   {/* Question row */}
                   <button
-                    className="w-full flex items-start justify-between gap-6 py-5 text-left group"
+                    className="w-full flex items-start justify-between gap-4 py-5 text-left group"
                     onClick={() => setOpen(open === i ? null : i)}
                   >
                     <span className={[
-                      'text-[15.5px] leading-snug tracking-[-0.005em] transition-colors duration-200',
+                      'text-[15px] leading-snug tracking-[-0.005em] transition-colors duration-200 max-md:text-[14px]',
                       open === i ? 'text-black' : 'text-black/70 group-hover:text-black',
                     ].join(' ')}>
                       {q}
@@ -170,12 +170,12 @@ export default function FAQSection() {
                   {/* Answer */}
                   <div
                     style={{
-                      maxHeight: open === i ? '400px' : '0',
+                      maxHeight: open === i ? '500px' : '0',
                       overflow: 'hidden',
                       transition: 'max-height 0.32s cubic-bezier(0.4,0,0.2,1)',
                     }}
                   >
-                    <p className="text-[14px] text-black/50 leading-[1.72] tracking-[0.003em] pb-6 pr-10">
+                    <p className="text-[14px] text-black/50 leading-[1.72] tracking-[0.003em] pb-6 pr-6 max-md:pr-2 max-md:text-[13px]">
                       {a}
                     </p>
                   </div>

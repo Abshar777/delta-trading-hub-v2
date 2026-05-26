@@ -130,7 +130,7 @@ export default function HealthProtocolSection() {
         alt=""
         width={500}
         height={500}
-        className='h-ful w-full'
+        className='h-full w-full'
         priority
         style={{ objectFit: 'cover', objectPosition: 'center' }}
       />
