@@ -213,9 +213,13 @@ export default function HeroSection() {
         </div>
 
         {/* Logo */}
-        <a href="#"
-          className="font-nb text-[22px] md:text-[24px] tracking-[-0.03em] text-white no-underline select-none md:text-center">
-          DELTA
+        <a href="#" className="flex justify-center items-center select-none">
+          <img
+            src="/logo.png"
+            alt="Delta Trading Academy"
+            className="h-7 grayscale  md:h-8 w-auto object-contain"
+            draggable={false}
+          />
         </a>
 
         {/* Right actions */}

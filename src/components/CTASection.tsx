@@ -244,7 +244,7 @@ export default function CTASection() {
             {/* Brand + email CTA */}
             <div ref={footerBrandRef} className="max-w-[340px] max-md:max-w-full">
               <p className="text-[19px] text-black tracking-[-0.02em] mb-3 leading-tight">
-                Delta Trading Hub
+                Delta Trading Academy
               </p>
               <p className="text-[13.5px] text-black/40 leading-[1.7] tracking-[0.003em] mb-6">
                 Not sure where to start? Get in touch with our team and we'll help you find the right course for your goals.

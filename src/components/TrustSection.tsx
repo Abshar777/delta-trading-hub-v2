@@ -10,7 +10,9 @@ gsap.registerPlugin(ScrollTrigger)
 const logos = [
   { file: 'money conclave file.png', alt: 'Money Conclave', width: 130, height: 28 },
   { file: 'guinness.png',            alt: 'Guiness',        width: 130, height: 28 },
-  { file: '698d2df3c7923087d292811f_Vector 2.svg', alt: 'UCSF', width: 96, height: 24 },
+  { file: 'PROFX.png', alt: 'PROFX', width: 130, height: 28 },
+  { file: 'forex-dubai.png', alt: 'forex dubai', width: 130, height: 28 },
+  { file: 'IFF.png', alt: 'IFF', width: 130, height: 28 },
 ]
 
 export default function TrustSection() {

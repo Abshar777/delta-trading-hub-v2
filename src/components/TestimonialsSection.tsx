@@ -45,10 +45,7 @@ const TESTIMONIALS = [
   },
 ]
 
-/* Clone first slide at the end so the loop feels seamless */
-const SLIDES = [...TESTIMONIALS, TESTIMONIALS[0]]
-const TOTAL  = TESTIMONIALS.length
-
+const TOTAL       = TESTIMONIALS.length
 const GAP         = 24
 const INTERVAL_MS = 4500
 
@@ -64,11 +61,16 @@ function getPadL() {
 export default function TestimonialsSection() {
   const [cardW, setCardW]       = useState(590)
   const [padL, setPadL]         = useState(60)
-  const [idx, setIdx]           = useState(0)
-  const [animated, setAnimated] = useState(true)
-  const timerRef                = useRef<ReturnType<typeof setInterval> | null>(null)
+  const [activeIdx, setActiveIdx] = useState(0)
 
-  // GSAP animation refs
+  /* refs — no re-renders needed for these */
+  const scrollRef        = useRef<HTMLDivElement>(null)
+  const timerRef         = useRef<ReturnType<typeof setInterval> | null>(null)
+  const restartRef       = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const activeIdxRef     = useRef(0)
+  const isAutoRef        = useRef(false)   // true while programmatic scroll plays
+
+  /* GSAP refs */
   const sectionRef    = useRef<HTMLElement>(null)
   const trustRef      = useRef<HTMLDivElement>(null)
   const hLine1Ref     = useRef<HTMLSpanElement>(null)
@@ -77,130 +79,87 @@ export default function TestimonialsSection() {
   const carouselRef   = useRef<HTMLDivElement>(null)
   const paginationRef = useRef<HTMLDivElement>(null)
 
-  const realIdx = idx % TOTAL
+  /* Keep ref in sync with state */
+  useEffect(() => { activeIdxRef.current = activeIdx }, [activeIdx])
 
-  /* Responsive card width */
+  /* Responsive sizes */
   useEffect(() => {
-    function update() {
-      setCardW(getCardW())
-      setPadL(getPadL())
-    }
+    function update() { setCardW(getCardW()); setPadL(getPadL()) }
     update()
     window.addEventListener('resize', update, { passive: true })
     return () => window.removeEventListener('resize', update)
   }, [])
 
-  /* Start / restart the auto-advance timer */
+  /* Re-anchor scroll position when card width changes (resize) */
+  useEffect(() => {
+    scrollRef.current?.scrollTo({ left: activeIdxRef.current * (cardW + GAP), behavior: 'auto' })
+  }, [cardW])
+
+  /* Scroll to a card programmatically */
+  const scrollToCard = useCallback((i: number) => {
+    if (!scrollRef.current) return
+    isAutoRef.current = true
+    setActiveIdx(i)
+    activeIdxRef.current = i
+    scrollRef.current.scrollTo({ left: i * (cardW + GAP), behavior: 'smooth' })
+    setTimeout(() => { isAutoRef.current = false }, 700)
+  }, [cardW])
+
+  /* Auto-advance timer */
   const startTimer = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current)
     timerRef.current = setInterval(() => {
-      setIdx(prev => prev + 1)
+      scrollToCard((activeIdxRef.current + 1) % TOTAL)
     }, INTERVAL_MS)
-  }, [])
+  }, [scrollToCard])
 
-  /* Boot timer once */
   useEffect(() => {
     startTimer()
     return () => { if (timerRef.current) clearInterval(timerRef.current) }
   }, [startTimer])
 
-  /* When we land on the clone (idx === TOTAL), wait for transition
-     then instant-jump to idx 0 and re-enable animation */
-  useEffect(() => {
-    if (idx === TOTAL) {
-      const t = setTimeout(() => {
-        setAnimated(false)
-        setIdx(0)
-      }, 520)
-      return () => clearTimeout(t)
-    }
-  }, [idx])
+  /* Track manual scroll → update active dot + restart timer after idle */
+  const handleScroll = useCallback(() => {
+    if (isAutoRef.current || !scrollRef.current) return
+    const left = scrollRef.current.scrollLeft
+    const i = Math.min(Math.round(left / (cardW + GAP)), TOTAL - 1)
+    setActiveIdx(i)
+    activeIdxRef.current = i
+    /* Restart auto-advance 2 s after user stops scrolling */
+    if (restartRef.current) clearTimeout(restartRef.current)
+    restartRef.current = setTimeout(startTimer, 2000)
+  }, [cardW, startTimer])
 
-  /* Re-enable animation one frame after the instant jump */
-  useEffect(() => {
-    if (!animated) {
-      const raf = requestAnimationFrame(() =>
-        requestAnimationFrame(() => setAnimated(true))
-      )
-      return () => cancelAnimationFrame(raf)
-    }
-  }, [animated])
-
-  /* Manual nav (pagination bars) */
-  const goTo = (i: number) => {
-    setAnimated(true)
-    setIdx(i)
-    startTimer()
-  }
-
-  /* GSAP ScrollTrigger animations */
+  /* GSAP ScrollTrigger */
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // 1. Rating row — fade + slide up
-      gsap.fromTo(
-        trustRef.current,
-        { y: 20, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 0.85, ease: 'expo.out',
-          scrollTrigger: { trigger: trustRef.current, start: 'top 88%', once: true },
-        }
-      )
-
-      // 2. Heading line 1 — clip reveal
-      gsap.fromTo(
-        hLine1Ref.current,
-        { yPercent: 108 },
-        {
-          yPercent: 0, duration: 1.1, ease: 'expo.out',
-          scrollTrigger: { trigger: hLine1Ref.current, start: 'top 85%', once: true },
-        }
-      )
-
-      // 3. Heading line 2 — clip reveal, staggered
-      gsap.fromTo(
-        hLine2Ref.current,
-        { yPercent: 108 },
-        {
-          yPercent: 0, duration: 1.1, delay: 0.12, ease: 'expo.out',
-          scrollTrigger: { trigger: hLine1Ref.current, start: 'top 85%', once: true },
-        }
-      )
-
-      // 4. Description — fade + slide up
-      gsap.fromTo(
-        descRef.current,
-        { y: 22, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 0.9, ease: 'expo.out',
-          scrollTrigger: { trigger: descRef.current, start: 'top 88%', once: true },
-        }
-      )
-
-      // 5. Carousel — fade + slide up
-      gsap.fromTo(
-        carouselRef.current,
-        { y: 44, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 1.1, ease: 'expo.out',
-          scrollTrigger: { trigger: carouselRef.current, start: 'top 85%', once: true },
-        }
-      )
-
-      // 6. Pagination row — fade + slide up
-      gsap.fromTo(
-        paginationRef.current,
-        { y: 20, opacity: 0 },
-        {
-          y: 0, opacity: 1, duration: 0.85, ease: 'expo.out',
-          scrollTrigger: { trigger: paginationRef.current, start: 'top 90%', once: true },
-        }
-      )
+      gsap.fromTo(trustRef.current, { y: 20, opacity: 0 }, {
+        y: 0, opacity: 1, duration: 0.85, ease: 'expo.out',
+        scrollTrigger: { trigger: trustRef.current, start: 'top 88%', once: true },
+      })
+      gsap.fromTo(hLine1Ref.current, { yPercent: 108 }, {
+        yPercent: 0, duration: 1.1, ease: 'expo.out',
+        scrollTrigger: { trigger: hLine1Ref.current, start: 'top 85%', once: true },
+      })
+      gsap.fromTo(hLine2Ref.current, { yPercent: 108 }, {
+        yPercent: 0, duration: 1.1, delay: 0.12, ease: 'expo.out',
+        scrollTrigger: { trigger: hLine1Ref.current, start: 'top 85%', once: true },
+      })
+      gsap.fromTo(descRef.current, { y: 22, opacity: 0 }, {
+        y: 0, opacity: 1, duration: 0.9, ease: 'expo.out',
+        scrollTrigger: { trigger: descRef.current, start: 'top 88%', once: true },
+      })
+      gsap.fromTo(carouselRef.current, { y: 44, opacity: 0 }, {
+        y: 0, opacity: 1, duration: 1.1, ease: 'expo.out',
+        scrollTrigger: { trigger: carouselRef.current, start: 'top 85%', once: true },
+      })
+      gsap.fromTo(paginationRef.current, { y: 20, opacity: 0 }, {
+        y: 0, opacity: 1, duration: 0.85, ease: 'expo.out',
+        scrollTrigger: { trigger: paginationRef.current, start: 'top 90%', once: true },
+      })
     }, sectionRef)
-
     return () => ctx.revert()
   }, [])
-
-  const trackOffset = -(idx * (cardW + GAP))
 
   return (
     <section ref={sectionRef} id="reviews" className="bg-white md:mb-10 pt-20 pb-16 font-nb">
@@ -208,7 +167,7 @@ export default function TestimonialsSection() {
       {/* Google rating row */}
       <div ref={trustRef} className="px-[60px] max-md:px-6 flex items-center gap-2.5 mb-6">
         <span className="text-[15px] text-black tracking-[0.003em]">4.9 out of 5</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
           <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
           <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
           <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
@@ -217,7 +176,7 @@ export default function TestimonialsSection() {
         <span className="text-[15px] text-black/55 tracking-[0.003em]">Google Reviews</span>
       </div>
 
-      {/* Heading block */}
+      {/* Heading */}
       <div className="px-[60px] max-md:px-6 mb-14">
         <h2 className="font-normal leading-[1.05] tracking-[-0.03em] text-black max-w-[680px] mb-5">
           <span className="block overflow-hidden text-[54px] max-md:text-[36px]">
@@ -233,73 +192,74 @@ export default function TestimonialsSection() {
       </div>
 
       {/* ── Carousel ── */}
-      <div ref={carouselRef} className="overflow-hidden">
+      <div ref={carouselRef}>
         <div
-          className={animated ? 'flex transition-transform duration-500 ease-out' : 'flex'}
-          style={{
-            paddingLeft: `${padL}px`,
-            gap: `${GAP}px`,
-            transform: `translateX(${trackOffset}px)`,
-          }}
+          ref={scrollRef}
+          onScroll={handleScroll}
+          className="overflow-x-auto [&::-webkit-scrollbar]:hidden"
+          style={{ scrollbarWidth: 'none' }}
         >
-          {SLIDES.map(({ initial, name, role, quote }, i) => (
-            <div
-              key={i}
-              onClick={() => goTo(i % TOTAL)}
-              className="flex flex-col flex-shrink-0 rounded-2xl cursor-pointer transition-opacity duration-500 bg-[#f8f7f5] p-8 max-md:p-6"
-              style={{
-                width:   `${cardW}px`,
-                opacity: (i % TOTAL) === realIdx ? 1 : 0.38,
-                minHeight: cardW < 400 ? '280px' : '300px',
-              }}
-            >
-              {/* Stars */}
-              <div className="flex gap-0.5 mb-5">
-                {[0,1,2,3,4].map(s => (
-                  <span key={s} className="text-[#fbbc04] text-[15px]">★</span>
-                ))}
-              </div>
-
-              {/* Quote */}
-              <p className="text-[15.5px] text-black leading-[1.65] tracking-[-0.005em] mb-7 flex-1 max-md:text-[14px]">
-                {quote}
-              </p>
-
-              {/* Author */}
-              <div className="flex items-center gap-3 pt-5 border-t border-black/[0.07]">
-                <div className="w-9 h-9 rounded-full bg-black/10 flex items-center justify-center text-[14px] font-medium text-black/60 flex-shrink-0 uppercase">
-                  {initial}
+          <div
+            className="flex"
+            style={{
+              paddingLeft:  `${padL}px`,
+              paddingRight: `${padL}px`,
+              gap: `${GAP}px`,
+            }}
+          >
+            {TESTIMONIALS.map(({ initial, name, role, quote }, i) => (
+              <div
+                key={i}
+                className="flex flex-col flex-shrink-0 rounded-2xl bg-[#f8f7f5] p-8 max-md:p-6 transition-opacity duration-300"
+                style={{
+                  width:     `${cardW}px`,
+                  opacity:   i === activeIdx ? 1 : 0.38,
+                  minHeight: cardW < 400 ? '280px' : '300px',
+                }}
+              >
+                {/* Stars */}
+                <div className="flex gap-0.5 mb-5">
+                  {[0,1,2,3,4].map(s => (
+                    <span key={s} className="text-[#fbbc04] text-[15px]">★</span>
+                  ))}
                 </div>
-                <div>
-                  <p className="text-[13.5px] text-black font-medium tracking-[0.003em] leading-tight">{name}</p>
-                  <p className="text-[11.5px] text-black/40 tracking-[0.003em] leading-snug mt-0.5">{role}</p>
+
+                {/* Quote */}
+                <p className="text-[15.5px] text-black leading-[1.65] tracking-[-0.005em] mb-7 flex-1 max-md:text-[14px]">
+                  {quote}
+                </p>
+
+                {/* Author */}
+                <div className="flex items-center gap-3 pt-5 border-t border-black/[0.07]">
+                  <div className="w-9 h-9 rounded-full bg-black/10 flex items-center justify-center text-[14px] font-medium text-black/60 flex-shrink-0 uppercase">
+                    {initial}
+                  </div>
+                  <div>
+                    <p className="text-[13.5px] text-black font-medium tracking-[0.003em] leading-tight">{name}</p>
+                    <p className="text-[11.5px] text-black/40 tracking-[0.003em] leading-snug mt-0.5">{role}</p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
       {/* ── Pagination ── */}
       <div ref={paginationRef} className="px-[60px] max-md:px-6 mt-8 flex items-center gap-5">
-
-        {/* Bar indicators */}
         <div className="flex items-center gap-[6px]" style={{ width: `${cardW}px` }}>
           {TESTIMONIALS.map((_, i) => (
             <button
               key={i}
-              onClick={() => goTo(i)}
+              onClick={() => { scrollToCard(i); startTimer() }}
               className="h-[3px] flex-1 rounded-full transition-colors duration-300"
-              style={{ backgroundColor: i === realIdx ? '#0f0e0c' : '#d6d4d2' }}
+              style={{ backgroundColor: i === activeIdx ? '#0f0e0c' : '#d6d4d2' }}
             />
           ))}
         </div>
-
-        {/* Counter */}
         <span className="text-[13px] text-black/38 tracking-[0.01em] tabular-nums">
-          {realIdx + 1} / {TOTAL}
+          {activeIdx + 1} / {TOTAL}
         </span>
-
       </div>
 
     </section>

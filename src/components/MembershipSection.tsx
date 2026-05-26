@@ -95,14 +95,15 @@ export default function MembershipSection() {
       <div className="max-w-[600px] mx-auto flex flex-col items-center">
 
         {/* Subtitle */}
-        <p ref={subtitleRef} className="text-sm text-black/70 tracking-[0.005em] mb-6">
-          Your membership includes so much more.
-        </p>
+        
 
         {/* Heading */}
-        <h2 className="text-5xl font-normal tracking-[-0.03em] text-black text-center mb-12 max-md:text-[42px] overflow-hidden">
-          <span ref={headingRef} className="block leading-[1.04]">What Sets Delta Apart</span>
+        <h2 className="text-5xl font-normal tracking-[-0.03em] text-black text-center mb-5 max-md:text-4xl overflow-hidden">
+          <span ref={headingRef} className="block leading-[1.04]">What Sets Delta&nbsp;Apart</span>
         </h2>
+        <p ref={subtitleRef} className="text-sm text-black/70 tracking-[0.005em] mb-12">
+          Your membership includes so much more.
+        </p>
 
         {/* Feature rows */}
         <div ref={featuresRef} className="w-full flex flex-col gap-[3px]">
