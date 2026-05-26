@@ -1,8 +1,12 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { POPUP_EVENT } from './ContactPopup'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const PROGRAMS = [
   { label: 'Forex Trading Program',  href: '#courses' },
@@ -71,8 +75,105 @@ export default function CTASection() {
     trigger()
   }
 
+  /* ── refs ── */
+  const sectionRef       = useRef<HTMLElement>(null)
+  /* CTA block */
+  const eyebrowRef       = useRef<HTMLParagraphElement>(null)
+  const hLine1Ref        = useRef<HTMLSpanElement>(null)
+  const hLine2Ref        = useRef<HTMLSpanElement>(null)
+  const ctaBodyRef       = useRef<HTMLParagraphElement>(null)
+  const ctaBtnRef        = useRef<HTMLButtonElement>(null)
+  const trustRef         = useRef<HTMLParagraphElement>(null)
+  /* Footer card */
+  const footerCardRef    = useRef<HTMLDivElement>(null)
+  const footerBrandRef   = useRef<HTMLDivElement>(null)
+  const footerNavRef     = useRef<HTMLDivElement>(null)
+  const footerDivRef     = useRef<HTMLDivElement>(null)
+  const footerBottomRef  = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+
+      /* ── CTA block ── */
+
+      /* eyebrow */
+      gsap.from(eyebrowRef.current, {
+        y: 14, opacity: 0, duration: 0.8, ease: 'expo.out',
+        scrollTrigger: { trigger: eyebrowRef.current, start: 'top 88%', once: true },
+      })
+
+      /* h2 line 1 clip reveal */
+      gsap.from(hLine1Ref.current, {
+        yPercent: 108, duration: 1.15, ease: 'expo.out',
+        scrollTrigger: { trigger: hLine1Ref.current, start: 'top 85%', once: true },
+      })
+
+      /* h2 line 2 clip reveal — staggered */
+      gsap.from(hLine2Ref.current, {
+        yPercent: 108, duration: 1.15, ease: 'expo.out', delay: 0.13,
+        scrollTrigger: { trigger: hLine1Ref.current, start: 'top 85%', once: true },
+      })
+
+      /* body copy */
+      gsap.from(ctaBodyRef.current, {
+        y: 22, opacity: 0, duration: 0.9, ease: 'expo.out',
+        scrollTrigger: { trigger: ctaBodyRef.current, start: 'top 88%', once: true },
+      })
+
+      /* enroll button */
+      gsap.from(ctaBtnRef.current, {
+        y: 22, opacity: 0, scale: 0.96, duration: 0.9, ease: 'expo.out',
+        scrollTrigger: { trigger: ctaBtnRef.current, start: 'top 90%', once: true },
+      })
+
+      /* trust badges line */
+      gsap.from(trustRef.current, {
+        y: 14, opacity: 0, duration: 0.8, ease: 'expo.out',
+        scrollTrigger: { trigger: trustRef.current, start: 'top 92%', once: true },
+      })
+
+      /* ── Footer card — rises up as a whole ── */
+      gsap.from(footerCardRef.current, {
+        y: 70, opacity: 0, duration: 1.2, ease: 'expo.out',
+        scrollTrigger: { trigger: footerCardRef.current, start: 'top 90%', once: true },
+      })
+
+      /* brand block fades up inside the card */
+      gsap.from(footerBrandRef.current, {
+        y: 28, opacity: 0, duration: 1.0, ease: 'expo.out',
+        scrollTrigger: { trigger: footerCardRef.current, start: 'top 85%', once: true },
+      })
+
+      /* nav columns stagger in from right */
+      if (footerNavRef.current) {
+        gsap.from(footerNavRef.current.children, {
+          x: 30, opacity: 0, duration: 0.9, ease: 'expo.out', stagger: 0.12,
+          scrollTrigger: { trigger: footerNavRef.current, start: 'top 88%', once: true },
+        })
+      }
+
+      /* footer divider — scaleX wipe */
+      gsap.from(footerDivRef.current, {
+        scaleX: 0, transformOrigin: 'left center', duration: 1.2, ease: 'expo.out',
+        scrollTrigger: { trigger: footerDivRef.current, start: 'top 92%', once: true },
+      })
+
+      /* bottom row fade */
+      gsap.from(footerBottomRef.current, {
+        y: 16, opacity: 0, duration: 0.9, ease: 'expo.out',
+        scrollTrigger: { trigger: footerBottomRef.current, start: 'top 95%', once: true },
+      })
+
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section className="mx-2 mb-4  max-md:bg-black  overflow-hidden rounded-t-2xl font-nb overflow-hidden relative">
+    <section
+      ref={sectionRef}
+      className="mx-2 mb-4 max-md:bg-black overflow-hidden rounded-t-2xl font-nb relative"
+    >
 
       {/* ── Background image ── */}
       <Image
@@ -81,11 +182,11 @@ export default function CTASection() {
         fill
         priority
         sizes="100vw"
-        className='max-md:hidden'
+        className="max-md:hidden"
         style={{ objectFit: 'cover', objectPosition: 'center top' }}
       />
 
-      {/* Dark overlay — lighter in middle, darker top & bottom */}
+      {/* Dark overlay */}
       <div
         className="absolute max-md:hidden inset-0 z-[1]"
         style={{
@@ -94,23 +195,30 @@ export default function CTASection() {
       />
 
       {/* ════════════════════════════════════════ */}
-      {/* ── Dark CTA block ──                    */}
+      {/* ── CTA block ──                         */}
       {/* ════════════════════════════════════════ */}
       <div className="relative z-[2] flex flex-col items-center text-center px-[60px] pt-28 pb-24 max-md:px-6 max-md:pt-20 max-md:pb-20">
 
-        <p className="text-[11.5px] text-white/45 tracking-[0.12em] uppercase mb-7">
+        <p ref={eyebrowRef} className="text-[11.5px] text-white/45 tracking-[0.12em] uppercase mb-7">
           Delta Trading Academy · Dubai
         </p>
 
-        <h2 className="text-[70px] font-normal leading-[1.0] tracking-[-0.04em] text-white max-w-[680px] mb-7 max-md:text-[42px]">
-          Start trading<br />with confidence.
+        {/* Clip-reveal headline */}
+        <h2 className="font-normal tracking-[-0.04em] text-white max-w-[680px] mb-7 max-md:text-[42px]">
+          <span className="block overflow-hidden text-[70px] leading-[1.0]">
+            <span ref={hLine1Ref} className="block">Start trading</span>
+          </span>
+          <span className="block overflow-hidden text-[70px] leading-[1.0]">
+            <span ref={hLine2Ref} className="block">with confidence.</span>
+          </span>
         </h2>
 
-        <p className="text-[15.5px] text-white/50 leading-[1.7] max-w-[420px] tracking-[0.003em] mb-11">
+        <p ref={ctaBodyRef} className="text-[15.5px] text-white/50 leading-[1.7] max-w-[420px] tracking-[0.003em] mb-11">
           Join thousands of traders who have transformed their skills with Dubai's most accredited trading institution.
         </p>
 
         <button
+          ref={ctaBtnRef}
           onClick={trigger}
           className="inline-flex items-center gap-2.5 bg-white text-[#0f0e0c] text-[15px] tracking-[0.005em] px-9 py-[17px] rounded-full hover:bg-white/90 transition-all hover:-translate-y-px active:scale-[0.98]"
         >
@@ -118,7 +226,7 @@ export default function CTASection() {
           <span className="text-[12px]">→</span>
         </button>
 
-        <p className="text-[12.5px] text-white/28 tracking-[0.005em] mt-8">
+        <p ref={trustRef} className="text-[12.5px] text-white/28 tracking-[0.005em] mt-8">
           KHDA Accredited &nbsp;·&nbsp; Guinness World Record &nbsp;·&nbsp; 518+ Google Reviews
         </p>
 
@@ -127,14 +235,14 @@ export default function CTASection() {
       {/* ════════════════════════════════════════ */}
       {/* ── White footer card ──                 */}
       {/* ════════════════════════════════════════ */}
-      <div className="relative z-[2] w-[98%] mx-auto mb-2 bg-white rounded-lg">
+      <div ref={footerCardRef} className="relative z-[2] w-[98%] mx-auto mb-2 bg-white rounded-lg">
         <div className="max-w-[1240px] mx-auto px-[60px] pt-14 pb-10 max-md:px-6">
 
           {/* ── Top row: brand + nav ── */}
           <div className="flex justify-between gap-16 pb-12 max-lg:flex-col max-lg:gap-12">
 
             {/* Brand + email CTA */}
-            <div className="max-w-[340px]">
+            <div ref={footerBrandRef} className="max-w-[340px]">
               <p className="text-[19px] text-black tracking-[-0.02em] mb-3 leading-tight">
                 Delta Trading Hub
               </p>
@@ -174,17 +282,14 @@ export default function CTASection() {
             </div>
 
             {/* Nav columns */}
-            <div className="flex gap-16 max-md:gap-8 max-md:flex-wrap">
+            <div ref={footerNavRef} className="flex gap-16 max-md:gap-8 max-md:flex-wrap">
 
               <div>
                 <p className="text-[11px] text-black/28 tracking-[0.12em] uppercase mb-5">Programs</p>
                 <ul className="flex flex-col gap-3">
                   {PROGRAMS.map(({ label, href }) => (
                     <li key={label}>
-                      <a
-                        href={href}
-                        className="text-[13.5px] text-black/50 hover:text-black transition-colors tracking-[0.003em]"
-                      >
+                      <a href={href} className="text-[13.5px] text-black/50 hover:text-black transition-colors tracking-[0.003em]">
                         {label}
                       </a>
                     </li>
@@ -197,10 +302,7 @@ export default function CTASection() {
                 <ul className="flex flex-col gap-3">
                   {COMPANY.map(({ label, href }) => (
                     <li key={label}>
-                      <a
-                        href={href}
-                        className="text-[13.5px] text-black/50 hover:text-black transition-colors tracking-[0.003em]"
-                      >
+                      <a href={href} className="text-[13.5px] text-black/50 hover:text-black transition-colors tracking-[0.003em]">
                         {label}
                       </a>
                     </li>
@@ -212,10 +314,10 @@ export default function CTASection() {
           </div>
 
           {/* ── Divider ── */}
-          <div className="h-px bg-black/[0.07]" />
+          <div ref={footerDivRef} className="h-px bg-black/[0.07]" />
 
           {/* ── Bottom row ── */}
-          <div className="flex flex-col gap-4 pt-7">
+          <div ref={footerBottomRef} className="flex flex-col gap-4 pt-7">
 
             <div className="flex items-center justify-between gap-6 max-md:flex-col max-md:items-start">
 

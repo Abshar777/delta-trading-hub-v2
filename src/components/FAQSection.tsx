@@ -1,7 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { POPUP_EVENT } from './ContactPopup'
+import gsap from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const FAQS = [
   {
@@ -34,8 +38,70 @@ export default function FAQSection() {
   const [open, setOpen] = useState<number | null>(null)
   const trigger = () => window.dispatchEvent(new Event(POPUP_EVENT))
 
+  /* ── refs ── */
+  const sectionRef  = useRef<HTMLElement>(null)
+  const eyebrowRef  = useRef<HTMLParagraphElement>(null)
+  const hLine1Ref   = useRef<HTMLSpanElement>(null)
+  const hLine2Ref   = useRef<HTMLSpanElement>(null)
+  const descRef     = useRef<HTMLParagraphElement>(null)
+  const ctaBtnRef   = useRef<HTMLButtonElement>(null)
+  const dividerRef  = useRef<HTMLDivElement>(null)
+  const faqListRef  = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+
+      /* eyebrow label */
+      gsap.from(eyebrowRef.current, {
+        y: 14, opacity: 0, duration: 0.8, ease: 'expo.out',
+        scrollTrigger: { trigger: eyebrowRef.current, start: 'top 88%', once: true },
+      })
+
+      /* h2 line 1 — clip reveal */
+      gsap.from(hLine1Ref.current, {
+        yPercent: 108, duration: 1.1, ease: 'expo.out',
+        scrollTrigger: { trigger: hLine1Ref.current, start: 'top 86%', once: true },
+      })
+
+      /* h2 line 2 — staggered clip reveal */
+      gsap.from(hLine2Ref.current, {
+        yPercent: 108, duration: 1.1, ease: 'expo.out', delay: 0.12,
+        scrollTrigger: { trigger: hLine1Ref.current, start: 'top 86%', once: true },
+      })
+
+      /* description */
+      gsap.from(descRef.current, {
+        y: 20, opacity: 0, duration: 0.9, ease: 'expo.out',
+        scrollTrigger: { trigger: descRef.current, start: 'top 88%', once: true },
+      })
+
+      /* cta link */
+      gsap.from(ctaBtnRef.current, {
+        y: 16, opacity: 0, duration: 0.85, ease: 'expo.out',
+        scrollTrigger: { trigger: ctaBtnRef.current, start: 'top 92%', once: true },
+      })
+
+      /* right-column top divider — scaleX wipe from left */
+      gsap.from(dividerRef.current, {
+        scaleX: 0, transformOrigin: 'left center', duration: 1.3, ease: 'expo.out',
+        scrollTrigger: { trigger: dividerRef.current, start: 'top 88%', once: true },
+      })
+
+      /* FAQ accordion items stagger up */
+      if (faqListRef.current) {
+        gsap.from(faqListRef.current.children, {
+          y: 30, opacity: 0, duration: 0.9, ease: 'expo.out', stagger: 0.09,
+          scrollTrigger: { trigger: faqListRef.current, start: 'top 86%', once: true },
+        })
+      }
+
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <section id="faq" className="bg-white py-24 px-[60px] font-nb max-md:px-6">
+    <section ref={sectionRef} id="faq" className="bg-white py-24 px-[60px] font-nb max-md:px-6">
       <div className="max-w-[1240px] mx-auto">
 
         {/* ── Two-column layout ── */}
@@ -43,16 +109,27 @@ export default function FAQSection() {
 
           {/* ── Left: heading ── */}
           <div className="max-lg:max-w-[560px]">
-            <p className="text-[13px] text-black/40 tracking-[0.12em] uppercase mb-4">
+
+            <p ref={eyebrowRef} className="text-[13px] text-black/40 tracking-[0.12em] uppercase mb-4">
               FAQ
             </p>
-            <h2 className="text-[48px] font-normal leading-[1.05] tracking-[-0.03em] text-black mb-6 max-md:text-[34px]">
-              Frequently<br />asked questions
+
+            {/* Clip-reveal headline */}
+            <h2 className="tracking-[-0.03em] text-black mb-6 max-md:text-[34px]">
+              <span className="block overflow-hidden text-[48px] leading-[1.05]">
+                <span ref={hLine1Ref} className="block">Frequently</span>
+              </span>
+              <span className="block overflow-hidden text-[48px] leading-[1.05]">
+                <span ref={hLine2Ref} className="block">asked questions</span>
+              </span>
             </h2>
-            <p className="text-[15px] text-black/45 leading-[1.7] tracking-[0.003em] mb-10 max-w-[380px]">
+
+            <p ref={descRef} className="text-[15px] text-black/45 leading-[1.7] tracking-[0.003em] mb-10 max-w-[380px]">
               Everything you need to know about our programs, enrollment process, and what to expect as a Delta student.
             </p>
+
             <button
+              ref={ctaBtnRef}
               onClick={trigger}
               className="inline-flex items-center gap-2 text-[14px] text-black tracking-[0.005em] border-b border-black/20 pb-px hover:border-black transition-all hover:gap-3"
             >
@@ -63,48 +140,49 @@ export default function FAQSection() {
 
           {/* ── Right: accordion ── */}
           <div>
-            {/* Top border */}
-            <div className="h-px bg-black/[0.07]" />
+            {/* Top border — scaleX-wiped in */}
+            <div ref={dividerRef} className="h-px bg-black/[0.07]" />
 
-            {FAQS.map(({ q, a }, i) => (
-              <div key={i} className="border-b border-black/[0.07]">
+            {/* FAQ items */}
+            <div ref={faqListRef}>
+              {FAQS.map(({ q, a }, i) => (
+                <div key={i} className="border-b border-black/[0.07]">
 
-                {/* Question row */}
-                <button
-                  className="w-full flex items-start justify-between gap-6 py-5 text-left group"
-                  onClick={() => setOpen(open === i ? null : i)}
-                >
-                  <span className={[
-                    'text-[15.5px] leading-snug tracking-[-0.005em] transition-colors duration-200',
-                    open === i ? 'text-black' : 'text-black/70 group-hover:text-black',
-                  ].join(' ')}>
-                    {q}
-                  </span>
-                  <span
-                    className={[
+                  {/* Question row */}
+                  <button
+                    className="w-full flex items-start justify-between gap-6 py-5 text-left group"
+                    onClick={() => setOpen(open === i ? null : i)}
+                  >
+                    <span className={[
+                      'text-[15.5px] leading-snug tracking-[-0.005em] transition-colors duration-200',
+                      open === i ? 'text-black' : 'text-black/70 group-hover:text-black',
+                    ].join(' ')}>
+                      {q}
+                    </span>
+                    <span className={[
                       'flex-shrink-0 mt-0.5 w-6 h-6 rounded-full border border-black/[0.15] flex items-center justify-center text-black/50 text-[16px] leading-none transition-all duration-200',
                       open === i ? 'rotate-45 border-black/30 text-black' : 'group-hover:border-black/25',
-                    ].join(' ')}
+                    ].join(' ')}>
+                      +
+                    </span>
+                  </button>
+
+                  {/* Answer */}
+                  <div
+                    style={{
+                      maxHeight: open === i ? '400px' : '0',
+                      overflow: 'hidden',
+                      transition: 'max-height 0.32s cubic-bezier(0.4,0,0.2,1)',
+                    }}
                   >
-                    +
-                  </span>
-                </button>
+                    <p className="text-[14px] text-black/50 leading-[1.72] tracking-[0.003em] pb-6 pr-10">
+                      {a}
+                    </p>
+                  </div>
 
-                {/* Answer — animated via max-height */}
-                <div
-                  style={{
-                    maxHeight: open === i ? '400px' : '0',
-                    overflow: 'hidden',
-                    transition: 'max-height 0.32s cubic-bezier(0.4,0,0.2,1)',
-                  }}
-                >
-                  <p className="text-[14px] text-black/50 leading-[1.72] tracking-[0.003em] pb-6 pr-10">
-                    {a}
-                  </p>
                 </div>
-
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
 
         </div>
