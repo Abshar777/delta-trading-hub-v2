@@ -1,26 +1,85 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ── Custom font ── */
+@font-face {
+  font-family: 'NBIntPro';
+  src: url('/fonts/nbinternationalprocg-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ── Base resets (plain — not in @layer so Turbopack doesn't strip the wrapper) ── */
+html, body { height: 100%; background: #fff; }
+/* Lenis handles smooth scroll — disable native so they don't conflict */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+body { color: #111; }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ── Custom utilities ── */
+@layer utilities {
+  .font-nb {
+    font-family: 'NBIntPro', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  }
+  .animate-spin-slow {
+    animation: spin-slow 12s linear infinite;
+  }
+  /* clamp() with vw — Tailwind arbitrary syntax doesn't handle this reliably */
+  .text-hero {
+    font-size: clamp(40px, 4.8vw, 68px);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes mentor-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.animate-mentor-scroll {
+  animation: mentor-scroll 42s linear infinite;
+}
+.animate-mentor-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* ── Exclusive CSS: complex multi-stop gradients only ── */
+/* Tailwind can't express ellipse radial-gradients with 5+ colour stops */
+
+.sp-glow {
+  background: radial-gradient(
+    ellipse 55% 68% at 70% 46%,
+    rgba(215, 138, 20, 1)    0%,
+    rgba(188, 108,  8, 0.88) 16%,
+    rgba(140,  70,  4, 0.68) 34%,
+    rgba( 70,  30,  1, 0.38) 55%,
+    rgba( 18,   6,  0, 0.10) 72%,
+    transparent              84%
+  );
+}
+
+.sp-model-warm {
+  background: radial-gradient(
+    ellipse 70% 80% at 55% 38%,
+    rgba(210, 135, 18, 0.45)  0%,
+    rgba(170,  95,  8, 0.28) 30%,
+    rgba( 80,  35,  2, 0.12) 60%,
+    transparent              80%
+  );
+}
+
+.sp-model-fade {
+  background: linear-gradient(
+    to right,
+    #090808           0%,
+    rgba(9,8,8, 0.82) 18%,
+    rgba(9,8,8, 0.45) 38%,
+    rgba(9,8,8, 0.10) 58%,
+    transparent       75%
+  );
 }
