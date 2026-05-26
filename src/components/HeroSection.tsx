@@ -249,9 +249,10 @@ export default function HeroSection() {
             <Image
               src="/hero-1.png"
               alt=""
-              fill
+              width={500}
+              height={500}
               priority
-              className="opacity-55 md:opacity-50"
+              className="opacity-55 h-full w-full md:opacity-50"
               style={{ objectFit: 'cover', objectPosition: 'center top' }}
             />
             <div className="absolute inset-0 z-[3] bg-[rgba(6,4,2,0.30)]" />

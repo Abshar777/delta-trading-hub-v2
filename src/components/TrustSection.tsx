@@ -93,9 +93,9 @@ export default function TrustSection() {
             key={alt}
             src={`/logos/${file}`}
             alt={alt}
-            width={width}
-            height={height}
-            className="opacity-70 grayscale max-md:h-[22px] max-md:w-auto"
+            width={500}
+            height={500}
+            className="opacity-70 grayscale  max-md:w-[5rem]"
             style={{ objectFit: 'contain' }}
           />
         ))}
