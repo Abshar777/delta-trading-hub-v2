@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -9,32 +8,40 @@ gsap.registerPlugin(ScrollTrigger)
 
 const TESTIMONIALS = [
   {
-    img: '/testimonails/1.avif',
-    name: 'Thach',
-    age: 37,
-    quote: '"They told me I was overthinking my genetic risk of diabetes but when I tested with Superpower I found my A1c was really high."',
-    sub: 'His Superpower test caught risks that two doctors missed',
+    initial: 'F',
+    name: 'Fasal V.V.N',
+    role: 'Forex Student — Verified Google Review',
+    quote: '"I joined Delta Trading Institute to learn the ins and outs of forex trading. The mentors are incredibly knowledgeable and patient. The live trading sessions were eye-opening. I would highly recommend this academy to anyone serious about learning forex trading in Dubai."',
   },
   {
-    img: '/testimonails/2.avif',
-    name: 'Carissa',
-    age: 38,
-    quote: '"I spent almost a year thinking something was wrong with me. Turns out a simple blood test could have told me in a week."',
-    sub: 'Uncovered the hormone imbalances behind bloating and weight gain',
+    initial: 'M',
+    name: 'Mubarak Ahmad',
+    role: 'Trading Student — Verified Google Review',
+    quote: '"Delta Trading Institute surpassed my expectations by delivering expert guidance and practical knowledge. The courses are structured brilliantly — from beginner to advanced. If you\'re looking for the best forex trading course in Dubai, this is it."',
   },
   {
-    img: '/testimonails/3.avif',
-    name: 'Marcus',
-    age: 44,
-    quote: '"My energy levels were tanking and I had no idea why. Superpower pinpointed exactly what was off in my bloodwork."',
-    sub: 'Discovered low testosterone and vitamin D deficiency affecting performance',
+    initial: 'R',
+    name: 'Rinu Ramesh Babu',
+    role: 'Advanced Forex Student — Verified Google Review',
+    quote: '"An excellent trading course! I gained real confidence in chart reading, risk management, and executing trades. The mentors are accessible, and the community support makes it easy to keep learning. Highly recommend Delta for anyone wanting to learn forex trading in Dubai."',
   },
   {
-    img: '/testimonails/4.avif',
-    name: 'Priya',
-    age: 31,
-    quote: '"I\'d been struggling with fatigue for years. One test showed the root cause — and now I finally have answers."',
-    sub: 'Identified thyroid dysfunction that had gone undetected for three years',
+    initial: 'S',
+    name: 'Shemeer A.S',
+    role: 'Current Student — Verified Google Review',
+    quote: '"If you\'re looking for quality trading education in Dubai, Delta is the best. The team is supportive, knowledgeable, and genuinely invested in your success. I\'m currently enrolled and the transformation in my trading approach has been remarkable."',
+  },
+  {
+    initial: 'L',
+    name: 'Linto Lawrence',
+    role: 'Forex Graduate — Verified Google Review',
+    quote: '"Delta is truly the best trading academy in Dubai for quality education. If you need to learn trading, Delta is the best place — they have the best teachers, best resources, and best community. I highly suggest Delta for anyone looking to master forex."',
+  },
+  {
+    initial: 'D',
+    name: 'Dains K. John',
+    role: 'Stock Market Student — Verified Google Review',
+    quote: '"Had a very good learning experience at Delta International Management Development Training. The mentors provide clear, actionable strategies. After completing the stock market course in Dubai, I feel confident approaching the markets independently."',
   },
 ]
 
@@ -126,23 +133,16 @@ export default function TestimonialsSection() {
     startTimer()
   }
 
-  /* GSAP ScrollTrigger animations — header area only */
+  /* GSAP ScrollTrigger animations */
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // 1. Trustpilot row — fade + slide up
+      // 1. Rating row — fade + slide up
       gsap.fromTo(
         trustRef.current,
         { y: 20, opacity: 0 },
         {
-          y: 0,
-          opacity: 1,
-          duration: 0.85,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: trustRef.current,
-            start: 'top 88%',
-            once: true,
-          },
+          y: 0, opacity: 1, duration: 0.85, ease: 'expo.out',
+          scrollTrigger: { trigger: trustRef.current, start: 'top 88%', once: true },
         }
       )
 
@@ -151,65 +151,38 @@ export default function TestimonialsSection() {
         hLine1Ref.current,
         { yPercent: 108 },
         {
-          yPercent: 0,
-          duration: 1.1,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: hLine1Ref.current,
-            start: 'top 85%',
-            once: true,
-          },
+          yPercent: 0, duration: 1.1, ease: 'expo.out',
+          scrollTrigger: { trigger: hLine1Ref.current, start: 'top 85%', once: true },
         }
       )
 
-      // 3. Heading line 2 — clip reveal, 0.12s delay after line 1
+      // 3. Heading line 2 — clip reveal, staggered
       gsap.fromTo(
         hLine2Ref.current,
         { yPercent: 108 },
         {
-          yPercent: 0,
-          duration: 1.1,
-          delay: 0.12,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: hLine1Ref.current,
-            start: 'top 85%',
-            once: true,
-          },
+          yPercent: 0, duration: 1.1, delay: 0.12, ease: 'expo.out',
+          scrollTrigger: { trigger: hLine1Ref.current, start: 'top 85%', once: true },
         }
       )
 
-      // 4. Description paragraph — fade + slide up
+      // 4. Description — fade + slide up
       gsap.fromTo(
         descRef.current,
         { y: 22, opacity: 0 },
         {
-          y: 0,
-          opacity: 1,
-          duration: 0.9,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: descRef.current,
-            start: 'top 88%',
-            once: true,
-          },
+          y: 0, opacity: 1, duration: 0.9, ease: 'expo.out',
+          scrollTrigger: { trigger: descRef.current, start: 'top 88%', once: true },
         }
       )
 
-      // 5. Carousel container — fade + slide up
+      // 5. Carousel — fade + slide up
       gsap.fromTo(
         carouselRef.current,
         { y: 44, opacity: 0 },
         {
-          y: 0,
-          opacity: 1,
-          duration: 1.1,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: carouselRef.current,
-            start: 'top 85%',
-            once: true,
-          },
+          y: 0, opacity: 1, duration: 1.1, ease: 'expo.out',
+          scrollTrigger: { trigger: carouselRef.current, start: 'top 85%', once: true },
         }
       )
 
@@ -218,15 +191,8 @@ export default function TestimonialsSection() {
         paginationRef.current,
         { y: 20, opacity: 0 },
         {
-          y: 0,
-          opacity: 1,
-          duration: 0.85,
-          ease: 'expo.out',
-          scrollTrigger: {
-            trigger: paginationRef.current,
-            start: 'top 90%',
-            once: true,
-          },
+          y: 0, opacity: 1, duration: 0.85, ease: 'expo.out',
+          scrollTrigger: { trigger: paginationRef.current, start: 'top 90%', once: true },
         }
       )
     }, sectionRef)
@@ -235,33 +201,34 @@ export default function TestimonialsSection() {
   }, [])
 
   const trackOffset = -(idx * (cardW + GAP))
-  const photoH      = cardW < 400 ? '220px' : '362px'
 
   return (
     <section ref={sectionRef} id="reviews" className="bg-white md:mb-10 pt-20 pb-16 font-nb">
 
-      {/* Trustpilot row */}
+      {/* Google rating row */}
       <div ref={trustRef} className="px-[60px] max-md:px-6 flex items-center gap-2.5 mb-6">
         <span className="text-[15px] text-black tracking-[0.003em]">4.9 out of 5</span>
-        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-          <rect width="18" height="18" rx="2" fill="#00b67a"/>
-          <path d="M9 2.5l1.545 4.755H15.09l-3.927 2.852 1.545 4.755L9 12.01l-3.708 2.852 1.545-4.755L2.91 7.255h4.545L9 2.5z" fill="white"/>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
         </svg>
-        <span className="text-[15px] text-black/55 tracking-[0.003em]">Trustpilot</span>
+        <span className="text-[15px] text-black/55 tracking-[0.003em]">Google Reviews</span>
       </div>
 
       {/* Heading block */}
       <div className="px-[60px] max-md:px-6 mb-14">
-        <h2 className="text-[54px] font-normal leading-[1.05] tracking-[-0.03em] text-black max-w-[680px] mb-5 max-md:text-[36px]">
-          <span className="block overflow-hidden">
+        <h2 className="font-normal leading-[1.05] tracking-[-0.03em] text-black max-w-[680px] mb-5">
+          <span className="block overflow-hidden text-[54px] max-md:text-[36px]">
             <span ref={hLine1Ref} className="block">Trusted by Traders</span>
           </span>
-          <span className="block overflow-hidden">
+          <span className="block overflow-hidden text-[54px] max-md:text-[36px]">
             <span ref={hLine2Ref} className="block">Across Dubai</span>
           </span>
         </h2>
         <p ref={descRef} className="text-[15px] text-black/45 leading-[1.65] max-w-[520px] tracking-[0.005em]">
-         518+ Google Reviews  ·  Verified by Trustindex
+          518+ Google Reviews · Verified by Trustindex
         </p>
       </div>
 
@@ -275,41 +242,38 @@ export default function TestimonialsSection() {
             transform: `translateX(${trackOffset}px)`,
           }}
         >
-          {SLIDES.map(({ img, name, age, quote, sub }, i) => (
+          {SLIDES.map(({ initial, name, role, quote }, i) => (
             <div
               key={i}
               onClick={() => goTo(i % TOTAL)}
-              className="flex flex-col flex-shrink-0 rounded-2xl overflow-hidden cursor-pointer transition-opacity duration-500"
+              className="flex flex-col flex-shrink-0 rounded-2xl cursor-pointer transition-opacity duration-500 bg-[#f8f7f5] p-8 max-md:p-6"
               style={{
                 width:   `${cardW}px`,
                 opacity: (i % TOTAL) === realIdx ? 1 : 0.38,
+                minHeight: cardW < 400 ? '280px' : '300px',
               }}
             >
-              {/* Photo */}
-              <div
-                className="relative rounded-xl overflow-hidden w-full bg-[#e8e4df]"
-                style={{ height: photoH }}
-              >
-                <Image
-                  src={img}
-                  alt={`${name} testimonial`}
-                  fill
-                  sizes="(max-width: 768px) calc(100vw - 48px), 590px"
-                  style={{ objectFit: 'cover', objectPosition: 'center top' }}
-                />
+              {/* Stars */}
+              <div className="flex gap-0.5 mb-5">
+                {[0,1,2,3,4].map(s => (
+                  <span key={s} className="text-[#fbbc04] text-[15px]">★</span>
+                ))}
               </div>
 
-              {/* Text */}
-              <div className="pt-5 pb-3 pr-6">
-                <p className="text-[14px] text-black/45 tracking-[0.003em] mb-3">
-                  {name}, {age}
-                </p>
-                <p className="text-[17px] text-black leading-[1.58] tracking-[-0.01em] mb-3">
-                  {quote}
-                </p>
-                <p className="text-[13.5px] text-black/38 tracking-[0.003em] leading-snug">
-                  {sub}
-                </p>
+              {/* Quote */}
+              <p className="text-[15.5px] text-black leading-[1.65] tracking-[-0.005em] mb-7 flex-1 max-md:text-[14px]">
+                {quote}
+              </p>
+
+              {/* Author */}
+              <div className="flex items-center gap-3 pt-5 border-t border-black/[0.07]">
+                <div className="w-9 h-9 rounded-full bg-black/10 flex items-center justify-center text-[14px] font-medium text-black/60 flex-shrink-0 uppercase">
+                  {initial}
+                </div>
+                <div>
+                  <p className="text-[13.5px] text-black font-medium tracking-[0.003em] leading-tight">{name}</p>
+                  <p className="text-[11.5px] text-black/40 tracking-[0.003em] leading-snug mt-0.5">{role}</p>
+                </div>
               </div>
             </div>
           ))}
@@ -319,7 +283,7 @@ export default function TestimonialsSection() {
       {/* ── Pagination ── */}
       <div ref={paginationRef} className="px-[60px] max-md:px-6 mt-8 flex items-center gap-5">
 
-        {/* Bar indicators — only TOTAL bars (not the clone) */}
+        {/* Bar indicators */}
         <div className="flex items-center gap-[6px]" style={{ width: `${cardW}px` }}>
           {TESTIMONIALS.map((_, i) => (
             <button

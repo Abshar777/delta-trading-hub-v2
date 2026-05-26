@@ -91,11 +91,12 @@ export default function TrustSection() {
         {logos.map(({ file, alt, width, height }) => (
           <Image
             key={alt}
+
             src={`/logos/${file}`}
             alt={alt}
             width={500}
             height={500}
-            className="opacity-70 grayscale  max-md:w-[5rem]"
+            className="opacity-70 grayscale  max-md:w-[5rem] w-[5rem]"
             style={{ objectFit: 'contain' }}
           />
         ))}

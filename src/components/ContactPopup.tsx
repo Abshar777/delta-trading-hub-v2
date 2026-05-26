@@ -159,7 +159,7 @@ export default function ContactPopup() {
                   value={form.name}
                   onChange={e => setForm({ ...form, name: e.target.value })}
                   required
-                  className="w-full border border-black/[0.12] rounded-xl px-4 py-[13px] text-[14px] text-black placeholder:text-black/25 outline-none transition-colors focus:border-black/35 bg-white"
+                  className="w-full border border-black/[0.12] rounded-xl px-4 py-[13px] text-[16px] md:text-[14px] text-black placeholder:text-black/25 outline-none transition-colors focus:border-black/35 bg-white"
                 />
               </div>
 
@@ -174,7 +174,7 @@ export default function ContactPopup() {
                   value={form.mobile}
                   onChange={e => setForm({ ...form, mobile: e.target.value })}
                   required
-                  className="w-full border border-black/[0.12] rounded-xl px-4 py-[13px] text-[14px] text-black placeholder:text-black/25 outline-none transition-colors focus:border-black/35 bg-white"
+                  className="w-full border border-black/[0.12] rounded-xl px-4 py-[13px] text-[16px] md:text-[14px] text-black placeholder:text-black/25 outline-none transition-colors focus:border-black/35 bg-white"
                 />
               </div>
 
@@ -189,7 +189,7 @@ export default function ContactPopup() {
                   value={form.message}
                   onChange={e => setForm({ ...form, message: e.target.value })}
                   required
-                  className="w-full border border-black/[0.12] rounded-xl px-4 py-[13px] text-[14px] text-black placeholder:text-black/25 outline-none transition-colors focus:border-black/35 bg-white resize-none leading-[1.6]"
+                  className="w-full border border-black/[0.12] rounded-xl px-4 py-[13px] text-[16px] md:text-[14px] text-black placeholder:text-black/25 outline-none transition-colors focus:border-black/35 bg-white resize-none leading-[1.6]"
                 />
               </div>
 
