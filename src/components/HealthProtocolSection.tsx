@@ -128,7 +128,9 @@ export default function HealthProtocolSection() {
       <Image
         src="/4thsection.png"
         alt=""
-        fill
+        width={500}
+        height={500}
+        className='h-ful w-full'
         priority
         style={{ objectFit: 'cover', objectPosition: 'center' }}
       />
