@@ -122,18 +122,21 @@ export default function HealthProtocolSection() {
   }, [])
 
   return (
-    <section ref={sectionRef} id="about" className="relative mx-2 mb-10 rounded-xl min-h-[98vh] font-nb overflow-hidden">
+    <section ref={sectionRef} id="about" className="relative mx-2 mb-10 rounded-xl min-h-[98vh] bg-black font-nb overflow-hidden">
 
       {/* Background photo */}
-      <Image
+      <div className="absolute w-full max-md:blur-[2px] max-md:opacity-50 h-full bg-red-900">
+        <Image
         src="/4thsection.png"
         alt=""
         width={500}
         height={500}
         className='h-full w-full'
         priority
-        style={{ objectFit: 'cover', objectPosition: 'center' }}
+
+        style={{ objectFit: 'cover', objectPosition: 'center top' }}
       />
+      </div>
 
       {/* Left-side overlay to darken text area */}
       <div
