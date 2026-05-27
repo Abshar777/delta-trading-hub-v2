@@ -214,7 +214,7 @@ export default function CTASection() {
         </h2>
 
         <p ref={ctaBodyRef} className="text-[15.5px] text-white/50 leading-[1.7] max-w-[420px] tracking-[0.003em] mb-9 max-md:text-[14px] max-md:max-w-full max-md:mb-7">
-          Join thousands of traders who have transformed their skills with Dubai's most accredited trading institution.
+          Join thousands of traders who have transformed their skills with Dubai&apos;s most accredited trading institution.
         </p>
 
         <button
@@ -247,7 +247,7 @@ export default function CTASection() {
                 Delta Trading Academy
               </p>
               <p className="text-[13.5px] text-black/40 leading-[1.7] tracking-[0.003em] mb-6">
-                Not sure where to start? Get in touch with our team and we'll help you find the right course for your goals.
+                Not sure where to start? Get in touch with our team and we&apos;ll help you find the right course for your goals.
               </p>
 
               {/* Email input row */}

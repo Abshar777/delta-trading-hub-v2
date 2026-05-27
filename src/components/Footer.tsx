@@ -72,7 +72,7 @@ export default function Footer() {
               Delta Trading Academy
             </p>
             <p className="text-[13.5px] text-white/38 leading-[1.7] tracking-[0.003em] mb-8">
-              Dubai's premier forex and financial trading institution. KHDA accredited. Guinness World Record holders — most nationalities in a single trading lesson.
+              Dubai&apos;s premier forex and financial trading institution. KHDA accredited. Guinness World Record holders — most nationalities in a single trading lesson.
             </p>
 
             {/* CTA button */}

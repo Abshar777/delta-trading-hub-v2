@@ -2,20 +2,22 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 const DELAY_MS = 15_000   // auto-open after 15 s
 export const POPUP_EVENT = 'delta:open-popup'
 
 export default function ContactPopup() {
+  const router = useRouter()
   const [open,    setOpen]    = useState(false)
   const [visible, setVisible] = useState(false)
-  const [form,    setForm]    = useState({ name: '', mobile: '', message: '' })
+  const [form,    setForm]    = useState({ name: '', mobile: '', message: 'I Need To Know More About Your Programs ' })
   const [sent,    setSent]    = useState(false)
 
   /* ── Open helper ── */
   const openPopup = useCallback(() => {
     setSent(false)
-    setForm({ name: '', mobile: '', message: '' })
+    setForm({ name: '', mobile: '',  message: 'I Need To Know More About Your Programs '  })
     setOpen(true)
     requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)))
   }, [])
@@ -39,7 +41,7 @@ export default function ContactPopup() {
     const handler = () => {
       // Always open when triggered manually, even if auto-dismissed
       setSent(false)
-      setForm({ name: '', mobile: '', message: '' })
+      setForm({ name: '', mobile: '',  message: 'I Need To Know More About Your Programs '  })
       setOpen(true)
       requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)))
     }
@@ -49,8 +51,8 @@ export default function ContactPopup() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setSent(true)
-    setTimeout(close, 2800)
+    sessionStorage.setItem('popup-dismissed', '1')
+    router.push('/thank-you')
   }
 
   if (!open) return null
@@ -141,7 +143,7 @@ export default function ContactPopup() {
               </div>
               <p className="text-[18px] text-black tracking-[-0.01em]">Message sent!</p>
               <p className="text-[13.5px] text-black/45 text-center leading-[1.6] max-w-[240px]">
-                We'll reach out to you shortly to get you started.
+                We&apos;ll reach out to you shortly to get you started.
               </p>
             </div>
           ) : (

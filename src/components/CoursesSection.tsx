@@ -186,7 +186,7 @@ export default function CoursesSection() {
 
         {/* ── Course grid ── */}
         <div ref={gridRef} className="grid grid-cols-3 max-lg:grid-cols-2 max-md:grid-cols-1">
-          {COURSES.map(({ n, icon, title, desc, tags, cta }, i) => (
+          {COURSES.map(({ n, title, desc, tags, cta }) => (
             <div
               key={n}
               className="group flex flex-col gap-5 p-8 max-md:p-5 border-b border-black/[0.07]

@@ -8,7 +8,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const STEPS = [
-  { n: '01', label: 'Our Awwards' },
+  { n: '01', label: 'Our Awards' },
   { n: '02', label: 'Why choose delta' },
   { n: '03', label: 'Who We Are  ', active: true },
   { n: '04', label: 'What Sets Delta Apart' },
@@ -165,7 +165,7 @@ export default function HealthProtocolSection() {
               </span>
             </h2>
             <p ref={descRef} className="text-[15.5px] leading-[1.65] text-white/55 max-w-[390px] tracking-[0.005em]">
-             Delta Trading Academy is Dubai's premier forex and financial trading institution, proudly holding the Guinness World Record for the most nationalities in a single trading lesson.
+             Delta Trading Academy is Dubai&apos;s premier forex and financial trading institution, proudly holding the Guinness World Record for the most nationalities in a single trading lesson.
             </p>
           </div>
 

@@ -6,6 +6,7 @@ import { IoCheckmarkDoneCircle } from 'react-icons/io5'
 import { FaWhatsapp } from 'react-icons/fa'
 import { POPUP_EVENT } from './ContactPopup'
 import gsap from 'gsap'
+import { WA_LINK } from '@/app/thank-you/page'
 
 const NAV_LINKS = [
   { label: 'Courses',  href: '#courses'  },
@@ -20,21 +21,6 @@ const STATS = [
   { title: 'Professional Mentorship',  sub: '30+ skilled trading coaches' },
 ]
 
-function GridIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 16 16" fill="none">
-      <circle cx="3"  cy="3"  r="1.5" fill="currentColor" />
-      <circle cx="8"  cy="3"  r="1.5" fill="currentColor" />
-      <circle cx="13" cy="3"  r="1.5" fill="currentColor" />
-      <circle cx="3"  cy="8"  r="1.5" fill="currentColor" />
-      <circle cx="8"  cy="8"  r="1.5" fill="currentColor" />
-      <circle cx="13" cy="8"  r="1.5" fill="currentColor" />
-      <circle cx="3"  cy="13" r="1.5" fill="currentColor" />
-      <circle cx="8"  cy="13" r="1.5" fill="currentColor" />
-      <circle cx="13" cy="13" r="1.5" fill="currentColor" />
-    </svg>
-  )
-}
 
 function AnnIcon() {
   return (
@@ -46,6 +32,8 @@ function AnnIcon() {
 }
 
 const trigger = () => window.dispatchEvent(new Event(POPUP_EVENT))
+
+const triggerWa = () => window?.open?.(WA_LINK, '_blank')
 
 export default function HeroSection() {
   const [scrolled, setScrolled] = useState(false)
@@ -214,11 +202,13 @@ export default function HeroSection() {
 
         {/* Logo */}
         <a href="#" className="flex justify-center items-center select-none">
-          <img
+          <Image
             src="/logo.png"
             alt="Delta Trading Academy"
-            className="h-7 grayscale  md:h-8 w-auto object-contain"
-            draggable={false}
+            width={120}
+            height={36}
+            className="h-7 md:h-8 w-auto object-contain grayscale"
+            priority
           />
         </a>
 
@@ -228,9 +218,9 @@ export default function HeroSection() {
             onClick={trigger}
             className="bg-white text-[#0a0808] text-[13px] md:text-[13.5px] tracking-[0.005em] py-2 px-4 md:px-5 rounded-full transition-all hover:bg-white/90 hover:-translate-y-px whitespace-nowrap"
           >
-            Enrol Now
+            Enroll Now
           </button>
-          <button aria-label="WhatsApp"
+          <button  onClick={triggerWa}  aria-label="WhatsApp"
             className="hidden md:flex w-9 h-9 items-center justify-center bg-white/[.05] border border-white/[.12] rounded-full text-white/70 transition-all hover:border-white/30 hover:text-white">
             <FaWhatsapp />
           </button>
@@ -297,7 +287,7 @@ export default function HeroSection() {
                 ref={bodyRef}
                 className="text-[14px] md:text-[15px] leading-[1.65] text-white/55 max-w-[520px] tracking-[0.005em]"
               >
-                Master forex, stocks, and crypto with Dubai's most trusted trading academy.
+                Master forex, stocks, and crypto with Dubai&apos;s most trusted trading academy.
                 7k+ students trained, 20+ expert mentors.
               </p>
 

@@ -257,7 +257,7 @@ export default function TestimonialsSection() {
             />
           ))}
         </div>
-        <span className="text-[13px] text-black/38 tracking-[0.01em] tabular-nums">
+        <span className="text-[13px] text-black/38 text-nowrap tracking-[0.01em] tabular-nums">
           {activeIdx + 1} / {TOTAL}
         </span>
       </div>

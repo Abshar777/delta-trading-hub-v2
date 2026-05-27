@@ -88,7 +88,7 @@ const DOCTORS = [
     img: '/team/m7.png',
     Logo: HarvardLogo,
     name: 'Midlaj Mohammed',
-    role: 'Chief Techinichal Analyst  ',
+    role: 'Chief Technical Analyst',
     bio: 'World-leading researcher on aging and longevity. Author of Lifespan. Co-Director of the Paul F. Glenn Center.',
   },
   {
@@ -96,7 +96,7 @@ const DOCTORS = [
     Logo: ClevelandLogo,
     name: 'Mujeeb Rahman',
     role: 'Forex & Distributed Ledger',
-    bio: '6 years of experience in Forex and Distributed Ledger Technology. Chief Technology Developer at Delta. Postgradauate degree in DLT Development from IIT Kanpur.',
+    bio: '6 years of experience in Forex and Distributed Ledger Technology. Chief Technology Developer at Delta. Postgraduate degree in DLT Development from IIT Kanpur.',
   },
   {
     img: '/team/m10.png',
@@ -122,14 +122,6 @@ const DOCTORS = [
   },
 ]
 
-/* ─── Trustpilot star ─────────────────────────────────────── */
-function StarIcon({ filled = true }: { filled?: boolean }) {
-  return (
-    <svg width="16" height="16" viewBox="0 0 16 16" fill={filled ? '#00b67a' : '#ddd'}>
-      <path d="M8 1l1.85 3.75L14 5.5l-3 2.92.7 4.08L8 10.4l-3.7 2.1.7-4.08L2 5.5l4.15-.75L8 1z" />
-    </svg>
-  )
-}
 
 /* ─── Component ───────────────────────────────────────────── */
 export default function DoctorsSection() {
@@ -221,7 +213,7 @@ export default function DoctorsSection() {
       {/* Horizontal scroll track */}
       <div ref={trackRef} className="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div className="flex gap-5 px-[60px] max-md:px-6 w-fit pb-2">
-          {DOCTORS.map(({ img, Logo, name, role, bio }) => (
+          {DOCTORS.map(({ img, name, role, bio }) => (
             <div
               key={name}
               className="flex bg-[#f4f3f1] flex-shrink-0 rounded-2xl overflow-hidden

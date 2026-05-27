@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger)
 
 const logos = [
   { file: 'money conclave file.png', alt: 'Money Conclave', width: 130, height: 28 },
-  { file: 'guinness.png',            alt: 'Guiness',        width: 130, height: 28 },
+  { file: 'guinness.png',            alt: 'Guinness world record holder',       width: 130, height: 28 },
   { file: 'PROFX.png', alt: 'PROFX', width: 130, height: 28 },
   { file: 'forex-dubai.png', alt: 'forex dubai', width: 130, height: 28 },
   { file: 'IFF.png', alt: 'IFF', width: 130, height: 28 },
@@ -90,7 +90,7 @@ export default function TrustSection() {
         ref={logosRef}
         className="flex items-center justify-center flex-wrap gap-x-10 gap-y-5 max-md:gap-x-7 max-md:gap-y-4"
       >
-        {logos.map(({ file, alt, width, height }) => (
+        {logos.map(({ file, alt }) => (
           <Image
             key={alt}
 
@@ -102,11 +102,8 @@ export default function TrustSection() {
             style={{ objectFit: 'contain' }}
           />
         ))}
-        {/* Oxford — text mark */}
-        <div className="opacity-25 flex flex-col items-center leading-none">
-          <span className="text-[9px] tracking-[0.18em] text-black/80 uppercase">University of</span>
-          <span className="text-[15px] tracking-[0.04em] text-black font-medium" style={{ fontFamily: 'Georgia, serif' }}>Oxford</span>
-        </div>
+       
+        
       </div>
 
     </section>

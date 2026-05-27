@@ -94,7 +94,7 @@ export default function HowItWorksSection() {
     <section
       ref={sectionRef}
       id="how-it-works"
-      className="bg-white pt-24 pb-20 px-[60px] mb-10 font-nb max-md:pt-16 max-md:pb-14 max-md:px-6"
+      className="bg-white pt-24 pb-20 md:px-[60px]  mb-10 font-nb max-md:pt-7 max-md:pb-14 max-md:px-5"
     >
       <div className="max-w-[1240px] mx-auto">
 
@@ -130,7 +130,7 @@ export default function HowItWorksSection() {
 
               {/* Card image */}
               <div
-                className="relative rounded-[20px] overflow-hidden bg-[#f4f3f1] w-full"
+                className="relative md:rounded-2xl rounded-xl overflow-hidden bg-[#f4f3f1] w-full"
                 style={{ aspectRatio: '3/3.8' }}
               >
                 <Image
@@ -151,7 +151,7 @@ export default function HowItWorksSection() {
                 <h3 className="text-[15.5px] font-normal tracking-[-0.01em] text-black leading-snug max-md:text-[14.5px]">
                   {title}
                 </h3>
-                <p className="text-[13.5px] leading-[1.6] text-black/40 tracking-[0.003em] max-md:text-[13px]">
+                <p className="text-[13.5px] leading-[1.6] text-black/40 tracking-[0.003em] max-md:text-[12px]">
                   {desc}
                 </p>
               </div>
