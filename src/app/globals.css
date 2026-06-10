@@ -36,6 +36,18 @@ body { color: #111; }
   to   { transform: rotate(360deg); }
 }
 
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.animate-ticker {
+  animation: ticker 28s linear infinite;
+}
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
+
 @keyframes mentor-scroll {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
