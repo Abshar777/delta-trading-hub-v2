@@ -10,25 +10,25 @@ gsap.registerPlugin(ScrollTrigger)
 const STEPS = [
   {
     n: 1,
-    img: '/how-it-works/15.png',
+    img: '/how-it-works/1-v1.jpeg',
     title: 'Proven Track Record',
     desc: 'Thousands of students trained, many now full-time traders.',
   },
   {
     n: 2,
-    img: '/how-it-works/3.png',
+    img: '/how-it-works/2-v2.jpeg',
     title: 'Global Mentors',
     desc: 'Learn from recognized experts in Forex, Crypto, and Market Analysis.',
   },
   {
     n: 3,
-    img: '/how-it-works/10.png',
+    img: '/how-it-works/3-v2.jpeg',
     title: 'Flexible Learning',
     desc: 'Attend classes online or offline, wherever you are',
   },
   {
     n: 4,
-    img: '/how-it-works/14.png',
+    img: '/how-it-works/4-v2.jpeg',
     title: 'Community Support',
     desc: 'Join a thriving global network of traders and investors.',
   },
