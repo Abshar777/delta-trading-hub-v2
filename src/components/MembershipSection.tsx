@@ -10,7 +10,7 @@ gsap.registerPlugin(ScrollTrigger)
 const FEATURES = [
   { label: 'Guinness World Record',       desc: 'Officially' },
   { label: 'KHDA Accreditation',         desc: "Officially" },
-  { label: 'Broker Independent',             desc: 'Our own broker' },
+  // { label: 'Broker Independent',             desc: 'Our own broker' },
   { label: 'SEBI Registered Mentor',      desc: '' },
   { label: 'Proprietary Strategies',        desc: 'Exclusive' },
   { label: 'Exclusive Signal Groups',           desc: 'Daily' },
