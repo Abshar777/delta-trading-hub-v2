@@ -72,7 +72,7 @@ const DOCTORS = [
   {
     img: '/team/m14.png',
     Logo: ClevelandLogo,
-    name: 'Praveen Pattroyi',
+    name: 'Praveen Pathiyil',
     role: 'Senior Market Analyst',
     bio: 'SEBI-registered research analyst with 11+ years of experience. Expertise in Commodities, Stocks, and Forex. Mentor at Delta Institutions.',
   },
@@ -80,8 +80,8 @@ const DOCTORS = [
   {
     img: '/team/m6.png',
     Logo: StanfordLogo,
-    name: 'Raghen Selvaraj',
-    role: 'Portfolio Management Expert',
+    name: 'Raghav Selvaraj',
+    role: 'Chief Gann Analyst',
     bio: '9 years of trading experience. Expert in discussions, portfolio management, and business development. B.Tech in Finance, Stocks and Forex.',
   },
   {
@@ -95,14 +95,14 @@ const DOCTORS = [
     img: '/team/m8.png',
     Logo: ClevelandLogo,
     name: 'Mujeeb Rahman',
-    role: 'Forex & Distributed Ledger',
+    role: 'Chief Crypto/Blockchain Analyst',
     bio: '6 years of experience in Forex and Distributed Ledger Technology. Chief Technology Developer at Delta. Postgraduate degree in DLT Development from IIT Kanpur.',
   },
   {
     img: '/team/m10.png',
     Logo: ClevelandLogo,
     name: 'Amjad',
-    role: 'Chief Financial Mentor',
+    role: 'Chief Financial Analyst',
     bio: 'Chief Financial Skills Analyst with a B.Tech in Automotive Engineering. Expertise in financial markets, patterns, Elliott Waves, and HRDC. 5+ years serving Delta clients.',
   },
 

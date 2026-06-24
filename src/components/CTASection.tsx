@@ -270,7 +270,7 @@ export default function CTASection() {
               {/* Contact details */}
               <div className="mt-8 flex flex-col gap-2">
                 <p className="text-[12.5px] text-black/35 leading-[1.6]">
-                  One Delta Shopping Mall, 2nd Floor,<br />Al Nahda, Dubai, UAE
+                  Metro Station, Corniche One Deira - 7th floor -<br />Office - 710 Gold Souq - Al Corniche - Deira - Dubai
                 </p>
                 <a href="tel:+971507528009" className="text-[12.5px] text-black/35 hover:text-black/60 transition-colors">
                   +971 50 752 8009

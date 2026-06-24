@@ -87,7 +87,7 @@ export default function Footer() {
             {/* Contact details */}
             <div className="mt-8 flex flex-col gap-2.5">
               <p className="text-[13px] text-white/35 tracking-[0.003em] leading-[1.55]">
-               One Deira - 7th floor - Office - 710 Gold Souq <br /> Al Corniche - Deira - Dubai
+               Metro Station, Corniche One Deira - 7th floor - <br /> Office - 710 Gold Souq - Al Corniche - Deira - Dubai
               </p>
               <a href="tel:+971507528009" className="text-[13px] text-white/35 hover:text-white/60 transition-colors tracking-[0.003em]">
                 +971 50 752 8009
