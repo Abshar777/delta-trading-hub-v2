@@ -221,7 +221,7 @@ export default function HeroSection() {
             Enroll Now
           </button>
           <button  onClick={triggerWa}  aria-label="WhatsApp"
-            className="hidden md:flex w-9 h-9 items-center justify-center bg-white/[.05] border border-white/[.12] rounded-full text-white/70 transition-all hover:border-white/30 hover:text-white">
+            className="hidden md:flex w-9 h-9 items-center justify-center bg-[#15bb0c] border border-white/[.10] rounded-full text-white transition-all hover:opacity-80 hover:-translate-y-px">
             <FaWhatsapp />
           </button>
         </div>

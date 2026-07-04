@@ -48,6 +48,26 @@ body { color: #111; }
   animation-play-state: paused;
 }
 
+/* ── Floating call button — periodic vibration burst then rest ── */
+@keyframes call-shake {
+  0%, 78%, 100% { transform: rotate(0deg); }
+  80% { transform: rotate(-14deg); }
+  82% { transform: rotate(14deg); }
+  84% { transform: rotate(-12deg); }
+  86% { transform: rotate(12deg); }
+  88% { transform: rotate(-8deg); }
+  90% { transform: rotate(8deg); }
+  92% { transform: rotate(-4deg); }
+  94% { transform: rotate(4deg); }
+  96% { transform: rotate(0deg); }
+}
+.animate-call-shake {
+  animation: call-shake 3.2s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-call-shake { animation: none; }
+}
+
 @keyframes mentor-scroll {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
