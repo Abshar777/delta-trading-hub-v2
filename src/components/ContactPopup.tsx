@@ -7,16 +7,23 @@ import { useRouter } from 'next/navigation'
 const DELAY_MS = 15_000   // auto-open after 15 s
 export const POPUP_EVENT = 'delta:open-popup'
 
+/* Google Apps Script web app that appends submissions to the Sheet */
+const SHEET_URL =
+  'https://script.google.com/macros/s/AKfycbzrCr5LuqOw9UjHX_XQ4bmzDqRQxmUlrDptKwo5OoG5nXxpXs0lZr5oMsCVSRHIb4SU6w/exec'
+const SUBJECT = 'Website Popup Enquiry'
+
 export default function ContactPopup() {
   const router = useRouter()
   const [open,    setOpen]    = useState(false)
   const [visible, setVisible] = useState(false)
   const [form,    setForm]    = useState({ name: '', mobile: '', message: 'I Need To Know More About Your Programs ' })
   const [sent,    setSent]    = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   /* ── Open helper ── */
   const openPopup = useCallback(() => {
     setSent(false)
+    setSubmitting(false)
     setForm({ name: '', mobile: '',  message: 'I Need To Know More About Your Programs '  })
     setOpen(true)
     requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)))
@@ -39,8 +46,10 @@ export default function ContactPopup() {
   /* ── Manual open — any button anywhere can fire this event ── */
   useEffect(() => {
     const handler = () => {
+      
       // Always open when triggered manually, even if auto-dismissed
       setSent(false)
+      setSubmitting(false)
       setForm({ name: '', mobile: '',  message: 'I Need To Know More About Your Programs '  })
       setOpen(true)
       requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)))
@@ -49,9 +58,30 @@ export default function ContactPopup() {
     return () => window.removeEventListener(POPUP_EVENT, handler)
   }, [])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (submitting) return
+    setSubmitting(true)
     sessionStorage.setItem('popup-dismissed', '1')
+
+    /* Send to the Google Sheet — headerless POST keeps it a "simple request"
+       so the browser skips the CORS preflight the Apps Script can't answer.
+       Fire-and-forget: we still redirect even if the network call fails. */
+    try {
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          Name: form.name,
+          Email: '',
+          PhoneNumber: form.mobile,
+          Message: form.message,
+          Subject: SUBJECT,
+        }),
+      })
+    } catch (err) {
+      console.error('Sheet submission failed:', err)
+    }
+
     router.push('/thank-you')
   }
 
@@ -198,9 +228,10 @@ export default function ContactPopup() {
               {/* Submit */}
               <button
                 type="submit"
-                className="w-full bg-[#0f0e0c] text-white text-[14px] tracking-[0.005em] py-[15px] rounded-xl hover:bg-[#2a2825] transition-colors mt-1"
+                disabled={submitting}
+                className="w-full bg-[#0f0e0c] text-white text-[14px] tracking-[0.005em] py-[15px] rounded-xl hover:bg-[#2a2825] transition-colors mt-1 disabled:opacity-60 disabled:cursor-not-allowed"
               >
-                Send Message
+                {submitting ? 'Sending…' : 'Send Message'}
               </button>
 
               <p className="text-[11.5px] text-black/30 text-center tracking-[0.003em]">
