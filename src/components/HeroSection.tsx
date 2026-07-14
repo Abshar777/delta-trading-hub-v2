@@ -33,8 +33,6 @@ function AnnIcon() {
 
 const trigger = () => window.dispatchEvent(new Event(POPUP_EVENT))
 
-const triggerWa = () => window?.open?.(WA_LINK, '_blank')
-
 export default function HeroSection() {
   const [scrolled, setScrolled] = useState(false)
 
@@ -220,10 +218,10 @@ export default function HeroSection() {
           >
             Enroll Now
           </button>
-          <button  onClick={triggerWa}  aria-label="WhatsApp"
+          <a  href={WA_LINK}  target="_blank"  rel="noreferrer"  aria-label="WhatsApp"
             className="hidden md:flex w-9 h-9 items-center justify-center bg-[#15bb0c] border border-white/[.10] rounded-full text-white transition-all hover:opacity-80 hover:-translate-y-px">
             <FaWhatsapp />
-          </button>
+          </a>
         </div>
       </nav>
 
