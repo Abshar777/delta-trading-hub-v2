@@ -22,15 +22,6 @@ const STATS = [
 ]
 
 
-function AnnIcon() {
-  return (
-    <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
-      <path d="M6.5 1v11M1 6.5h11M2.5 2.5l8 8M10.5 2.5l-8 8"
-        stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
-    </svg>
-  )
-}
-
 const trigger = () => window.dispatchEvent(new Event(POPUP_EVENT))
 
 export default function HeroSection() {
@@ -141,7 +132,7 @@ export default function HeroSection() {
   }, [])
 
   return (
-    <div className="bg-white flex flex-col font-nb antialiased">
+    <div className="bg-white  flex flex-col font-nb antialiased">
 
       {/* ── Intro curtain — covers page until animation fires ── */}
       <div
@@ -153,27 +144,31 @@ export default function HeroSection() {
       {/* ══════════════════════════════════════════════════════ */}
       {/* ANNOUNCEMENT BAR                                      */}
       {/* ══════════════════════════════════════════════════════ */}
-      <div
+      {/* <div
         ref={annBarRef}
-        className="h-11 flex items-center justify-center gap-3 px-5 text-[13px] tracking-[0.01em]"
+        className="relative h-11 flex items-center justify-center gap-3 px-5 text-[13px] tracking-[0.01em] bg-[#0f0e0c] overflow-hidden"
       >
-        <span className="text-black/35 flex items-center shrink-0 animate-spin-slow">
-          <AnnIcon />
+
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{ background: 'radial-gradient(70% 140% at 50% 0%, rgba(212,175,55,0.16), transparent 70%)' }}
+        />
+        <span className="relative text-[#e6c14e] shrink-0 leading-none">✦</span>
+        <span className="relative text-white/80 hidden md:block">
+          Celebrating <span className="anniversary-gold font-medium">6+ Years</span> of Delta Trading Academy — Anniversary Special is Live
         </span>
-        <span className="text-black/55 hidden md:block">
-          Learn from Guinness World Record holders with 8+ years of trading expertise
+        <span className="relative text-white/80 md:hidden text-[12px]">
+          <span className="anniversary-gold font-medium">6+ Years</span> Anniversary Special
         </span>
-        <span className="text-black/55 md:hidden text-[12px]">
-          Guinness World Record Holders
-        </span>
-        <span className="text-black/15 shrink-0 hidden md:block">|</span>
+        <span className="relative text-white/15 shrink-0 hidden md:block">|</span>
         <button
           onClick={trigger}
-          className="text-black/70 inline-flex items-center gap-1 transition-colors hover:text-black shrink-0 text-[12.5px] md:text-[13px]"
+          className="relative shrink-0 inline-flex items-center gap-1 bg-[#d4af37] text-[#0f0e0c] hover:bg-[#e6c14e] px-3 py-1 rounded-full text-[12px] md:text-[12.5px] tracking-[0.01em] transition-colors"
         >
-          Claim Free Session <span className="text-[10px]">→</span>
+          Claim Offer <span className="text-[10px]">→</span>
         </button>
-      </div>
+      </div> */}
+      
 
       {/* ══════════════════════════════════════════════════════ */}
       {/* NAV                                                    */}
@@ -185,7 +180,7 @@ export default function HeroSection() {
           'flex items-center justify-between md:grid md:grid-cols-[1fr_auto_1fr]',
           scrolled
             ? 'top-3 left-3 right-3 md:left-[14%] md:right-[14%] h-[54px] px-5 md:px-8 bg-[#141212]/92 backdrop-blur-xl rounded-full'
-            : 'top-[44px] left-0 right-0 h-[68px] px-5 md:px-[60px]',
+            : 'top-[20px] left-0 right-0 h-[68px] px-5 md:px-[60px]',
         ].join(' ')}
       >
         {/* Desktop nav links */}
@@ -224,6 +219,7 @@ export default function HeroSection() {
           </a>
         </div>
       </nav>
+      <div className="pb-2"></div>
 
       {/* ══════════════════════════════════════════════════════ */}
       {/* DARK HERO CARD                                        */}

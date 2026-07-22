@@ -8,6 +8,7 @@ import TestimonialsSection from '@/components/TestimonialsSection'
 import CoursesSection from '@/components/CoursesSection'
 import ContactPopup from '@/components/ContactPopup'
 import CallButton from '@/components/CallButton'
+import AnniversaryBanner from '@/components/AnniversaryBanner'
 import CTASection from '@/components/CTASection'
 import FAQSection from '@/components/FAQSection'
 
@@ -16,6 +17,7 @@ export default function Home() {
     <main>
       <ContactPopup />
       <CallButton />
+      <AnniversaryBanner />
       <HeroSection />
       <TrustSection />
       <HowItWorksSection />
