@@ -51,7 +51,7 @@ export default function HeroSection() {
     const ctx = gsap.context(() => {
 
       /* --- before state ----------------------------------------- */
-      gsap.set(annBarRef.current,  { y: -20, opacity: 0 })
+      if (annBarRef.current) gsap.set(annBarRef.current, { y: -20, opacity: 0 })
       gsap.set(navRef.current,     { y: -20, opacity: 0 })
       gsap.set(imgWrapRef.current, { scale: 1.07, opacity: 0 })
       gsap.set(badgeRef.current,   { y: 20, opacity: 0 })
@@ -80,7 +80,7 @@ export default function HeroSection() {
         }, 0.18)
 
         /* Announcement bar then nav slide down */
-        .to([annBarRef.current, navRef.current], {
+        .to([annBarRef.current, navRef.current].filter(Boolean), {
           y: 0,
           opacity: 1,
           duration: 1.0,

@@ -105,6 +105,23 @@ body { color: #111; }
   80% { transform: translateX(130%); }
 }
 
+/* ── Spotlight card — native mouse-follow gold glow (no WebGL) ── */
+.spotlight-card__glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 300ms ease;
+  background: radial-gradient(
+    240px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(212, 175, 55, 0.16),
+    transparent 68%
+  );
+}
+.spotlight-card:hover .spotlight-card__glow {
+  opacity: 1;
+}
+
 /* ── Anniversary floating banner — entrance ── */
 @keyframes anniv-in {
   from { opacity: 0; transform: translateY(24px) scale(0.96); }

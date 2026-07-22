@@ -1,7 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { CardSpotlight } from '@/components/ui/card-spotlight'
+import { useEffect, useRef, useState } from 'react'
 import { POPUP_EVENT } from './ContactPopup'
 
 const DISMISS_KEY = 'anniversary-dismissed'
@@ -9,12 +8,22 @@ const SHOW_DELAY = 4500
 
 export default function AnniversaryBanner() {
   const [show, setShow] = useState(false)
+  const cardRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (sessionStorage.getItem(DISMISS_KEY)) return
     const t = setTimeout(() => setShow(true), SHOW_DELAY)
     return () => clearTimeout(t)
   }, [])
+
+  /* Native spotlight — mouse-follow radial glow via CSS variables (no WebGL) */
+  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = cardRef.current
+    if (!el) return
+    const r = el.getBoundingClientRect()
+    el.style.setProperty('--mx', `${e.clientX - r.left}px`)
+    el.style.setProperty('--my', `${e.clientY - r.top}px`)
+  }
 
   const close = () => {
     sessionStorage.setItem(DISMISS_KEY, '1')
@@ -31,11 +40,14 @@ export default function AnniversaryBanner() {
 
   return (
     <div className="fixed z-[95] bottom-4 left-4 md:bottom-6 md:left-6 w-[calc(100%-2rem)] max-w-[350px] font-nb animate-anniv-in">
-      <CardSpotlight
-        radius={240}
-        color="#1a1408"
-        className="rounded-2xl border border-[#d4af37]/25 bg-[#0b0a08] p-6"
+      <div
+        ref={cardRef}
+        onMouseMove={handleMove}
+        className="spotlight-card relative overflow-hidden rounded-2xl border border-[#d4af37]/25 bg-[#0b0a08] p-6"
       >
+        {/* Mouse-follow spotlight glow */}
+        <div className="spotlight-card__glow" aria-hidden="true" />
+
         {/* Close */}
         <button
           onClick={close}
@@ -47,7 +59,7 @@ export default function AnniversaryBanner() {
           </svg>
         </button>
 
-        <div className="relative z-20">
+        <div className="relative z-10">
           {/* Badge */}
           <span className="inline-flex items-center gap-1.5 text-[10.5px] tracking-[0.14em] uppercase text-[#e6c14e] bg-[#d4af37]/[0.08] border border-[#d4af37]/25 px-2.5 py-1 rounded-full mb-4">
             <span className="text-[11px] leading-none">✦</span> 6+ Years Anniversary
@@ -81,7 +93,7 @@ export default function AnniversaryBanner() {
             </button>
           </div>
         </div>
-      </CardSpotlight>
+      </div>
     </div>
   )
 }
