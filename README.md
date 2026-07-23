@@ -34,3 +34,22 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Seminar payments (Razorpay)
+
+The Bangalore seminar page (`/seminar-bangalore`) takes payments via Razorpay.
+
+1. Get your keys from the [Razorpay Dashboard → API Keys](https://dashboard.razorpay.com/app/keys) (use `rzp_test_*` while testing).
+2. Add them to `.env.local` (already scaffolded; not committed):
+
+   ```
+   RAZORPAY_KEY_ID=rzp_test_xxxxxxxx
+   RAZORPAY_KEY_SECRET=your_secret_here
+   ```
+
+3. Restart the dev server. Until keys are set, the "Pay & Join" button shows a
+   "payments not set up yet" message instead of crashing.
+
+- Ticket price is set in `src/app/api/seminar/order/route.ts` (`SEMINAR_AMOUNT`, in paise — ₹999 = 99900).
+- Seminar details (date, venue, price label, agenda) are placeholders in `src/app/seminar-bangalore/page.tsx`.
+- Payment signature is verified server-side in `src/app/api/seminar/verify/route.ts`.
