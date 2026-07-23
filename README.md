@@ -53,3 +53,24 @@ The Bangalore seminar page (`/seminar-bangalore`) takes payments via Razorpay.
 - Ticket price is set in `src/app/api/seminar/order/route.ts` (`SEMINAR_AMOUNT`, in paise — ₹999 = 99900).
 - Seminar details (date, venue, price label, agenda) are placeholders in `src/app/seminar-bangalore/page.tsx`.
 - Payment signature is verified server-side in `src/app/api/seminar/verify/route.ts`.
+
+## Seminar registrations (MongoDB + admin portal)
+
+Every seminar registration is stored in MongoDB (`registrations` collection):
+- On payment order creation → record saved with `status: "created"`.
+- On verified payment → same record updated to `status: "paid"` + `paymentId`.
+
+**Setup** — add to `.env.local`:
+
+```
+MONGODB_URI=mongodb+srv://user:pass@cluster.mongodb.net
+MONGODB_DB=delta
+ADMIN_PASSWORD=choose-a-strong-password
+```
+
+**Admin portal:** visit `/admin/seminars`, enter `ADMIN_PASSWORD`, and view all
+registrations (name, phone, email, amount, status, payment id) with totals/revenue.
+
+- Persistence is best-effort: if `MONGODB_URI` is unset, payments still work — records just aren't saved.
+- The admin gate is a simple password check (server-verified, constant-time). For production, consider a proper auth provider.
+- All backend logic lives in this app: `src/lib/mongodb.ts`, `src/lib/registrations.ts`, `src/app/api/seminar/*`, `src/app/api/admin/registrations`.

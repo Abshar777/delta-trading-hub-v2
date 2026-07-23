@@ -1,4 +1,5 @@
 import crypto from 'crypto'
+import { markPaid } from '@/lib/registrations'
 
 const KEY_SECRET = process.env.RAZORPAY_KEY_SECRET
 
@@ -21,6 +22,9 @@ export async function POST(request: Request) {
       .digest('hex')
 
     const verified = expected === razorpay_signature
+    if (verified) {
+      await markPaid(razorpay_order_id, razorpay_payment_id)
+    }
     return Response.json({ verified }, { status: verified ? 200 : 400 })
   } catch (err) {
     console.error('Razorpay verify error:', err)

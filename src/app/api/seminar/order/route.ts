@@ -1,7 +1,8 @@
 import Razorpay from 'razorpay'
+import { saveRegistration } from '@/lib/registrations'
 
-/* Ticket price in paise (₹999 = 99900). Change here to update the amount. */
-export const SEMINAR_AMOUNT = 99_900
+/* Ticket price in paise (₹299 = 29900). Change here to update the amount. */
+export const SEMINAR_AMOUNT = 29_900
 const KEY_ID = process.env.RAZORPAY_KEY_ID
 const KEY_SECRET = process.env.RAZORPAY_KEY_SECRET
 
@@ -28,6 +29,17 @@ export async function POST(request: Request) {
         email: String(body.email ?? ''),
         phone: String(body.phone ?? ''),
       },
+    })
+
+    /* Persist a pending registration (best-effort — never blocks payment) */
+    await saveRegistration({
+      name: String(body.name ?? ''),
+      email: String(body.email ?? ''),
+      phone: String(body.phone ?? ''),
+      seminar: 'Bangalore',
+      amount: SEMINAR_AMOUNT,
+      currency: 'INR',
+      orderId: order.id,
     })
 
     return Response.json({
