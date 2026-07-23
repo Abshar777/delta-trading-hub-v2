@@ -21,12 +21,23 @@ const SEMINAR = {
   title: 'Live Trade Challenge',
   city: 'Bangalore',
   date: 'Saturday, 26 July 2026',
-  time: '10:00 AM – 4:00 PM IST',
+  time: '11:00 AM – 4:00 PM',
   venue: 'The Oberoi, Bengaluru',
-  address: '37-39, Mahatma Gandhi Road, Bengaluru, Karnataka 560001',
-  seats: 'Limited to 50 seats',
+  address: '37-39, Mahatma Gandhi Rd, Yellappa Chetty Layout, Sivanchetti Gardens, Bengaluru, Karnataka 560001',
+  seats: 'Limited to 60 guests',
   priceLabel: '₹299',
 }
+
+/* ── Programme schedule (tentative) ── */
+const SCHEDULE = [
+  { time: '9:00 AM',  title: 'Welcome Session' },
+  { time: '11:00 AM', title: 'Programme begins' },
+  { time: '1:00 PM',  title: 'Lunch' },
+  { time: '2:00 PM',  title: 'MoU Signing' },
+  { time: '3:00 PM',  title: 'Graduation Ceremony' },
+  { time: '4:00 PM',  title: 'Close' },
+]
+
 
 const HIGHLIGHTS = [
   'Live market analysis & chart reading',
@@ -166,19 +177,54 @@ export default function SeminarBangalorePage() {
           ))}
         </div>
       </section>
-
-      {/* ── What you'll learn ── */}
-      <section className="px-6 md:px-[60px] pb-6 md:pb-10 max-w-[1240px] mx-auto">
-        <p className="text-[13px] text-black/40 tracking-[0.12em] uppercase mb-4">What you&apos;ll learn</p>
+      {/* ── What's included ── */}
+      <section className="px-6 md:px-[60px] py-6 md:py-10 max-w-[1240px] mx-auto">
+        <p className="text-[13px] text-black/40 tracking-[0.12em] uppercase mb-4">What&apos;s included</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4">
-          {HIGHLIGHTS.map((h) => (
-            <div key={h} className="flex items-start gap-3 border-b border-black/[0.07] pb-4">
+          {INCLUDED.map((item) => (
+            <div key={item} className="flex items-start gap-3 border-b border-black/[0.07] pb-4">
               <span className="text-[#d4af37] mt-0.5">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
               </span>
-              <span className="text-[14.5px] text-black/70 leading-snug">{h}</span>
+              <span className="text-[14.5px] text-black/70 leading-snug">{item}</span>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── What you'll learn + schedule ── */}
+      <section className="px-6 md:px-[60px] py-6 md:py-10 max-w-[1240px] mx-auto">
+        <div className="rounded-[24px] bg-[#0b0a08] border border-[#d4af37]/20 overflow-hidden flex flex-col md:flex-row">
+          <div className="relative flex-1 p-8 md:p-10">
+            <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(80% 80% at 10% 10%, rgba(212,175,55,0.10), transparent 60%)' }} />
+            <div className="relative">
+              <p className="text-[11px] text-[#e6c14e] tracking-[0.14em] uppercase mb-4">What you&apos;ll learn</p>
+              <h2 className="text-[26px] md:text-[32px] font-normal tracking-[-0.02em] text-white leading-[1.12] mb-6">
+                A full day of <span className="anniversary-gold">real trading</span>
+              </h2>
+              <ul className="flex flex-col gap-3">
+                {HIGHLIGHTS.map((h) => (
+                  <li key={h} className="flex items-start gap-2.5 text-[13.5px] text-white/75 leading-snug">
+                    <span className="text-[#d4af37] mt-0.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg></span>
+                    {h}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div className="md:w-[440px] flex-shrink-0 bg-white p-8 md:p-10">
+            <p className="text-[11.5px] text-black/35 tracking-[0.10em] uppercase mb-5">
+              The day, hour by hour <span className="normal-case tracking-normal text-black/25">(tentative)</span>
+            </p>
+            <div className="flex flex-col">
+              {SCHEDULE.map(({ time, title }, i) => (
+                <div key={i} className="flex items-center gap-4 py-3 border-b border-black/[0.07]">
+                  <span className="w-[78px] shrink-0 text-[13.5px] text-[#b8901f] tabular-nums">{time}</span>
+                  <span className="text-[13.5px] text-black/80">{title}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -208,22 +254,7 @@ export default function SeminarBangalorePage() {
         </div>
 
         {/* What's included (incl. food) */}
-        <div className="mt-10 rounded-2xl bg-[#f6f5f3] border border-black/[0.05] p-7 md:p-9">
-          <p className="text-[13px] text-black/40 tracking-[0.12em] uppercase mb-5">What&apos;s included</p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-3.5">
-            {INCLUDED.map((item) => (
-              <div key={item} className="flex items-start gap-2.5">
-                <span className="text-[#d4af37] mt-0.5">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
-                </span>
-                <span className="text-[14px] text-black/70 leading-snug">{item}</span>
-              </div>
-            ))}
-          </div>
-          <p className="text-[12.5px] text-black/40 mt-6 leading-[1.6]">
-            Lunch and refreshments are served at {SEMINAR.venue} — a full fine-dining spread included with every seat.
-          </p>
-        </div>
+    
       </section>
 
       {/* ── Location / map ── */}
