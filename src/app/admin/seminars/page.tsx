@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react'
 
 const KEY_STORE = 'admin-key'
+const LIMIT = 25
 
 interface Row {
   name: string
@@ -17,64 +18,99 @@ interface Row {
   createdAt: string
   paidAt?: string
 }
+interface Stats { totalLeads: number; paid: number; revenue: number }
 
 const inr = (paise: number) => '₹' + (paise / 100).toLocaleString('en-IN')
 const fmt = (d?: string) =>
   d ? new Date(d).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : '—'
 
 export default function AdminSeminarsPage() {
-  const [key, setKey] = useState('')
+  const [adminKey, setAdminKey] = useState('')
+  const [keyInput, setKeyInput] = useState('')
   const [authed, setAuthed] = useState(false)
+
   const [rows, setRows] = useState<Row[]>([])
+  const [total, setTotal] = useState(0)
+  const [stats, setStats] = useState<Stats>({ totalLeads: 0, paid: 0, revenue: 0 })
+
+  const [page, setPage] = useState(1)
+  const [status, setStatus] = useState<'all' | 'created' | 'paid'>('all')
+  const [q, setQ] = useState('')
+  const [qInput, setQInput] = useState('')
+
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const load = useCallback(async (adminKey: string) => {
-    setKey(adminKey)
-    setLoading(true)
-    setError('')
-    try {
-      const res = await fetch('/api/admin/registrations', { headers: { 'x-admin-key': adminKey } })
-      const data = await res.json().catch(() => ({}))
-      if (res.status === 401) {
-        setError('Wrong password.')
-        setAuthed(false)
-        sessionStorage.removeItem(KEY_STORE)
-        return
+  const fetchData = useCallback(
+    async (key: string, p: number, st: string, query: string) => {
+      setLoading(true)
+      setError('')
+      try {
+        const params = new URLSearchParams({ page: String(p), limit: String(LIMIT), status: st, q: query })
+        const res = await fetch(`/api/admin/registrations?${params.toString()}`, {
+          headers: { 'x-admin-key': key },
+        })
+        const data = await res.json().catch(() => ({}))
+        if (res.status === 401) {
+          setError('Wrong password.')
+          setAuthed(false)
+          setAdminKey('')
+          sessionStorage.removeItem(KEY_STORE)
+          return
+        }
+        if (!res.ok) {
+          setError(data.error || 'Could not load data.')
+          setRows([])
+          return
+        }
+        setRows(data.rows || [])
+        setTotal(data.total || 0)
+        setStats(data.stats || { totalLeads: 0, paid: 0, revenue: 0 })
+        sessionStorage.setItem(KEY_STORE, key)
+      } catch {
+        setError('Network error.')
+      } finally {
+        setLoading(false)
       }
-      if (!res.ok) {
-        setError(data.error || 'Could not load data.')
-        setAuthed(true)
-        setRows([])
-        return
-      }
-      setRows(data.registrations || [])
-      setAuthed(true)
-      sessionStorage.setItem(KEY_STORE, adminKey)
-    } catch {
-      setError('Network error.')
-    } finally {
-      setLoading(false)
-    }
-  }, [])
+    },
+    [],
+  )
 
-  /* Resume session if a key was already entered */
+  /* Resume session on mount if a key was already entered */
   useEffect(() => {
     const saved = sessionStorage.getItem(KEY_STORE)
-    // Resume the admin session on mount if a key was already entered.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    if (saved) load(saved)
-  }, [load])
+    if (saved) { setAdminKey(saved); setAuthed(true) }
+  }, [])
+
+  /* Debounce the search box → q (and reset to page 1) */
+  useEffect(() => {
+    const t = setTimeout(() => {
+      setQ(qInput.trim())
+      setPage(1)
+    }, 350)
+    return () => clearTimeout(t)
+  }, [qInput])
+
+  /* Fetch whenever the key, page, status or search changes (syncs server data) */
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (adminKey) fetchData(adminKey, page, status, q)
+  }, [adminKey, page, status, q, fetchData])
 
   const logout = () => {
     sessionStorage.removeItem(KEY_STORE)
     setAuthed(false)
+    setAdminKey('')
+    setKeyInput('')
     setRows([])
-    setKey('')
+    setPage(1)
+    setStatus('all')
+    setQ('')
+    setQInput('')
   }
 
-  const paidRows = rows.filter((r) => r.status === 'paid')
-  const revenue = paidRows.reduce((s, r) => s + r.amount, 0)
+  const totalPages = Math.max(1, Math.ceil(total / LIMIT))
 
   /* ── Login gate ── */
   if (!authed) {
@@ -86,22 +122,22 @@ export default function AdminSeminarsPage() {
           <form
             onSubmit={(e) => {
               e.preventDefault()
-              if (key.trim()) load(key.trim())
+              if (keyInput.trim()) { setAdminKey(keyInput.trim()); setAuthed(true) }
             }}
             className="flex flex-col gap-3"
           >
             <input
               type="password"
               placeholder="Admin password"
-              value={key}
-              onChange={(e) => setKey(e.target.value)}
+              value={keyInput}
+              onChange={(e) => setKeyInput(e.target.value)}
               autoFocus
               className="w-full bg-white/[0.06] border border-white/15 rounded-xl px-4 py-3 text-[14px] text-white placeholder:text-white/30 outline-none focus:border-white/40"
             />
             {error && <p className="text-red-400 text-[12.5px]">{error}</p>}
             <button
               type="submit"
-              disabled={loading || !key.trim()}
+              disabled={loading || !keyInput.trim()}
               className="bg-[#d4af37] text-[#0f0e0c] text-[14px] py-3 rounded-xl hover:bg-[#e6c14e] transition-colors disabled:opacity-50"
             >
               {loading ? 'Checking…' : 'Sign in'}
@@ -125,7 +161,7 @@ export default function AdminSeminarsPage() {
           </div>
           <div className="flex items-center gap-2.5">
             <button
-              onClick={() => load(key)}
+              onClick={() => fetchData(adminKey, page, status, q)}
               className="bg-white/[0.08] border border-white/15 text-white/85 text-[13px] px-4 py-2 rounded-full hover:bg-white/[0.14] transition-colors"
             >
               {loading ? 'Refreshing…' : 'Refresh'}
@@ -145,18 +181,43 @@ export default function AdminSeminarsPage() {
           </div>
         )}
 
-        {/* Stats */}
-        <div className="grid grid-cols-3 gap-3 md:gap-4 mb-8">
+        {/* Stats (global) */}
+        <div className="grid grid-cols-3 gap-3 md:gap-4 mb-6">
           {[
-            { label: 'Total leads', value: rows.length },
-            { label: 'Paid', value: paidRows.length },
-            { label: 'Revenue', value: inr(revenue) },
+            { label: 'Total leads', value: stats.totalLeads },
+            { label: 'Paid', value: stats.paid },
+            { label: 'Revenue', value: inr(stats.revenue) },
           ].map((s) => (
             <div key={s.label} className="rounded-2xl bg-white/[0.04] border border-white/10 p-5">
               <p className="text-[11px] text-white/40 tracking-[0.1em] uppercase mb-2">{s.label}</p>
               <p className="text-[26px] md:text-[30px] tracking-[-0.02em]">{s.value}</p>
             </div>
           ))}
+        </div>
+
+        {/* Filters */}
+        <div className="flex items-center gap-2.5 mb-4 flex-wrap">
+          <input
+            type="text"
+            placeholder="Search name, email, phone, order id…"
+            value={qInput}
+            onChange={(e) => setQInput(e.target.value)}
+            className="flex-1 min-w-[220px] bg-white/[0.05] border border-white/12 rounded-full px-4 py-2.5 text-[13.5px] text-white placeholder:text-white/30 outline-none focus:border-white/35"
+          />
+          <div className="flex items-center gap-1 bg-white/[0.05] border border-white/12 rounded-full p-1">
+            {(['all', 'paid', 'created'] as const).map((s) => (
+              <button
+                key={s}
+                onClick={() => { setStatus(s); setPage(1) }}
+                className={[
+                  'text-[12.5px] px-3.5 py-1.5 rounded-full transition-colors capitalize',
+                  status === s ? 'bg-[#d4af37] text-[#0f0e0c]' : 'text-white/60 hover:text-white',
+                ].join(' ')}
+              >
+                {s === 'created' ? 'Pending' : s}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Table */}
@@ -177,7 +238,7 @@ export default function AdminSeminarsPage() {
               {rows.length === 0 && !loading && (
                 <tr>
                   <td colSpan={7} className="px-4 py-10 text-center text-white/40">
-                    No registrations yet.
+                    {q || status !== 'all' ? 'No matching registrations.' : 'No registrations yet.'}
                   </td>
                 </tr>
               )}
@@ -209,9 +270,33 @@ export default function AdminSeminarsPage() {
           </table>
         </div>
 
-        <p className="text-white/25 text-[11.5px] mt-4">
-          Showing latest {rows.length} registration{rows.length === 1 ? '' : 's'}.
-        </p>
+        {/* Pagination */}
+        <div className="flex items-center justify-between gap-4 mt-4 flex-wrap">
+          <p className="text-white/35 text-[12.5px]">
+            {total === 0
+              ? 'No results'
+              : `${(page - 1) * LIMIT + 1}–${Math.min(page * LIMIT, total)} of ${total}`}
+          </p>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page <= 1 || loading}
+              className="bg-white/[0.06] border border-white/12 text-white/80 text-[13px] px-4 py-2 rounded-full hover:bg-white/[0.12] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              ← Prev
+            </button>
+            <span className="text-white/50 text-[12.5px] tabular-nums px-1">
+              Page {page} / {totalPages}
+            </span>
+            <button
+              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              disabled={page >= totalPages || loading}
+              className="bg-white/[0.06] border border-white/12 text-white/80 text-[13px] px-4 py-2 rounded-full hover:bg-white/[0.12] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+            >
+              Next →
+            </button>
+          </div>
+        </div>
       </div>
     </main>
   )

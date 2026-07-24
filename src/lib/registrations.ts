@@ -31,29 +31,65 @@ export async function saveRegistration(reg: Omit<Registration, 'status' | 'creat
   }
 }
 
-/** Mark a registration paid once the payment signature is verified. Best-effort. */
-export async function markPaid(orderId: string, paymentId: string) {
+/** Mark a registration paid once the payment signature is verified, and return
+ *  the updated document (so callers can forward it to the Google Sheet). Best-effort. */
+export async function markPaid(orderId: string, paymentId: string): Promise<Registration | null> {
   try {
     const db = await getDb()
-    if (!db) return
-    await db.collection<Registration>(COLLECTION).updateOne(
+    if (!db) return null
+    const col = db.collection<Registration>(COLLECTION)
+    await col.updateOne(
       { orderId },
       { $set: { status: 'paid', paymentId, paidAt: new Date() } },
     )
+    const doc = await col.findOne({ orderId }, { projection: { _id: 0 } })
+    return (doc as Registration) ?? null
   } catch (err) {
     console.error('markPaid failed:', err)
+    return null
   }
 }
 
-/** List registrations for the admin portal, newest first. */
-export async function listRegistrations(limit = 500) {
+/* ── Admin: paginated + filtered query ── */
+export interface RegQuery {
+  page: number
+  limit: number
+  status: 'all' | 'created' | 'paid'
+  q: string
+}
+
+function escapeRegex(s: string) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+export async function queryRegistrations({ page, limit, status, q }: RegQuery) {
   const db = await getDb()
   if (!db) return null
-  const docs = await db
-    .collection<Registration>(COLLECTION)
-    .find({}, { projection: { _id: 0 } })
-    .sort({ createdAt: -1 })
-    .limit(limit)
-    .toArray()
-  return docs
+  const col = db.collection<Registration>(COLLECTION)
+
+  const filter: Record<string, unknown> = {}
+  if (status === 'paid' || status === 'created') filter.status = status
+  if (q) {
+    const rx = new RegExp(escapeRegex(q), 'i')
+    filter.$or = [{ name: rx }, { email: rx }, { phone: rx }, { orderId: rx }]
+  }
+
+  const skip = (page - 1) * limit
+
+  const [rows, total, totalLeads, paid, revenueAgg] = await Promise.all([
+    col.find(filter, { projection: { _id: 0 } }).sort({ createdAt: -1 }).skip(skip).limit(limit).toArray(),
+    col.countDocuments(filter),
+    col.countDocuments({}),
+    col.countDocuments({ status: 'paid' }),
+    col.aggregate<{ sum: number }>([
+      { $match: { status: 'paid' } },
+      { $group: { _id: null, sum: { $sum: '$amount' } } },
+    ]).toArray(),
+  ])
+
+  return {
+    rows: rows as Registration[],
+    total,
+    stats: { totalLeads, paid, revenue: revenueAgg[0]?.sum ?? 0 },
+  }
 }

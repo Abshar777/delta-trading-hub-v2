@@ -1,5 +1,5 @@
 import crypto from 'crypto'
-import { listRegistrations } from '@/lib/registrations'
+import { queryRegistrations } from '@/lib/registrations'
 import { isDbConfigured } from '@/lib/mongodb'
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
@@ -26,9 +26,20 @@ export async function GET(request: Request) {
     return Response.json({ error: 'Database is not configured (set MONGODB_URI).' }, { status: 503 })
   }
 
+  const url = new URL(request.url)
+  const page = Math.max(1, parseInt(url.searchParams.get('page') || '1', 10) || 1)
+  const limit = Math.min(100, Math.max(1, parseInt(url.searchParams.get('limit') || '25', 10) || 25))
+  const statusParam = url.searchParams.get('status') || 'all'
+  const status = (['all', 'created', 'paid'].includes(statusParam) ? statusParam : 'all') as
+    'all' | 'created' | 'paid'
+  const q = (url.searchParams.get('q') || '').trim().slice(0, 100)
+
   try {
-    const registrations = await listRegistrations()
-    return Response.json({ registrations })
+    const result = await queryRegistrations({ page, limit, status, q })
+    if (!result) {
+      return Response.json({ error: 'Database is not configured (set MONGODB_URI).' }, { status: 503 })
+    }
+    return Response.json({ ...result, page, limit })
   } catch (err) {
     console.error('admin registrations error:', err)
     return Response.json({ error: 'Could not load registrations.' }, { status: 500 })

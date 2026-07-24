@@ -74,3 +74,27 @@ registrations (name, phone, email, amount, status, payment id) with totals/reven
 - Persistence is best-effort: if `MONGODB_URI` is unset, payments still work — records just aren't saved.
 - The admin gate is a simple password check (server-verified, constant-time). For production, consider a proper auth provider.
 - All backend logic lives in this app: `src/lib/mongodb.ts`, `src/lib/registrations.ts`, `src/app/api/seminar/*`, `src/app/api/admin/registrations`.
+
+## Google Sheet mirror (paid registrations)
+
+Every **paid** registration is also appended to a Google Sheet via a Google Apps
+Script web app.
+
+1. Open the sheet → Extensions → Apps Script, paste `google-apps-script/seminar-sheet.gs`, save.
+2. Run `setupHeaders` once (approve permissions).
+3. Deploy → New deployment → Web app (Execute as: Me · Access: Anyone). Copy the `/exec` URL.
+4. Set `SEMINAR_SHEET_URL=<that URL>` in `.env.local` and restart.
+
+Sending is best-effort — a sheet/Apps-Script failure never blocks the payment.
+
+## Admin portal — pagination & filters
+
+`/admin/seminars` supports server-side pagination and filtering. The API
+(`GET /api/admin/registrations`) accepts:
+
+- `page` (1-based), `limit` (default 25, max 100)
+- `status` = `all` | `paid` | `created`
+- `q` = search across name / email / phone / order id
+
+It returns `{ rows, total, page, limit, stats }` where `stats` = global
+`{ totalLeads, paid, revenue }`.

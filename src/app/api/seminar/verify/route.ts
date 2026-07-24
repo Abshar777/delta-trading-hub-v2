@@ -1,5 +1,6 @@
 import crypto from 'crypto'
 import { markPaid } from '@/lib/registrations'
+import { sendToSheet } from '@/lib/sheet'
 
 const KEY_SECRET = process.env.RAZORPAY_KEY_SECRET
 
@@ -23,7 +24,22 @@ export async function POST(request: Request) {
 
     const verified = expected === razorpay_signature
     if (verified) {
-      await markPaid(razorpay_order_id, razorpay_payment_id)
+      const reg = await markPaid(razorpay_order_id, razorpay_payment_id)
+      if (reg) {
+        /* Append the paid registration to the Google Sheet (best-effort) */
+        await sendToSheet({
+          name: reg.name,
+          email: reg.email,
+          phone: reg.phone,
+          amount: reg.amount,
+          currency: reg.currency,
+          status: reg.status,
+          seminar: reg.seminar,
+          orderId: reg.orderId,
+          paymentId: reg.paymentId ?? razorpay_payment_id,
+          paidAt: reg.paidAt ?? new Date().toISOString(),
+        })
+      }
     }
     return Response.json({ verified }, { status: verified ? 200 : 400 })
   } catch (err) {

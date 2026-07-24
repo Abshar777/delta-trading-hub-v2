@@ -399,6 +399,16 @@ export default function SeminarBangalorePage() {
               </div>
             </div>
 
+            {/* Legal */}
+            <div>
+              <p className="text-[11px] text-black/35 tracking-[0.12em] uppercase mb-4">Legal</p>
+              <ul className="flex flex-col gap-2.5">
+                <li><a href="/terms" className="text-[13px] text-black/55 hover:text-black transition-colors">Terms &amp; Conditions</a></li>
+                <li><a href="/privacy" className="text-[13px] text-black/55 hover:text-black transition-colors">Privacy Policy</a></li>
+                <li><a href="/refund-policy" className="text-[13px] text-black/55 hover:text-black transition-colors">Refund &amp; Cancellation</a></li>
+              </ul>
+            </div>
+
           </div>
 
           <div className="h-px bg-black/[0.07] my-8" />
