@@ -70,7 +70,7 @@ export function buildInvitationPdf(reg: {
     detailRow('Date', EVENT.date)
     detailRow('Time', EVENT.time)
     detailRow('Venue', EVENT.venue)
-    detailRow('Address', EVENT.address)
+    detailRow('Address', EVENT.venueAddress)
 
     doc.moveDown(0.4)
     doc.fillColor('#b8901f').font('Helvetica-Bold').fontSize(10).text('YOUR REGISTRATION', M, doc.y, { characterSpacing: 1 })
@@ -106,7 +106,7 @@ export function buildInvitationPdf(reg: {
     /* ── Footer (positioned safely above the bottom margin so it never spills
        onto a 2nd page) ── */
     doc.fillColor('#9a9a9a').font('Helvetica').fontSize(8.5).text(
-      ascii('Delta Trading Academy  |  ' + EVENT.email + '  |  ' + EVENT.phone + '\n' + EVENT.address),
+      ascii('Delta Trading Academy  |  ' + EVENT.email + '  |  ' + EVENT.phone + '\n' + EVENT.officeAddress),
       M, doc.page.height - 100, { width: cw, align: 'center', lineGap: 2, height: 40 },
     )
 

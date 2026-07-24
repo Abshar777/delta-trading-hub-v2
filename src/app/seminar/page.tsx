@@ -34,11 +34,11 @@ const SEMINAR = {
 
 /* ── Contact — Bangalore branch ── */
 const CONTACT = {
-  address: '#412A, 4th Floor, Prestige Towers, Residency Road, Bengaluru, Karnataka – 560025, India',
+  address: '4th Floor, Prestige Towers (Bangalore Branch & ATM), 99/100, Residency Rd, Shanthala Nagar, Ashok Nagar, Bengaluru, Karnataka 560025',
   gst: '29AAJCE53644R1ZP',
-  email: 'info@deltainstitutions.com',
-  phone: '+919187236407',
-  phoneLabel: '+91 91872 36407',
+  email: 'deltainternational.blr@gmail.com',
+  phone: '+919187236408',
+  phoneLabel: '+91 9187236408',
 }
 
 /* ── Seminar team contacts ── */

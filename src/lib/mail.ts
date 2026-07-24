@@ -50,7 +50,7 @@ export function buildInvitationHtml(reg: {
           ${detail('Date', EVENT.date)}
           ${detail('Time', EVENT.time)}
           ${detail('Venue', EVENT.venue)}
-          ${detail('Address', EVENT.address)}
+          ${detail('Address', EVENT.venueAddress)}
         </table>
       </div>
 
@@ -78,7 +78,7 @@ export function buildInvitationHtml(reg: {
     </div>
 
     <p style="text-align:center;color:#9a9a9a;font-size:11px;line-height:1.6;margin:18px 0 0;">
-      Delta Trading Academy &middot; ${EVENT.address}<br/>
+      Delta Trading Academy &middot; ${EVENT.officeAddress}<br/>
       This is a transactional email regarding your seminar registration.
     </p>
   </div>
