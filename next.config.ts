@@ -12,6 +12,9 @@ const nextConfig: NextConfig = {
     loaderFile: "./src/lib/imageLoader.ts",
   },
 
+  /* pdfkit ships runtime font files and nodemailer is Node-only — don't bundle them. */
+  serverExternalPackages: ["pdfkit", "nodemailer"],
+
   /* Keep the dev-tools badge out of the bottom-right corner used by the floating call button */
   devIndicators: {
     position: "bottom-left",

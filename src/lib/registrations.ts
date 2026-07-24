@@ -31,21 +31,24 @@ export async function saveRegistration(reg: Omit<Registration, 'status' | 'creat
   }
 }
 
-/** Mark a registration paid once the payment signature is verified, and return
- *  the updated document (so callers can forward it to the Google Sheet). Best-effort. */
-export async function markPaid(orderId: string, paymentId: string): Promise<Registration | null> {
+/** Atomically mark a registration paid ONLY if it wasn't already paid.
+ *  Returns the updated doc when THIS call transitioned it to paid, or null when
+ *  it was already paid / not found. This keeps the verify route and the webhook
+ *  idempotent — the confirmation email + sheet write fire exactly once, even if
+ *  both fire for the same payment. Best-effort. */
+export async function markPaidOnce(orderId: string, paymentId: string): Promise<Registration | null> {
   try {
     const db = await getDb()
     if (!db) return null
     const col = db.collection<Registration>(COLLECTION)
-    await col.updateOne(
-      { orderId },
+    const doc = await col.findOneAndUpdate(
+      { orderId, status: { $ne: 'paid' } },
       { $set: { status: 'paid', paymentId, paidAt: new Date() } },
+      { returnDocument: 'after', projection: { _id: 0 } },
     )
-    const doc = await col.findOne({ orderId }, { projection: { _id: 0 } })
-    return (doc as Registration) ?? null
+    return (doc as Registration | null) ?? null
   } catch (err) {
-    console.error('markPaid failed:', err)
+    console.error('markPaidOnce failed:', err)
     return null
   }
 }

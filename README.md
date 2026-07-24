@@ -98,3 +98,44 @@ Sending is best-effort — a sheet/Apps-Script failure never blocks the payment.
 
 It returns `{ rows, total, page, limit, stats }` where `stats` = global
 `{ totalLeads, paid, revenue }`.
+
+## Confirmation email + invitation letter
+
+On a verified payment, the attendee is emailed a confirmation / invitation letter
+(`src/lib/mail.ts`, sent from the verify route alongside the sheet write — both
+best-effort). Configure SMTP in `.env.local`:
+
+```
+SMTP_HOST=smtp.gmail.com        # Google Workspace / Gmail
+SMTP_PORT=465
+SMTP_USER=info@deltainstitutions.com
+SMTP_PASS=<app password>        # Google account → Security → App passwords
+MAIL_FROM=Delta Trading Academy <info@deltainstitutions.com>
+```
+
+Until SMTP is set, email sending is skipped (payments still succeed).
+
+## Testing the payment flow end-to-end
+
+1. In `.env.local`, temporarily swap the live keys for **test keys** from the
+   Razorpay dashboard (Test Mode → API Keys): `RAZORPAY_KEY_ID=rzp_test_…`,
+   `RAZORPAY_KEY_SECRET=…`. Restart.
+2. Open `/seminar`, fill the form, click **Pay**.
+3. In the Razorpay test checkout, use test card `4111 1111 1111 1111`, any future
+   expiry, any CVV. The payment "succeeds" with no real money.
+4. Confirm: the "You're in!" state shows, the row appears in `/admin/seminars`
+   (Paid) and in the Google Sheet, and the invitation email arrives.
+5. Swap the live keys back when done.
+
+## Razorpay webhook (reliability backstop)
+
+The browser's `/verify` call is the primary path; the webhook catches payments
+where the browser dropped after paying. Both share `markPaidOnce` (idempotent) →
+the email/sheet fire exactly once.
+
+1. Razorpay Dashboard → Settings → **Webhooks** → Add new webhook.
+2. URL: `https://deltatradinghub.com/api/seminar/webhook`
+   (or `https://deltainstitutions.com/api/seminar/webhook` if you proxy `/api/seminar/` there).
+3. Secret: set a strong value and put the same in `.env.local` as `RAZORPAY_WEBHOOK_SECRET`.
+4. Active events: **`payment.captured`** (and optionally `order.paid`).
+5. Save. The endpoint verifies the `x-razorpay-signature` (HMAC-SHA256 of the raw body).
