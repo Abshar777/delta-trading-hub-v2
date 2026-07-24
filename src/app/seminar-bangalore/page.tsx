@@ -28,6 +28,21 @@ const SEMINAR = {
   priceLabel: '₹299',
 }
 
+/* ── Contact — Bangalore branch ── */
+const CONTACT = {
+  address: '#412A, 4th Floor, Prestige Towers, Residency Road, Bengaluru, Karnataka – 560025, India',
+  gst: '29AAJCE53644R1ZP',
+  email: 'info@deltainstitutions.com',
+  phone: '+919187236407',
+  phoneLabel: '+91 91872 36407',
+}
+
+/* ── Seminar team contacts ── */
+const TEAM = [
+  { name: 'Ambili B', role: 'Regional Operations', tel: '+919187236408', label: '+91 91872 36408' },
+  { name: 'Ajvad',    role: 'Sales TL',            tel: '+919187236412', label: '+91 91872 36412' },
+]
+
 /* ── Programme schedule (tentative) ── */
 const SCHEDULE = [
   { time: '9:00 AM',  title: 'Welcome Session' },
@@ -315,17 +330,50 @@ export default function SeminarBangalorePage() {
       </section>
 
       {/* ── Footer ── */}
-      <footer className="px-6 md:px-[60px] py-10 border-t border-black/[0.07] max-w-[1240px] mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-3">
-          <p className="text-[12.5px] text-black/35">© 2026 Delta Trading Academy · {SEMINAR.city} Seminar</p>
-          <Link href="/" className="text-[12.5px] text-black/45 hover:text-black transition-colors">
-            ← Back to deltatradinghub.com
-          </Link>
+      <footer className="border-t border-black/[0.07] mt-4">
+        <div className="px-6 md:px-[60px] py-12 md:py-16 max-w-[1240px] mx-auto">
+          <div className="flex flex-col md:flex-row justify-between gap-10 md:gap-16">
+
+            {/* Contact */}
+            <div className="max-w-[420px]">
+              <Image src="/logo.png" alt="Delta Trading Academy" width={120} height={36} className="h-7 w-auto object-contain grayscale mb-5" />
+              <p className="text-[11px] text-black/35 tracking-[0.12em] uppercase mb-4">Contact</p>
+              <address className="not-italic flex flex-col gap-2.5">
+                <span className="text-[13px] text-black/55 leading-[1.6]">{CONTACT.address}</span>
+                <span className="text-[13px] text-black/45">GST No: {CONTACT.gst}</span>
+                <a href={`mailto:${CONTACT.email}`} className="text-[13px] text-black/55 hover:text-black transition-colors">{CONTACT.email}</a>
+                <a href={`tel:${CONTACT.phone}`} className="text-[13px] text-black/55 hover:text-black transition-colors">{CONTACT.phoneLabel}</a>
+              </address>
+            </div>
+
+            {/* Team contacts */}
+            <div>
+              <p className="text-[11px] text-black/35 tracking-[0.12em] uppercase mb-4">Talk to our team</p>
+              <div className="flex flex-col gap-4">
+                {TEAM.map((t) => (
+                  <div key={t.name}>
+                    <a href={`tel:${t.tel}`} className="text-[14px] text-black/80 hover:text-black transition-colors">{t.label}</a>
+                    <p className="text-[12px] text-black/40 mt-0.5">{t.name} · {t.role}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </div>
+
+          <div className="h-px bg-black/[0.07] my-8" />
+
+          <div className="flex flex-col md:flex-row items-center justify-between gap-3">
+            <p className="text-[12.5px] text-black/35">© 2026 Delta Trading Academy · {SEMINAR.city} Seminar</p>
+            <Link href="/" className="text-[12.5px] text-black/45 hover:text-black transition-colors">
+              ← Back to deltatradinghub.com
+            </Link>
+          </div>
         </div>
       </footer>
 
       {/* Floating call button + registration modal */}
-      <CallButton />
+      <CallButton phone={TEAM[0].tel} />
       <SeminarRegisterModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}

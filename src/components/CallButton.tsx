@@ -3,9 +3,9 @@
 import { useEffect, useState } from 'react'
 import { FaPhoneAlt } from 'react-icons/fa'
 
-const PHONE = '+971507528009'
+const DEFAULT_PHONE = '+971507528009'
 
-export default function CallButton() {
+export default function CallButton({ phone = DEFAULT_PHONE }: { phone?: string }) {
   /* label pokes out periodically to nudge the visitor to call */
   const [poke, setPoke] = useState(false)
 
@@ -21,7 +21,7 @@ export default function CallButton() {
 
   return (
     <a
-      href={`tel:${PHONE}`}
+      href={`tel:${phone}`}
       aria-label="Call our expert now"
       className="group fixed z-[90] right-4 bottom-4 md:right-5 md:bottom-5 flex flex-row-reverse items-center gap-3 font-nb"
     >
