@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
 interface RazorpayResponse {
   razorpay_order_id: string
@@ -45,6 +46,7 @@ export default function SeminarRegisterModal({
   const [error, setError] = useState('')
   const [done, setDone] = useState(false)
   const [visible, setVisible] = useState(false)
+  const router = useRouter()
 
   const valid =
     form.name.trim().length > 1 &&
@@ -97,8 +99,12 @@ export default function SeminarRegisterModal({
         handler: async (response) => {
           const vr = await fetch('/api/seminar/verify', { method: 'POST', body: JSON.stringify(response) })
           const vd = await vr.json().catch(() => ({ verified: false }))
-          if (vd.verified) setDone(true)
-          else setError('Payment could not be verified. If you were charged, contact us and we’ll sort it out.')
+          if (vd.verified) {
+            /* animated confirmation → auto-opens the invitation PDF */
+            router.push(`/seminar/thank-you?order=${encodeURIComponent(data.orderId)}`)
+            return
+          }
+          setError('Payment could not be verified. If you were charged, contact us and we’ll sort it out.')
           setLoading(false)
         },
         modal: { ondismiss: () => setLoading(false) },

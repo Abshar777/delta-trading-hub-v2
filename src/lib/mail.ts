@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer'
 import type { Registration } from './registrations'
 import { EVENT } from './event'
 import { buildInvitationPdf } from './pdf'
+import { getLogoBuffer } from './logo'
 
 const HOST = process.env.SMTP_HOST
 const PORT = Number(process.env.SMTP_PORT || 465)
@@ -30,9 +31,9 @@ export function buildInvitationHtml(reg: {
   return `<!doctype html>
 <html><body style="margin:0;background:#f2f1ee;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;">
   <div style="max-width:560px;margin:0 auto;padding:24px 16px;">
-    <div style="background:#0b0a08;border-radius:20px 20px 0 0;padding:28px 32px;">
-      <p style="margin:0;color:#e6c14e;font-size:11px;letter-spacing:.16em;text-transform:uppercase;">Delta Trading Academy</p>
-      <p style="margin:6px 0 0;color:#ffffff;font-size:20px;font-weight:600;">Your seat is confirmed &#127881;</p>
+    <div style="background:#0b0a08;border-radius:20px 20px 0 0;padding:26px 32px;">
+      <img src="cid:delta-logo" alt="Delta Trading Academy" width="128" style="height:24px;width:auto;display:block;margin:0 0 12px;" />
+      <p style="margin:0;color:#ffffff;font-size:20px;font-weight:600;">Your seat is confirmed &#127881;</p>
     </div>
 
     <div style="background:#ffffff;border-radius:0 0 20px 20px;padding:32px;">
@@ -86,25 +87,45 @@ export function buildInvitationHtml(reg: {
 
 /** Send the confirmation + invitation email to a paid attendee. Best-effort. */
 export async function sendInvitationEmail(reg: Registration) {
-  if (!isMailConfigured() || !reg.email) return
+  if (!reg.email) return
+  if (!isMailConfigured()) {
+    console.warn('[mail] skipped — SMTP not configured (set SMTP_HOST / SMTP_USER / SMTP_PASS)')
+    return
+  }
+
+  /* Logo (inline, referenced by cid:delta-logo) + PDF (built separately so a
+     PDF failure never blocks the email itself). */
+  type Att = { filename: string; content: Buffer; contentType?: string; cid?: string; contentDisposition?: 'inline' | 'attachment' }
+  const attachments: Att[] = []
+
+  const logo = getLogoBuffer()
+  if (logo) {
+    attachments.push({ filename: 'logo.png', content: logo, contentType: 'image/png', cid: 'delta-logo', contentDisposition: 'inline' })
+  }
+
   try {
     const pdf = await buildInvitationPdf(reg)
+    attachments.push({ filename: 'Delta-Seminar-Invitation.pdf', content: pdf, contentType: 'application/pdf' })
+  } catch (err) {
+    console.error('[mail] invitation PDF failed — sending email without attachment:', err)
+  }
+
+  try {
     const transporter = nodemailer.createTransport({
       host: HOST,
       port: PORT,
       secure: PORT === 465,
       auth: { user: USER, pass: PASS },
     })
-    await transporter.sendMail({
+    const info = await transporter.sendMail({
       from: FROM,
       to: reg.email,
       subject: `You're confirmed — ${EVENT.title}, ${EVENT.city}`,
       html: buildInvitationHtml(reg),
-      attachments: [
-        { filename: 'Delta-Seminar-Invitation.pdf', content: pdf, contentType: 'application/pdf' },
-      ],
+      attachments,
     })
+    console.log('[mail] invitation sent to', reg.email, '·', info.messageId)
   } catch (err) {
-    console.error('sendInvitationEmail failed:', err)
+    console.error('[mail] sendInvitationEmail failed:', err)
   }
 }

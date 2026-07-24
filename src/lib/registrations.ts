@@ -53,6 +53,21 @@ export async function markPaidOnce(orderId: string, paymentId: string): Promise<
   }
 }
 
+/** Fetch a single registration by its order id (for the invitation PDF view). */
+export async function getRegistrationByOrderId(orderId: string): Promise<Registration | null> {
+  try {
+    const db = await getDb()
+    if (!db) return null
+    const doc = await db
+      .collection<Registration>(COLLECTION)
+      .findOne({ orderId }, { projection: { _id: 0 } })
+    return (doc as Registration | null) ?? null
+  } catch (err) {
+    console.error('getRegistrationByOrderId failed:', err)
+    return null
+  }
+}
+
 /* ── Admin: paginated + filtered query ── */
 export interface RegQuery {
   page: number

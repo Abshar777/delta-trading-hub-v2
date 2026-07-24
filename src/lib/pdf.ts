@@ -1,5 +1,6 @@
 import PDFDocument from 'pdfkit'
 import { EVENT } from './event'
+import { getLogoBuffer } from './logo'
 
 /* Standard PDF fonts are ASCII/WinAnsi only — normalise fancy glyphs. */
 function ascii(s: string) {
@@ -29,11 +30,18 @@ export function buildInvitationPdf(reg: {
     const rupees = 'INR ' + (reg.amount / 100).toLocaleString('en-IN')
 
     /* ── Header band ── */
-    doc.rect(0, 0, W, 118).fill('#0b0a08')
-    doc.rect(0, 118, W, 3).fill('#d4af37')
-    doc.fillColor('#e6c14e').font('Helvetica-Bold').fontSize(10).text('DELTA TRADING ACADEMY', M, 38, { characterSpacing: 2 })
-    doc.fillColor('#ffffff').font('Helvetica-Bold').fontSize(23).text('Your seat is confirmed', M, 58)
-    doc.fillColor('#b9b4ad').font('Helvetica').fontSize(11).text(ascii('Official invitation - ' + EVENT.title + ', ' + EVENT.city), M, 91)
+    doc.rect(0, 0, W, 120).fill('#0b0a08')
+    doc.rect(0, 120, W, 3).fill('#d4af37')
+    let logoDrawn = false
+    const logo = getLogoBuffer()
+    if (logo) {
+      try { doc.image(logo, M, 30, { height: 22 }); logoDrawn = true } catch { /* fall back to text */ }
+    }
+    if (!logoDrawn) {
+      doc.fillColor('#e6c14e').font('Helvetica-Bold').fontSize(10).text('DELTA TRADING ACADEMY', M, 40, { characterSpacing: 2 })
+    }
+    doc.fillColor('#ffffff').font('Helvetica-Bold').fontSize(23).text('Your seat is confirmed', M, 63)
+    doc.fillColor('#b9b4ad').font('Helvetica').fontSize(11).text(ascii('Official invitation - ' + EVENT.title + ', ' + EVENT.city), M, 94)
 
     /* ── Greeting + body ── */
     doc.fillColor('#1a1a1a').font('Helvetica').fontSize(12).text('Dear ' + ascii(reg.name || 'Guest') + ',', M, 150)
@@ -95,10 +103,11 @@ export function buildInvitationPdf(reg: {
     doc.fillColor('#333333').font('Helvetica').fontSize(10.5).text('Warm regards,', M, doc.y)
     doc.fillColor('#1a1a1a').font('Helvetica-Bold').fontSize(10.5).text('Team Delta Trading Academy')
 
-    /* ── Footer ── */
+    /* ── Footer (positioned safely above the bottom margin so it never spills
+       onto a 2nd page) ── */
     doc.fillColor('#9a9a9a').font('Helvetica').fontSize(8.5).text(
       ascii('Delta Trading Academy  |  ' + EVENT.email + '  |  ' + EVENT.phone + '\n' + EVENT.address),
-      M, doc.page.height - 62, { width: cw, align: 'center', lineGap: 2 },
+      M, doc.page.height - 100, { width: cw, align: 'center', lineGap: 2, height: 40 },
     )
 
     doc.end()
