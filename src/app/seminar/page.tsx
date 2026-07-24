@@ -185,6 +185,42 @@ export default function SeminarBangalorePage() {
         </section>
       </div>
 
+      {/* ── Highlights: premium buffet + limited seats ── */}
+      <section className="px-6 md:px-[60px] pt-10 md:pt-14 max-w-[1240px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+
+          {/* Premium buffet */}
+          <div className="spotlight-btn spotlight-btn-gold relative overflow-hidden rounded-2xl bg-[#0b0a08] border border-[#d4af37]/25 p-6 md:p-7 flex items-center gap-4">
+            <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(90% 120% at 100% 0%, rgba(212,175,55,0.16), transparent 60%)' }} />
+            <div className="relative w-12 h-12 rounded-full bg-[#d4af37]/[0.12] border border-[#d4af37]/30 flex items-center justify-center text-[#e6c14e] shrink-0">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 18h18" /><path d="M4 18a8 8 0 0 1 16 0" /><path d="M12 6.5V8" /><circle cx="12" cy="5" r="1.2" />
+              </svg>
+            </div>
+            <div className="relative">
+              <p className="text-[10.5px] text-[#e6c14e] tracking-[0.14em] uppercase mb-1.5">Included · no extra cost</p>
+              <h3 className="text-[16px] md:text-[18px] text-white tracking-[-0.01em] leading-snug mb-1">Premium buffet lunch at The Oberoi</h3>
+              <p className="text-[12.5px] text-white/50 leading-[1.5]">A full fine-dining spread — appetizers, live counters, mains &amp; desserts.</p>
+            </div>
+          </div>
+
+          {/* Limited seats */}
+          <div className="spotlight-btn relative overflow-hidden rounded-2xl bg-[#d4af37] p-6 md:p-7 flex items-center gap-4">
+            <div className="w-12 h-12 rounded-full bg-[#0f0e0c]/[0.10] flex items-center justify-center text-[#0f0e0c] shrink-0">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+                <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-[10.5px] text-[#0f0e0c]/60 tracking-[0.14em] uppercase mb-1.5">Filling fast</p>
+              <h3 className="text-[16px] md:text-[18px] text-[#0f0e0c] tracking-[-0.01em] leading-snug mb-1">Limited seats — only 60 available</h3>
+              <p className="text-[12.5px] text-[#0f0e0c]/70 leading-[1.5]">Once they&apos;re gone, they&apos;re gone. Reserve your seat today.</p>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
       {/* ── Details strip ── */}
       <section className="px-6 md:px-[60px] py-10 md:py-14 max-w-[1240px] mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-black/[0.07] rounded-2xl overflow-hidden border border-black/[0.07]">
@@ -340,7 +376,7 @@ export default function SeminarBangalorePage() {
 
             {/* Contact */}
             <div className="max-w-[420px]">
-              <Image src="/logo.png" alt="Delta Trading Academy" width={120} height={36} className="h-7 w-auto object-contain grayscale mb-5" />
+              <Image src="/logo.png" alt="Delta Trading Academy" width={120} height={36} className="h-7 invert w-auto object-contain grayscale mb-5" />
               <p className="text-[11px] text-black/35 tracking-[0.12em] uppercase mb-4">Contact</p>
               <address className="not-italic flex flex-col gap-2.5">
                 <span className="text-[13px] text-black/55 leading-[1.6]">{CONTACT.address}</span>
