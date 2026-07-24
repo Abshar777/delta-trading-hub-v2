@@ -13,7 +13,7 @@ const NAV_LINKS = [
   { label: 'Mentors',  href: '#mentors'  },
   { label: 'Reviews',  href: '#reviews'  },
   { label: 'FAQs',     href: '#faq'      },
-  { label: 'Live Trade Challenge', href: '/seminar-bangalore' },
+  { label: 'Live Trade Challenge', href: '/seminar' },
 ]
 
 const STATS = [

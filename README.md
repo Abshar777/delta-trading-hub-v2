@@ -37,7 +37,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## Seminar payments (Razorpay)
 
-The Bangalore seminar page (`/seminar-bangalore`) takes payments via Razorpay.
+The Bangalore seminar page (`/seminar`) takes payments via Razorpay.
 
 1. Get your keys from the [Razorpay Dashboard → API Keys](https://dashboard.razorpay.com/app/keys) (use `rzp_test_*` while testing).
 2. Add them to `.env.local` (already scaffolded; not committed):
@@ -50,8 +50,8 @@ The Bangalore seminar page (`/seminar-bangalore`) takes payments via Razorpay.
 3. Restart the dev server. Until keys are set, the "Pay & Join" button shows a
    "payments not set up yet" message instead of crashing.
 
-- Ticket price is set in `src/app/api/seminar/order/route.ts` (`SEMINAR_AMOUNT`, in paise — ₹999 = 99900).
-- Seminar details (date, venue, price label, agenda) are placeholders in `src/app/seminar-bangalore/page.tsx`.
+- Ticket price is set in `src/app/api/seminar/order/route.ts` (`SEMINAR_AMOUNT`, in paise — ₹299 = 29900).
+- Seminar details (date, venue, price label, agenda) are placeholders in `src/app/seminar/page.tsx`.
 - Payment signature is verified server-side in `src/app/api/seminar/verify/route.ts`.
 
 ## Seminar registrations (MongoDB + admin portal)

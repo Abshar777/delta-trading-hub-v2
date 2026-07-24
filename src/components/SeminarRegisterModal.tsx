@@ -91,7 +91,7 @@ export default function SeminarRegisterModal({
         order_id: data.orderId,
         name: 'Delta Trading Academy',
         description: `${seminarTitle} — ${city}`,
-        image: '/logo.png',
+        image: 'https://deltatradinghub.com/logo.png',
         prefill: { name: form.name, email: form.email, contact: form.phone },
         theme: { color: '#0f0e0c' },
         handler: async (response) => {

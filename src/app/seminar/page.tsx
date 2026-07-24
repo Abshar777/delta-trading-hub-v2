@@ -2,18 +2,22 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 import Script from 'next/script'
 import { IoCheckmarkDoneCircle } from 'react-icons/io5'
 import CallButton from '@/components/CallButton'
 import SeminarRegisterModal from '@/components/SeminarRegisterModal'
 
+/* This page is also reverse-proxied at deltainstitutions.com/seminar, so all
+   internal links are absolute to the hub domain (else they'd resolve to the
+   wrong host). */
+const HUB = 'https://deltatradinghub.com'
+
 /* Nav links point back to the home page sections */
 const NAV_LINKS = [
-  { label: 'Courses', href: '/#courses' },
-  { label: 'Mentors', href: '/#mentors' },
-  { label: 'Reviews', href: '/#reviews' },
-  { label: 'FAQs',    href: '/#faq'     },
+  { label: 'Courses', href: `${HUB}/#courses` },
+  { label: 'Mentors', href: `${HUB}/#mentors` },
+  { label: 'Reviews', href: `${HUB}/#reviews` },
+  { label: 'FAQs',    href: `${HUB}/#faq`     },
 ]
 
 /* ── Seminar details — placeholders, easy to edit ── */
@@ -123,16 +127,16 @@ export default function SeminarBangalorePage() {
       >
         <div className="hidden md:flex items-center gap-7">
           {NAV_LINKS.map(({ label, href }) => (
-            <Link key={label} href={href}
+            <a key={label} href={href}
               className="text-[13.5px] text-white/70 tracking-[0.005em] transition-colors hover:text-white">
               {label}
-            </Link>
+            </a>
           ))}
         </div>
 
-        <Link href="/" className="flex justify-center items-center select-none">
+        <a href={HUB} className="flex justify-center items-center select-none">
           <Image src="/logo.png" alt="Delta Trading Academy" width={120} height={36} className="h-7 md:h-8 w-auto object-contain grayscale" priority />
-        </Link>
+        </a>
 
         <div className="flex items-center justify-end">
           <button
@@ -365,9 +369,9 @@ export default function SeminarBangalorePage() {
 
           <div className="flex flex-col md:flex-row items-center justify-between gap-3">
             <p className="text-[12.5px] text-black/35">© 2026 Delta Trading Academy · {SEMINAR.city} Seminar</p>
-            <Link href="/" className="text-[12.5px] text-black/45 hover:text-black transition-colors">
+            <a href={HUB} className="text-[12.5px] text-black/45 hover:text-black transition-colors">
               ← Back to deltatradinghub.com
-            </Link>
+            </a>
           </div>
         </div>
       </footer>
