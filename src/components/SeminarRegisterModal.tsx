@@ -176,7 +176,7 @@ export default function SeminarRegisterModal({
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[11.5px] text-black/40 tracking-[0.08em] uppercase">Full Name</label>
                   <input
-                    type="text" required placeholder="e.g. Ahmed Al Mansoori"
+                    type="text" required placeholder="e.g. Rahul Sharma"
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
                     className="w-full border border-black/[0.12] rounded-xl px-4 py-[13px] text-[16px] md:text-[14px] text-black placeholder:text-black/25 outline-none transition-colors focus:border-black/35 bg-white"
@@ -185,7 +185,7 @@ export default function SeminarRegisterModal({
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[11.5px] text-black/40 tracking-[0.08em] uppercase">Email</label>
                   <input
-                    type="email" required placeholder="you@email.com"
+                    type="email" required placeholder="e.g. rahul.sharma@gmail.com"
                     value={form.email}
                     onChange={(e) => setForm({ ...form, email: e.target.value })}
                     className="w-full border border-black/[0.12] rounded-xl px-4 py-[13px] text-[16px] md:text-[14px] text-black placeholder:text-black/25 outline-none transition-colors focus:border-black/35 bg-white"
@@ -194,7 +194,7 @@ export default function SeminarRegisterModal({
                 <div className="flex flex-col gap-1.5">
                   <label className="text-[11.5px] text-black/40 tracking-[0.08em] uppercase">Mobile Number</label>
                   <input
-                    type="tel" required placeholder="+91 00000 00000"
+                    type="tel" required placeholder="e.g. +91 98765 43210"
                     value={form.phone}
                     onChange={(e) => setForm({ ...form, phone: e.target.value })}
                     className="w-full border border-black/[0.12] rounded-xl px-4 py-[13px] text-[16px] md:text-[14px] text-black placeholder:text-black/25 outline-none transition-colors focus:border-black/35 bg-white"
