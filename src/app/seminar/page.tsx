@@ -22,9 +22,9 @@ const NAV_LINKS = [
 
 /* ── Seminar details — placeholders, easy to edit ── */
 const SEMINAR = {
-  title: 'Live Trade Challenge',
+  title: 'Forex Trading Bootcamp',
   city: 'Bangalore',
-  date: 'Saturday, 26 July 2026',
+  date: 'Sunday, 9 August 2026',
   time: '11:00 AM – 4:00 PM',
   venue: 'The Oberoi, Bengaluru',
   address: '37-39, Mahatma Gandhi Rd, Yellappa Chetty Layout, Sivanchetti Gardens, Bengaluru, Karnataka 560001',
@@ -47,15 +47,9 @@ const TEAM = [
   { name: 'Ajvad',    role: 'Sales TL',            tel: '+919187236412', label: '+91 91872 36412' },
 ]
 
-/* ── Programme schedule (tentative) ── */
-const SCHEDULE = [
-  { time: '9:00 AM',  title: 'Welcome Session' },
-  { time: '11:00 AM', title: 'Programme begins' },
-  { time: '1:00 PM',  title: 'Lunch' },
-  { time: '2:00 PM',  title: 'MoU Signing' },
-  { time: '3:00 PM',  title: 'Graduation Ceremony' },
-  { time: '4:00 PM',  title: 'Close' },
-]
+/* ── Seat availability (drives the urgency badge) ── */
+const SEATS = { left: 12, total: 60 }
+const SEATS_TAKEN_PCT = Math.round(((SEATS.total - SEATS.left) / SEATS.total) * 100)
 
 
 const HIGHLIGHTS = [
@@ -77,7 +71,7 @@ const DETAILS = [
 /* ── Venue, experience & food gallery ── */
 const GALLERY = [
   { src: '/oberoi-ballroom.webp', label: 'The Oberoi ballroom' },
-  { src: '/g2.jpg',     label: 'Live Trade Challenge' },
+  { src: '/g2.jpg',     label: 'Forex Trading Bootcamp' },
   { src: '/g3.jpg',     label: 'The experience' },
   { src: '/g4.jpg',     label: 'Networking' },
   { src: '/1.jpg',      label: 'On-stage sessions' },
@@ -143,7 +137,7 @@ export default function SeminarBangalorePage() {
             onClick={openModal}
             className="bg-white spotlight-btn-dark text-[#0a0808] text-[13px] md:text-[13.5px] tracking-[0.005em] py-2 px-4 md:px-5 rounded-full transition-all hover:bg-white/90 hover:-translate-y-px whitespace-nowrap"
           >
-            Reserve Seat
+            Book Now
           </button>
         </div>
       </nav>
@@ -176,10 +170,17 @@ export default function SeminarBangalorePage() {
                 onClick={openModal}
                 className="inline-flex spotlight-btn items-center gap-2 bg-[#d4af37] text-[#0f0e0c] text-[14.5px] tracking-[0.005em] px-7 py-[14px] rounded-full transition-all hover:bg-[#e6c14e] hover:-translate-y-px active:scale-[0.98]"
               >
-                Join for {SEMINAR.priceLabel}
+                Book Now · {SEMINAR.priceLabel}
                 <span className="text-[11px]">→</span>
               </button>
               <span className="text-[13px] text-white/45">{SEMINAR.date} · {SEMINAR.time}</span>
+            </div>
+            <div className="mt-4 inline-flex items-center gap-2 text-[12.5px] text-[#e6c14e]">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full rounded-full bg-[#e6c14e] opacity-75 animate-ping" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#e6c14e]" />
+              </span>
+              Only {SEATS.left} of {SEATS.total} seats left — {SEATS_TAKEN_PCT}% booked
             </div>
           </div>
         </section>
@@ -204,17 +205,23 @@ export default function SeminarBangalorePage() {
             </div>
           </div>
 
-          {/* Limited seats */}
+          {/* Limited seats — live availability */}
           <div className="spotlight-btn relative overflow-hidden rounded-2xl bg-[#d4af37] p-6 md:p-7 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-[#0f0e0c]/[0.10] flex items-center justify-center text-[#0f0e0c] shrink-0">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+            <div className="relative w-12 h-12 rounded-full bg-[#0f0e0c]/[0.10] flex items-center justify-center text-[#0f0e0c] shrink-0">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-[#0f0e0c]/20 animate-ping" />
+              <svg className="relative" width="22" height="22" viewBox="0 0 24 24" fill="currentColor" stroke="none">
                 <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z" />
               </svg>
             </div>
-            <div>
+            <div className="flex-1">
               <p className="text-[10.5px] text-[#0f0e0c]/60 tracking-[0.14em] uppercase mb-1.5">Filling fast</p>
-              <h3 className="text-[16px] md:text-[18px] text-[#0f0e0c] tracking-[-0.01em] leading-snug mb-1">Limited seats — only 60 available</h3>
-              <p className="text-[12.5px] text-[#0f0e0c]/70 leading-[1.5]">Once they&apos;re gone, they&apos;re gone. Reserve your seat today.</p>
+              <h3 className="text-[16px] md:text-[18px] text-[#0f0e0c] tracking-[-0.01em] leading-snug mb-2">
+                Only <span className="tabular-nums">{SEATS.left}</span> of {SEATS.total} seats left
+              </h3>
+              <div className="h-1.5 w-full rounded-full bg-[#0f0e0c]/15 overflow-hidden">
+                <div className="h-full rounded-full bg-[#0f0e0c]/70" style={{ width: `${SEATS_TAKEN_PCT}%` }} />
+              </div>
+              <p className="text-[11.5px] text-[#0f0e0c]/70 leading-[1.5] mt-2">{SEATS_TAKEN_PCT}% booked · once they&apos;re gone, they&apos;re gone.</p>
             </div>
           </div>
 
@@ -247,38 +254,23 @@ export default function SeminarBangalorePage() {
         </div>
       </section>
 
-      {/* ── What you'll learn + schedule ── */}
+      {/* ── What you'll learn ── */}
       <section className="px-6 md:px-[60px] py-6 md:py-10 max-w-[1240px] mx-auto">
-        <div className="rounded-[24px] bg-[#0b0a08] border border-[#d4af37]/20 overflow-hidden flex flex-col md:flex-row">
-          <div className="relative flex-1 p-8 md:p-10">
-            <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(80% 80% at 10% 10%, rgba(212,175,55,0.10), transparent 60%)' }} />
-            <div className="relative">
-              <p className="text-[11px] text-[#e6c14e] tracking-[0.14em] uppercase mb-4">What you&apos;ll learn</p>
-              <h2 className="text-[26px] md:text-[32px] font-normal tracking-[-0.02em] text-white leading-[1.12] mb-6">
-                A full day of <span className="anniversary-gold">real trading</span>
-              </h2>
-              <ul className="flex flex-col gap-3">
-                {HIGHLIGHTS.map((h) => (
-                  <li key={h} className="flex items-start gap-2.5 text-[13.5px] text-white/75 leading-snug">
-                    <span className="text-[#d4af37] mt-0.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg></span>
-                    {h}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div className="md:w-[440px] flex-shrink-0 bg-white p-8 md:p-10">
-            <p className="text-[11.5px] text-black/35 tracking-[0.10em] uppercase mb-5">
-              The day, hour by hour <span className="normal-case tracking-normal text-black/25">(tentative)</span>
-            </p>
-            <div className="flex flex-col">
-              {SCHEDULE.map(({ time, title }, i) => (
-                <div key={i} className="flex items-center gap-4 py-3 border-b border-black/[0.07]">
-                  <span className="w-[78px] shrink-0 text-[13.5px] text-[#b8901f] tabular-nums">{time}</span>
-                  <span className="text-[13.5px] text-black/80">{title}</span>
-                </div>
+        <div className="relative rounded-[24px] bg-[#0b0a08] border border-[#d4af37]/20 overflow-hidden p-8 md:p-12">
+          <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(80% 80% at 10% 10%, rgba(212,175,55,0.10), transparent 60%)' }} />
+          <div className="relative">
+            <p className="text-[11px] text-[#e6c14e] tracking-[0.14em] uppercase mb-4">What you&apos;ll learn</p>
+            <h2 className="text-[26px] md:text-[32px] font-normal tracking-[-0.02em] text-white leading-[1.12] mb-8 max-w-[560px]">
+              A full day of <span className="anniversary-gold">real trading</span>
+            </h2>
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4">
+              {HIGHLIGHTS.map((h) => (
+                <li key={h} className="flex items-start gap-2.5 text-[14px] text-white/75 leading-snug border-b border-white/[0.06] pb-4">
+                  <span className="text-[#d4af37] mt-0.5"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg></span>
+                  {h}
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
       </section>
@@ -363,7 +355,7 @@ export default function SeminarBangalorePage() {
             onClick={openModal}
             className="relative spotlight-btn inline-flex items-center justify-center gap-2 bg-[#d4af37] text-[#0f0e0c] text-[15px] tracking-[0.005em] px-8 py-[16px] rounded-full transition-all hover:bg-[#e6c14e] hover:-translate-y-px active:scale-[0.98] whitespace-nowrap"
           >
-            Join for {SEMINAR.priceLabel}
+            Book Now · {SEMINAR.priceLabel}
             <span className="text-[11px]">→</span>
           </button>
         </div>
@@ -421,6 +413,28 @@ export default function SeminarBangalorePage() {
           </div>
         </div>
       </footer>
+
+      {/* ── Floating seats-left urgency badge — right side, above the call button ── */}
+      <button
+        onClick={openModal}
+        aria-label={`Only ${SEATS.left} of ${SEATS.total} seats left — Book Now`}
+        className="animate-seat-glow group fixed bottom-[92px] right-4 md:bottom-[100px] md:right-5 z-40 flex items-center gap-3 rounded-2xl bg-gradient-to-r from-[#f43f5e] to-[#e11d48] pl-3.5 pr-3 py-2.5 transition-transform hover:-translate-y-0.5"
+      >
+        {/* pulsing intensity dot */}
+        <span className="relative flex h-2.5 w-2.5 shrink-0">
+          <span className="absolute inline-flex h-full w-full rounded-full bg-white opacity-80 animate-ping" />
+          <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-white" />
+        </span>
+        <div className="text-left">
+          <p className="text-[11px] text-white tracking-[0.06em] uppercase leading-none mb-1.5">
+            Seats left: <span className="tabular-nums font-semibold">{SEATS.left}</span>/{SEATS.total}
+          </p>
+          <div className="h-1 w-[104px] sm:w-[128px] rounded-full bg-white/25 overflow-hidden">
+            <div className="h-full rounded-full bg-white" style={{ width: `${SEATS_TAKEN_PCT}%` }} />
+          </div>
+        </div>
+        <span className="hidden sm:inline ml-0.5 text-[12px] text-[#e11d48] font-medium bg-white group-hover:bg-white/90 rounded-full px-3 py-1.5 transition-colors whitespace-nowrap">Book Now</span>
+      </button>
 
       {/* Floating call button + registration modal */}
       <CallButton phone={TEAM[0].tel} />

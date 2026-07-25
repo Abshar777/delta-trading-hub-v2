@@ -5,12 +5,12 @@ export const metadata = { title: 'Privacy Policy · Delta Trading Academy' }
 const POLICY: Policy = {
   "title": "Privacy Policy",
   "lastUpdated": "24 July 2026",
-  "intro": "This Privacy Policy explains how Delta International Institute, operating as Delta Trading Academy (\"Delta\", \"we\", \"us\", \"our\"), collects, uses, stores, and protects your personal information when you visit our website at https://deltainstitutions.com/seminar (also served at https://deltatradinghub.com/seminar) and register for our paid, in-person \"Live Trade Challenge\" seminar. By using our website and registering for the seminar, you agree to the practices described in this policy.",
+  "intro": "This Privacy Policy explains how Delta International Institute, operating as Delta Trading Academy (\"Delta\", \"we\", \"us\", \"our\"), collects, uses, stores, and protects your personal information when you visit our website at https://deltainstitutions.com/seminar (also served at https://deltatradinghub.com/seminar) and register for our paid, in-person \"Forex Trading Bootcamp\" seminar. By using our website and registering for the seminar, you agree to the practices described in this policy.",
   "sections": [
     {
       "heading": "About Us",
       "paragraphs": [
-        "Delta Trading Academy is the operating brand of Delta International Institute. We run a paid, one-day, in-person trading seminar called the Live Trade Challenge, held at The Oberoi, Bengaluru. The seminar is educational in nature and includes live trading sessions, a premium buffet lunch, and a graduation ceremony.",
+        "Delta Trading Academy is the operating brand of Delta International Institute. We run a paid, one-day, in-person trading seminar called the Forex Trading Bootcamp, held at The Oberoi, Bengaluru. The seminar is educational in nature and includes live trading sessions, a premium buffet lunch, and a graduation ceremony.",
         "We are committed to protecting your privacy and handling your personal data responsibly, transparently, and in accordance with applicable Indian law. This policy applies to personal information we collect through our seminar registration website and related communications."
       ],
       "bullets": [
@@ -24,7 +24,7 @@ const POLICY: Policy = {
     {
       "heading": "Information We Collect",
       "paragraphs": [
-        "When you register for the Live Trade Challenge seminar, we collect only the limited personal information needed to process your registration and communicate with you about the event. We do not ask for more information than we need."
+        "When you register for the Forex Trading Bootcamp seminar, we collect only the limited personal information needed to process your registration and communicate with you about the event. We do not ask for more information than we need."
       ],
       "bullets": [
         "Full name",
@@ -40,7 +40,7 @@ const POLICY: Policy = {
         "We use your personal information for clear, limited purposes connected to delivering the seminar and running our business responsibly."
       ],
       "bullets": [
-        "To register you for the Live Trade Challenge seminar and confirm your seat",
+        "To register you for the Forex Trading Bootcamp seminar and confirm your seat",
         "To communicate with you about your registration, including confirmations, reminders, venue details, schedule changes, and important updates about the event",
         "To process your payment through our payment processor and to reconcile and confirm paid registrations",
         "To respond to your enquiries, requests, and support messages",
@@ -125,7 +125,7 @@ const POLICY: Policy = {
     {
       "heading": "Children's Privacy",
       "paragraphs": [
-        "The Live Trade Challenge seminar and this website are intended for adults aged 18 years and above. We do not knowingly collect personal information from anyone under the age of 18.",
+        "The Forex Trading Bootcamp seminar and this website are intended for adults aged 18 years and above. We do not knowingly collect personal information from anyone under the age of 18.",
         "If you are under 18, please do not register or provide us with any personal information. If we become aware that we have collected personal information from a person under 18, we will take steps to delete it promptly."
       ]
     },

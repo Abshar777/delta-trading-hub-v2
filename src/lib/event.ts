@@ -1,8 +1,8 @@
 /* Seminar event details — shared by the email and PDF invitation. */
 export const EVENT = {
-  title: 'Live Trade Challenge',
+  title: 'Forex Trading Bootcamp',
   city: 'Bengaluru',
-  date: 'Saturday, 26 July 2026',
+  date: 'Sunday, 9 August 2026',
   time: '11:00 AM - 4:00 PM IST',
   /* Event venue (shown in "Event details") */
   venue: 'The Oberoi, Bengaluru',

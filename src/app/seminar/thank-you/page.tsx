@@ -134,7 +134,7 @@ export default function SeminarThankYouPage() {
         </div>
 
         <p ref={subtextRef} className="text-[15px] max-md:text-[14px] text-black/50 leading-[1.72] tracking-[0.003em] mb-9 max-w-[380px]">
-          Your seat for the <span className="text-black/80">Live Trade Challenge</span> in Bengaluru is booked. A confirmation
+          Your seat for the <span className="text-black/80">Forex Trading Bootcamp</span> in Bengaluru is booked. A confirmation
           email with your invitation letter is on its way{pdfUrl ? ' — and we’re opening it for you now.' : '.'}
         </p>
 

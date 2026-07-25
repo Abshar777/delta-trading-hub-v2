@@ -72,6 +72,18 @@ body { color: #111; }
   .animate-call-shake { animation: none; }
 }
 
+/* ── Seats-left urgency badge — pulsing red ring (attention-grabbing) ── */
+@keyframes seat-glow {
+  0%, 100% { box-shadow: 0 14px 44px rgba(190,18,60,0.45), 0 0 0 0 rgba(244,63,94,0.60); }
+  50%      { box-shadow: 0 14px 44px rgba(190,18,60,0.45), 0 0 0 11px rgba(244,63,94,0); }
+}
+.animate-seat-glow {
+  animation: seat-glow 1.8s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-seat-glow { animation: none; }
+}
+
 /* ── Anniversary — gold shimmer text ── */
 .anniversary-gold {
   background: linear-gradient(90deg, #b8901f 0%, #f6e27a 50%, #b8901f 100%);

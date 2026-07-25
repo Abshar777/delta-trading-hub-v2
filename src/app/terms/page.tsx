@@ -5,7 +5,7 @@ export const metadata = { title: 'Terms & Conditions · Delta Trading Academy' }
 const POLICY: Policy = {
   "title": "Terms & Conditions",
   "lastUpdated": "24 July 2026",
-  "intro": "These Terms & Conditions govern your access to and use of this website and your registration for the Live Trade Challenge seminar operated by Delta International Institute (operating as \"Delta Trading Academy\"). Please read them carefully before registering or making any payment.",
+  "intro": "These Terms & Conditions govern your access to and use of this website and your registration for the Forex Trading Bootcamp seminar operated by Delta International Institute (operating as \"Delta Trading Academy\"). Please read them carefully before registering or making any payment.",
   "sections": [
     {
       "heading": "Acceptance of Terms",
@@ -36,7 +36,7 @@ const POLICY: Policy = {
     {
       "heading": "Seminar Registration & Tickets",
       "paragraphs": [
-        "The Live Trade Challenge is a paid, one-day, in-person trading seminar held at The Oberoi, Bengaluru. It includes live trading sessions, a premium buffet lunch and a graduation ceremony.",
+        "The Forex Trading Bootcamp is a paid, one-day, in-person trading seminar held at The Oberoi, Bengaluru. It includes live trading sessions, a premium buffet lunch and a graduation ceremony.",
         "Seating is strictly limited to between 60 and 72 seats, and registrations are accepted on a first-come, first-served basis subject to availability. A registration is only complete once payment has been successfully received and confirmed."
       ],
       "bullets": [
@@ -49,7 +49,7 @@ const POLICY: Policy = {
     {
       "heading": "Pricing and Payment via Razorpay",
       "paragraphs": [
-        "The ticket price for the Live Trade Challenge seminar is INR 299 per seat. All prices are stated in Indian Rupees and, where applicable, are inclusive of taxes as indicated at checkout.",
+        "The ticket price for the Forex Trading Bootcamp seminar is INR 299 per seat. All prices are stated in Indian Rupees and, where applicable, are inclusive of taxes as indicated at checkout.",
         "Payments are processed securely by our payment partner, Razorpay, which supports UPI, credit and debit cards, and netbanking. We do not collect, store, or have access to your full card or UPI credentials; these are handled directly by Razorpay in accordance with applicable payment security standards."
       ],
       "bullets": [
@@ -82,7 +82,7 @@ const POLICY: Policy = {
     {
       "heading": "Educational Disclaimer (Important)",
       "paragraphs": [
-        "The Live Trade Challenge is an educational seminar. All content, sessions, demonstrations and materials are provided for general educational and informational purposes only.",
+        "The Forex Trading Bootcamp is an educational seminar. All content, sessions, demonstrations and materials are provided for general educational and informational purposes only.",
         "Nothing presented at the seminar or on this website constitutes investment, financial, legal, tax or trading advice, nor a recommendation, solicitation or offer to buy or sell any security, instrument or financial product. We are not acting as your financial adviser or broker."
       ],
       "bullets": [

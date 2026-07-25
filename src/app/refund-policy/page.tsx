@@ -5,12 +5,12 @@ export const metadata = { title: 'Refund & Cancellation Policy · Delta Trading 
 const POLICY: Policy = {
   "title": "Refund & Cancellation Policy",
   "lastUpdated": "24 July 2026",
-  "intro": "This Refund & Cancellation Policy explains how cancellations, seat transfers, and refunds work for the Live Trade Challenge seminar organised by Delta International Institute, operating as Delta Trading Academy (\"Delta\", \"we\", \"us\", \"our\"). It applies to every ticket purchased through our website for the one-day, in-person Live Trade Challenge held at The Oberoi, Bengaluru. Please read it carefully before completing your payment, as your registration and payment confirm that you accept these terms.",
+  "intro": "This Refund & Cancellation Policy explains how cancellations, seat transfers, and refunds work for the Forex Trading Bootcamp seminar organised by Delta International Institute, operating as Delta Trading Academy (\"Delta\", \"we\", \"us\", \"our\"). It applies to every ticket purchased through our website for the one-day, in-person Forex Trading Bootcamp held at The Oberoi, Bengaluru. Please read it carefully before completing your payment, as your registration and payment confirm that you accept these terms.",
   "sections": [
     {
       "heading": "Overview",
       "paragraphs": [
-        "The Live Trade Challenge is a paid, one-day, in-person trading seminar priced at INR 299 per seat. It includes live trading sessions, a premium buffet lunch, and a graduation ceremony, and seating is strictly limited to between 60 and 72 attendees per event.",
+        "The Forex Trading Bootcamp is a paid, one-day, in-person trading seminar priced at INR 299 per seat. It includes live trading sessions, a premium buffet lunch, and a graduation ceremony, and seating is strictly limited to between 60 and 72 attendees per event.",
         "Because seating is capacity-limited and we commit to venue, catering, and staffing costs in advance, we operate a clear, tiered cancellation and refund structure. This policy is designed to be fair to both attendees and to Delta, and to comply with applicable Indian consumer-protection norms.",
         "All payments for the seminar are collected online through Razorpay, which supports UPI, credit and debit cards, and netbanking. We do not store or have access to your card or UPI credentials; these are handled securely by Razorpay. Any approved refund is therefore returned through Razorpay to the original payment method used at the time of purchase."
       ]
@@ -18,7 +18,7 @@ const POLICY: Policy = {
     {
       "heading": "Your Ticket and What It Covers",
       "paragraphs": [
-        "Each INR 299 ticket entitles one named person to attend a single scheduled Live Trade Challenge event on the date selected at the time of registration."
+        "Each INR 299 ticket entitles one named person to attend a single scheduled Forex Trading Bootcamp event on the date selected at the time of registration."
       ],
       "bullets": [
         "Ticket price: INR 299 per seat (inclusive of applicable taxes as shown at checkout).",
@@ -65,7 +65,7 @@ const POLICY: Policy = {
       ],
       "bullets": [
         "A full refund of 100% of your ticket price (INR 299), regardless of how close to the event the change occurs; or",
-        "A free transfer of your registration to the new or a future scheduled date of the Live Trade Challenge at no additional cost.",
+        "A free transfer of your registration to the new or a future scheduled date of the Forex Trading Bootcamp at no additional cost.",
         "If we do not hear from you within a reasonable period after a cancellation by us, we will process a full refund to your original payment method by default."
       ]
     },
@@ -109,7 +109,7 @@ const POLICY: Policy = {
     {
       "heading": "Educational Nature and Risk Disclaimer",
       "paragraphs": [
-        "The Live Trade Challenge is an educational seminar. All content, live sessions, and materials are provided for educational purposes only and do not constitute investment, financial, legal, or tax advice, nor a recommendation to buy or sell any security or financial instrument. Trading in financial markets carries substantial risk, and past performance is not indicative of future results. You are solely responsible for your own trading and investment decisions. This disclaimer does not affect your refund rights set out above."
+        "The Forex Trading Bootcamp is an educational seminar. All content, live sessions, and materials are provided for educational purposes only and do not constitute investment, financial, legal, or tax advice, nor a recommendation to buy or sell any security or financial instrument. Trading in financial markets carries substantial risk, and past performance is not indicative of future results. You are solely responsible for your own trading and investment decisions. This disclaimer does not affect your refund rights set out above."
       ]
     },
     {
