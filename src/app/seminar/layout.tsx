@@ -36,13 +36,13 @@ export const metadata: Metadata = {
     siteName: 'Delta Trading Academy',
     locale: 'en_IN',
     type: 'website',
-    images: [{ url: '/oberoi-ballroom.webp', alt: `${EVENT.title} — ${EVENT.venue}` }],
+    images: [{ url: '/seminar-apple-icon.png', alt: `${EVENT.title} — ${EVENT.venue}` }],
   },
   twitter: {
     card: 'summary_large_image',
     title,
     description,
-    images: ['/oberoi-ballroom.webp'],
+    images: ['/seminar-apple-icon.png'],
   },
   robots: { index: true, follow: true },
 }
