@@ -13,7 +13,6 @@ const NAV_LINKS = [
   { label: 'Mentors',  href: '#mentors'  },
   { label: 'Reviews',  href: '#reviews'  },
   { label: 'FAQs',     href: '#faq'      },
-  { label: 'Forex Trading Bootcamp', href: '/seminar' },
 ]
 
 const STATS = [

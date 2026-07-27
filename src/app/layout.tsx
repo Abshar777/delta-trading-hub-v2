@@ -10,6 +10,12 @@ const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 export const metadata: Metadata = {
   title: 'Forex Trading Course In Dubai',
   description: 'Get better at trading, every year',
+  /* Site-wide delta favicon. Defined here (not via app/favicon.ico) so a
+     nested route — /seminar — can cleanly override it with its own icon. */
+  icons: {
+    icon: [{ url: '/favicon.ico' }],
+    shortcut: ['/favicon.ico'],
+  },
 }
 
 export default function RootLayout({
