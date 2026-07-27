@@ -16,9 +16,9 @@ export const metadata: Metadata = {
   /* Seminar-only favicon (the bootcamp poster). Set explicitly so this route
      overrides the site-wide delta favicon.ico — the home page keeps delta. */
   icons: {
-    icon: [{ url: '/seminar-favicon.png', type: 'image/png' }],
-    shortcut: ['/seminar-favicon.png'],
-    apple: [{ url: '/seminar-apple-icon.png' }],
+    icon: [{ url: '/favicon.ico', type: 'image/png' }],
+    shortcut: ['/favicon.ico'],
+    apple: [{ url: '/seminar-favicon.png' }],
   },
   keywords: [
     'Forex Trading Bootcamp',
@@ -36,13 +36,13 @@ export const metadata: Metadata = {
     siteName: 'Delta Trading Academy',
     locale: 'en_IN',
     type: 'website',
-    images: [{ url: '/seminar-apple-icon.png', alt: `${EVENT.title} — ${EVENT.venue}` }],
+    images: [{ url: '/seminar-favicon.png', alt: `${EVENT.title} — ${EVENT.venue}` }],
   },
   twitter: {
     card: 'summary_large_image',
     title,
     description,
-    images: ['/seminar-apple-icon.png'],
+    images: ['/seminar-favicon.png'],
   },
   robots: { index: true, follow: true },
 }
