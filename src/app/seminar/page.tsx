@@ -47,9 +47,11 @@ const TEAM = [
   { name: 'Ajvad',    role: 'Sales TL',            tel: '+919187236412', label: '+91 91872 36412' },
 ]
 
-/* ── Seat availability (drives the urgency badge) ── */
-const SEATS = { left: 12, total: 60 }
-const SEATS_TAKEN_PCT = Math.round(((SEATS.total - SEATS.left) / SEATS.total) * 100)
+/* ── Seat availability — total + buffer must match /api/seminar/seats.
+   The live "left"/"booked" values come from that endpoint (real paid count
+   + a head-start buffer); these are just the pre-fetch fallback. ── */
+const SEATS_TOTAL = 60
+const SEATS_BUFFER = 10 // shown as booked before the live count loads (0 paid baseline)
 
 
 const HIGHLIGHTS = [
@@ -96,11 +98,32 @@ export default function SeminarBangalorePage() {
   const [scrolled, setScrolled] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
 
+  /* Live seat availability — real paid count + buffer, from /api/seminar/seats.
+     Fallback assumes 0 paid (booked = buffer) until the live count loads. */
+  const [seats, setSeats] = useState(() => {
+    const booked = SEATS_BUFFER
+    return { total: SEATS_TOTAL, left: SEATS_TOTAL - booked, pct: Math.round((booked / SEATS_TOTAL) * 100) }
+  })
+
   /* ── scroll-shrink nav — same behaviour as the home page ── */
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  /* ── fetch the live seat count ── */
+  useEffect(() => {
+    let alive = true
+    fetch('/api/seminar/seats')
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => {
+        if (alive && d && typeof d.left === 'number') {
+          setSeats({ total: d.total, left: d.left, pct: d.pct })
+        }
+      })
+      .catch(() => {})
+    return () => { alive = false }
   }, [])
 
   const openModal = () => setModalOpen(true)
@@ -180,7 +203,7 @@ export default function SeminarBangalorePage() {
                 <span className="absolute inline-flex h-full w-full rounded-full bg-[#e6c14e] opacity-75 animate-ping" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-[#e6c14e]" />
               </span>
-              Only {SEATS.left} of {SEATS.total} seats left — {SEATS_TAKEN_PCT}% booked
+              Only {seats.left} of {seats.total} seats left — {seats.pct}% booked
             </div>
           </div>
         </section>
@@ -216,12 +239,12 @@ export default function SeminarBangalorePage() {
             <div className="flex-1">
               <p className="text-[10.5px] text-[#0f0e0c]/60 tracking-[0.14em] uppercase mb-1.5">Filling fast</p>
               <h3 className="text-[16px] md:text-[18px] text-[#0f0e0c] tracking-[-0.01em] leading-snug mb-2">
-                Only <span className="tabular-nums">{SEATS.left}</span> of {SEATS.total} seats left
+                Only <span className="tabular-nums">{seats.left}</span> of {seats.total} seats left
               </h3>
               <div className="h-1.5 w-full rounded-full bg-[#0f0e0c]/15 overflow-hidden">
-                <div className="h-full rounded-full bg-[#0f0e0c]/70" style={{ width: `${SEATS_TAKEN_PCT}%` }} />
+                <div className="h-full rounded-full bg-[#0f0e0c]/70" style={{ width: `${seats.pct}%` }} />
               </div>
-              <p className="text-[11.5px] text-[#0f0e0c]/70 leading-[1.5] mt-2">{SEATS_TAKEN_PCT}% booked · once they&apos;re gone, they&apos;re gone.</p>
+              <p className="text-[11.5px] text-[#0f0e0c]/70 leading-[1.5] mt-2">{seats.pct}% booked · once they&apos;re gone, they&apos;re gone.</p>
             </div>
           </div>
 
@@ -417,7 +440,7 @@ export default function SeminarBangalorePage() {
       {/* ── Floating seats-left urgency badge — right side, above the call button ── */}
       <button
         onClick={openModal}
-        aria-label={`Only ${SEATS.left} of ${SEATS.total} seats left — Book Now`}
+        aria-label={`Only ${seats.left} of ${seats.total} seats left — Book Now`}
         className="animate-seat-glow group fixed bottom-[92px] right-4 md:bottom-[100px] md:right-5 z-40 flex items-center gap-3 rounded-2xl bg-gradient-to-r from-[#f43f5e] to-[#e11d48] pl-3.5 pr-3 py-2.5 transition-transform hover:-translate-y-0.5"
       >
         {/* pulsing intensity dot */}
@@ -427,10 +450,10 @@ export default function SeminarBangalorePage() {
         </span>
         <div className="text-left">
           <p className="text-[11px] text-white tracking-[0.06em] uppercase leading-none mb-1.5">
-            Seats left: <span className="tabular-nums font-semibold">{SEATS.left}</span>/{SEATS.total}
+            Seats left: <span className="tabular-nums font-semibold">{seats.left}</span>/{seats.total}
           </p>
           <div className="h-1 w-[104px] sm:w-[128px] rounded-full bg-white/25 overflow-hidden">
-            <div className="h-full rounded-full bg-white" style={{ width: `${SEATS_TAKEN_PCT}%` }} />
+            <div className="h-full rounded-full bg-white" style={{ width: `${seats.pct}%` }} />
           </div>
         </div>
         <span className="hidden sm:inline ml-0.5 text-[12px] text-[#e11d48] font-medium bg-white group-hover:bg-white/90 rounded-full px-3 py-1.5 transition-colors whitespace-nowrap">Book Now</span>

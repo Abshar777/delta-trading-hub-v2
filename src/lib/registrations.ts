@@ -53,6 +53,18 @@ export async function markPaidOnce(orderId: string, paymentId: string): Promise<
   }
 }
 
+/** Count confirmed (paid) registrations — powers the public "seats left" display. */
+export async function countPaidRegistrations(): Promise<number> {
+  try {
+    const db = await getDb()
+    if (!db) return 0
+    return await db.collection<Registration>(COLLECTION).countDocuments({ status: 'paid' })
+  } catch (err) {
+    console.error('countPaidRegistrations failed:', err)
+    return 0
+  }
+}
+
 /** Fetch a single registration by its order id (for the invitation PDF view). */
 export async function getRegistrationByOrderId(orderId: string): Promise<Registration | null> {
   try {
