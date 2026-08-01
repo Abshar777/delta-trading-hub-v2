@@ -1,12 +1,11 @@
 import { countPaidRegistrations } from '@/lib/registrations'
 
 /* Public seat-availability for the /seminar urgency badge.
-   "Booked" = the real count of paid registrations + a fixed head-start buffer,
-   so the number tracks actual bookings while keeping the scarcity meaningful. */
+   "Booked" = the real count of paid registrations + a head-start buffer. */
 export const dynamic = 'force-dynamic'
 
 const TOTAL = 60
-const BUFFER = 10
+const BUFFER = 5
 
 export async function GET() {
   const paid = await countPaidRegistrations()

@@ -51,7 +51,7 @@ const TEAM = [
    The live "left"/"booked" values come from that endpoint (real paid count
    + a head-start buffer); these are just the pre-fetch fallback. ── */
 const SEATS_TOTAL = 60
-const SEATS_BUFFER = 10 // shown as booked before the live count loads (0 paid baseline)
+const SEATS_BUFFER = 0 // must match BUFFER in /api/seminar/seats (0 = show actual count)
 
 
 const HIGHLIGHTS = [
