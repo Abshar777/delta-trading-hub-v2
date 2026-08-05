@@ -1,7 +1,7 @@
 import { countPaidRegistrations } from './registrations'
 
 /* Venue capacity — the real seat limit. */
-export const SEATS_TOTAL = 77
+export const SEATS_TOTAL = 67
 
 /* Display buffer added to the real paid count for the public "X / 60" figure
    (tune for urgency). Sold-out is ALSO capped at the real paid count, so a
