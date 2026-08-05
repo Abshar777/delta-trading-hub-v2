@@ -6,7 +6,7 @@ export const SEATS_TOTAL = 77
 /* Display buffer added to the real paid count for the public "X / 60" figure
    (tune for urgency). Sold-out is ALSO capped at the real paid count, so a
    negative buffer can never let bookings run past the true capacity. */
-export const SEATS_BUFFER = -9
+export const SEATS_BUFFER = 0
 
 export interface SeatAvailability {
   total: number
