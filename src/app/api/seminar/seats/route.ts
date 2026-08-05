@@ -5,7 +5,7 @@ import { countPaidRegistrations } from '@/lib/registrations'
 export const dynamic = 'force-dynamic'
 
 const TOTAL = 60
-const BUFFER = -10
+const BUFFER = -9
 
 export async function GET() {
   const paid = await countPaidRegistrations()
