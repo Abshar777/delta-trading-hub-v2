@@ -1,5 +1,6 @@
 import Razorpay from 'razorpay'
 import { saveRegistration } from '@/lib/registrations'
+import { getSeatAvailability } from '@/lib/seats'
 
 /* Ticket price in paise (₹299 = 29900). Change here to update the amount. */
 export const SEMINAR_AMOUNT = 29_900
@@ -12,6 +13,16 @@ export async function POST(request: Request) {
     return Response.json(
       { error: 'Payments are not set up yet. Add your Razorpay keys to .env.local.' },
       { status: 503 },
+    )
+  }
+
+  /* Sold out → refuse to create an order (server-side gate, so payment can't
+     start even if the client is bypassed). */
+  const seats = await getSeatAvailability()
+  if (seats.soldOut) {
+    return Response.json(
+      { error: 'Sorry — all seats are filled. Registration for this event is now closed.', soldOut: true },
+      { status: 409 },
     )
   }
 

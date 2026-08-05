@@ -102,7 +102,7 @@ export default function SeminarBangalorePage() {
      Fallback assumes 0 paid (booked = buffer) until the live count loads. */
   const [seats, setSeats] = useState(() => {
     const booked = SEATS_BUFFER
-    return { total: SEATS_TOTAL, left: SEATS_TOTAL - booked, pct: Math.round((booked / SEATS_TOTAL) * 100) }
+    return { total: SEATS_TOTAL, left: SEATS_TOTAL - booked, pct: Math.round((booked / SEATS_TOTAL) * 100), soldOut: false }
   })
 
   /* ── scroll-shrink nav — same behaviour as the home page ── */
@@ -119,14 +119,15 @@ export default function SeminarBangalorePage() {
       .then((r) => (r.ok ? r.json() : null))
       .then((d) => {
         if (alive && d && typeof d.left === 'number') {
-          setSeats({ total: d.total, left: d.left, pct: d.pct })
+          setSeats({ total: d.total, left: d.left, pct: d.pct, soldOut: !!d.soldOut })
         }
       })
       .catch(() => {})
     return () => { alive = false }
   }, [])
 
-  const openModal = () => setModalOpen(true)
+  const soldOut = seats.soldOut
+  const openModal = () => { if (!soldOut) setModalOpen(true) }
 
   return (
     <main className="bg-white font-nb antialiased min-h-[100svh]">
@@ -158,9 +159,14 @@ export default function SeminarBangalorePage() {
         <div className="flex items-center justify-end">
           <button
             onClick={openModal}
-            className="bg-white spotlight-btn-dark text-[#0a0808] text-[13px] md:text-[13.5px] tracking-[0.005em] py-2 px-4 md:px-5 rounded-full transition-all hover:bg-white/90 hover:-translate-y-px whitespace-nowrap"
+            disabled={soldOut}
+            className={
+              soldOut
+                ? 'bg-white/25 text-white/60 text-[13px] md:text-[13.5px] tracking-[0.005em] py-2 px-4 md:px-5 rounded-full whitespace-nowrap cursor-not-allowed'
+                : 'bg-white spotlight-btn-dark text-[#0a0808] text-[13px] md:text-[13.5px] tracking-[0.005em] py-2 px-4 md:px-5 rounded-full transition-all hover:bg-white/90 hover:-translate-y-px whitespace-nowrap'
+            }
           >
-            Book Now
+            {soldOut ? 'Sold out' : 'Book Now'}
           </button>
         </div>
       </nav>
@@ -191,20 +197,31 @@ export default function SeminarBangalorePage() {
             <div className="flex flex-wrap items-center gap-3">
               <button
                 onClick={openModal}
-                className="inline-flex spotlight-btn items-center gap-2 bg-[#d4af37] text-[#0f0e0c] text-[14.5px] tracking-[0.005em] px-7 py-[14px] rounded-full transition-all hover:bg-[#e6c14e] hover:-translate-y-px active:scale-[0.98]"
+                disabled={soldOut}
+                className={
+                  soldOut
+                    ? 'inline-flex items-center gap-2 bg-white/12 text-white/55 text-[14.5px] tracking-[0.005em] px-7 py-[14px] rounded-full cursor-not-allowed'
+                    : 'inline-flex spotlight-btn items-center gap-2 bg-[#d4af37] text-[#0f0e0c] text-[14.5px] tracking-[0.005em] px-7 py-[14px] rounded-full transition-all hover:bg-[#e6c14e] hover:-translate-y-px active:scale-[0.98]'
+                }
               >
-                Book Now · {SEMINAR.priceLabel}
-                <span className="text-[11px]">→</span>
+                {soldOut ? 'Seats filled' : <>Book Now · {SEMINAR.priceLabel}<span className="text-[11px]">→</span></>}
               </button>
               <span className="text-[13px] text-white/45">{SEMINAR.date} · {SEMINAR.time}</span>
             </div>
-            <div className="mt-4 inline-flex items-center gap-2 text-[12.5px] text-[#e6c14e]">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-[#e6c14e] opacity-75 animate-ping" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#e6c14e]" />
-              </span>
-              Only {seats.left} of {seats.total} seats left — {seats.pct}% booked
-            </div>
+            {soldOut ? (
+              <div className="mt-4 inline-flex items-center gap-2 text-[12.5px] text-[#f87171]">
+                <span className="inline-flex h-2 w-2 rounded-full bg-[#f87171]" />
+                All {seats.total} seats are filled — registration is closed
+              </div>
+            ) : (
+              <div className="mt-4 inline-flex items-center gap-2 text-[12.5px] text-[#e6c14e]">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-[#e6c14e] opacity-75 animate-ping" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[#e6c14e]" />
+                </span>
+                Only {seats.left} of {seats.total} seats left — {seats.pct}% booked
+              </div>
+            )}
           </div>
         </section>
       </div>
@@ -237,14 +254,18 @@ export default function SeminarBangalorePage() {
               </svg>
             </div>
             <div className="flex-1">
-              <p className="text-[10.5px] text-[#0f0e0c]/60 tracking-[0.14em] uppercase mb-1.5">Filling fast</p>
+              <p className="text-[10.5px] text-[#0f0e0c]/60 tracking-[0.14em] uppercase mb-1.5">{soldOut ? 'Sold out' : 'Filling fast'}</p>
               <h3 className="text-[16px] md:text-[18px] text-[#0f0e0c] tracking-[-0.01em] leading-snug mb-2">
-                Only <span className="tabular-nums">{seats.left}</span> of {seats.total} seats left
+                {soldOut
+                  ? <>All {seats.total} seats are filled</>
+                  : <>Only <span className="tabular-nums">{seats.left}</span> of {seats.total} seats left</>}
               </h3>
               <div className="h-1.5 w-full rounded-full bg-[#0f0e0c]/15 overflow-hidden">
-                <div className="h-full rounded-full bg-[#0f0e0c]/70" style={{ width: `${seats.pct}%` }} />
+                <div className="h-full rounded-full bg-[#0f0e0c]/70" style={{ width: `${soldOut ? 100 : seats.pct}%` }} />
               </div>
-              <p className="text-[11.5px] text-[#0f0e0c]/70 leading-[1.5] mt-2">{seats.pct}% booked · once they&apos;re gone, they&apos;re gone.</p>
+              <p className="text-[11.5px] text-[#0f0e0c]/70 leading-[1.5] mt-2">
+                {soldOut ? 'This event is fully booked.' : <>{seats.pct}% booked · once they&apos;re gone, they&apos;re gone.</>}
+              </p>
             </div>
           </div>
 
@@ -368,18 +389,26 @@ export default function SeminarBangalorePage() {
           <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(70% 120% at 85% 0%, rgba(212,175,55,0.14), transparent 60%)' }} />
           <div className="relative">
             <h2 className="text-[26px] md:text-[32px] font-normal tracking-[-0.02em] text-white leading-[1.1] mb-2">
-              Reserve your seat — <span className="anniversary-gold">{SEMINAR.priceLabel}</span>
+              {soldOut
+                ? <>Seats are <span className="anniversary-gold">filled</span></>
+                : <>Reserve your seat — <span className="anniversary-gold">{SEMINAR.priceLabel}</span></>}
             </h2>
             <p className="text-[13.5px] text-white/55 leading-[1.6] max-w-[420px]">
-              Fill in your details and pay securely. Instant confirmation, limited seats.
+              {soldOut
+                ? 'This event is fully booked. Registration is now closed — reach out to our team to join the waitlist.'
+                : 'Fill in your details and pay securely. Instant confirmation, limited seats.'}
             </p>
           </div>
           <button
             onClick={openModal}
-            className="relative spotlight-btn inline-flex items-center justify-center gap-2 bg-[#d4af37] text-[#0f0e0c] text-[15px] tracking-[0.005em] px-8 py-[16px] rounded-full transition-all hover:bg-[#e6c14e] hover:-translate-y-px active:scale-[0.98] whitespace-nowrap"
+            disabled={soldOut}
+            className={
+              soldOut
+                ? 'relative inline-flex items-center justify-center gap-2 bg-white/12 text-white/55 text-[15px] tracking-[0.005em] px-8 py-[16px] rounded-full whitespace-nowrap cursor-not-allowed'
+                : 'relative spotlight-btn inline-flex items-center justify-center gap-2 bg-[#d4af37] text-[#0f0e0c] text-[15px] tracking-[0.005em] px-8 py-[16px] rounded-full transition-all hover:bg-[#e6c14e] hover:-translate-y-px active:scale-[0.98] whitespace-nowrap'
+            }
           >
-            Book Now · {SEMINAR.priceLabel}
-            <span className="text-[11px]">→</span>
+            {soldOut ? 'Sold out' : <>Book Now · {SEMINAR.priceLabel}<span className="text-[11px]">→</span></>}
           </button>
         </div>
       </section>
@@ -437,27 +466,43 @@ export default function SeminarBangalorePage() {
         </div>
       </footer>
 
-      {/* ── Floating seats-left urgency badge — right side, above the call button ── */}
-      <button
-        onClick={openModal}
-        aria-label={`Only ${seats.left} of ${seats.total} seats left — Book Now`}
-        className="animate-seat-glow group fixed bottom-[92px] right-4 md:bottom-[100px] md:right-5 z-40 flex items-center gap-3 rounded-2xl bg-gradient-to-r from-[#f43f5e] to-[#e11d48] pl-3.5 pr-3 py-2.5 transition-transform hover:-translate-y-0.5"
-      >
-        {/* pulsing intensity dot */}
-        <span className="relative flex h-2.5 w-2.5 shrink-0">
-          <span className="absolute inline-flex h-full w-full rounded-full bg-white opacity-80 animate-ping" />
-          <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-white" />
-        </span>
-        <div className="text-left">
-          <p className="text-[11px] text-white tracking-[0.06em] uppercase leading-none mb-1.5">
-            Seats left: <span className="tabular-nums font-semibold">{seats.left}</span>/{seats.total}
-          </p>
-          <div className="h-1 w-[104px] sm:w-[128px] rounded-full bg-white/25 overflow-hidden">
-            <div className="h-full rounded-full bg-white" style={{ width: `${seats.pct}%` }} />
+      {/* ── Floating seats badge — right side, above the call button ── */}
+      {soldOut ? (
+        <div
+          aria-label={`All ${seats.total} seats are filled`}
+          className="fixed bottom-[92px] right-4 md:bottom-[100px] md:right-5 z-40 flex items-center gap-3 rounded-2xl bg-[#1c1b1a] border border-white/10 pl-3.5 pr-4 py-2.5 shadow-[0_12px_40px_rgba(0,0,0,0.4)]"
+        >
+          <span className="inline-flex h-2.5 w-2.5 shrink-0 rounded-full bg-white/50" />
+          <div className="text-left">
+            <p className="text-[11px] text-white tracking-[0.06em] uppercase leading-none mb-1.5">Seats filled · {seats.total}/{seats.total}</p>
+            <div className="h-1 w-[104px] sm:w-[128px] rounded-full bg-white/15 overflow-hidden">
+              <div className="h-full w-full rounded-full bg-white/60" />
+            </div>
           </div>
+          <span className="hidden sm:inline ml-0.5 text-[12px] text-white/70 border border-white/20 rounded-full px-3 py-1.5 whitespace-nowrap">Closed</span>
         </div>
-        <span className="hidden sm:inline ml-0.5 text-[12px] text-[#e11d48] font-medium bg-white group-hover:bg-white/90 rounded-full px-3 py-1.5 transition-colors whitespace-nowrap">Book Now</span>
-      </button>
+      ) : (
+        <button
+          onClick={openModal}
+          aria-label={`Only ${seats.left} of ${seats.total} seats left — Book Now`}
+          className="animate-seat-glow group fixed bottom-[92px] right-4 md:bottom-[100px] md:right-5 z-40 flex items-center gap-3 rounded-2xl bg-gradient-to-r from-[#f43f5e] to-[#e11d48] pl-3.5 pr-3 py-2.5 transition-transform hover:-translate-y-0.5"
+        >
+          {/* pulsing intensity dot */}
+          <span className="relative flex h-2.5 w-2.5 shrink-0">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-white opacity-80 animate-ping" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-white" />
+          </span>
+          <div className="text-left">
+            <p className="text-[11px] text-white tracking-[0.06em] uppercase leading-none mb-1.5">
+              Seats left: <span className="tabular-nums font-semibold">{seats.left}</span>/{seats.total}
+            </p>
+            <div className="h-1 w-[104px] sm:w-[128px] rounded-full bg-white/25 overflow-hidden">
+              <div className="h-full rounded-full bg-white" style={{ width: `${seats.pct}%` }} />
+            </div>
+          </div>
+          <span className="hidden sm:inline ml-0.5 text-[12px] text-[#e11d48] font-medium bg-white group-hover:bg-white/90 rounded-full px-3 py-1.5 transition-colors whitespace-nowrap">Book Now</span>
+        </button>
+      )}
 
       {/* Floating call button + registration modal */}
       <CallButton phone={TEAM[0].tel} />

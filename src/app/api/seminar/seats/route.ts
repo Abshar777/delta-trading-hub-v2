@@ -1,20 +1,10 @@
-import { countPaidRegistrations } from '@/lib/registrations'
+import { getSeatAvailability } from '@/lib/seats'
 
-/* Public seat-availability for the /seminar urgency badge.
-   "Booked" = the real count of paid registrations + a head-start buffer. */
+/* Public seat-availability for the /seminar urgency badge + sold-out state.
+   Capacity + buffer live in src/lib/seats.ts (single source of truth). */
 export const dynamic = 'force-dynamic'
 
-const TOTAL = 60
-const BUFFER = -9
-
 export async function GET() {
-  const paid = await countPaidRegistrations()
-  const booked = Math.min(TOTAL, paid + BUFFER)
-  const left = Math.max(0, TOTAL - booked)
-  const pct = Math.round((booked / TOTAL) * 100)
-
-  return Response.json(
-    { total: TOTAL, booked, left, pct },
-    { headers: { 'Cache-Control': 'no-store' } },
-  )
+  const seats = await getSeatAvailability()
+  return Response.json(seats, { headers: { 'Cache-Control': 'no-store' } })
 }
