@@ -9,14 +9,14 @@ export const POPUP_EVENT = 'delta:open-popup'
 
 /* Google Apps Script web app that appends submissions to the Sheet */
 const SHEET_URL =
-  'https://script.google.com/macros/s/AKfycbzrCr5LuqOw9UjHX_XQ4bmzDqRQxmUlrDptKwo5OoG5nXxpXs0lZr5oMsCVSRHIb4SU6w/exec'
+  'https://script.google.com/macros/s/AKfycbyWo_77e_L03aYlof2251ugvdJOKPAyrEDBh3FokuUq1VM2vyN87BitkNYpClDI3SJqrg/exec'
 const SUBJECT = 'Website Popup Enquiry'
 
 export default function ContactPopup() {
   const router = useRouter()
   const [open,    setOpen]    = useState(false)
   const [visible, setVisible] = useState(false)
-  const [form,    setForm]    = useState({ name: '', mobile: '', message: 'I Need To Know More About Your Programs ' })
+  const [form,    setForm]    = useState({ name: '', mobile: '', challenge: '', message: 'I Need To Know More About Your Programs ' })
   const [sent,    setSent]    = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
@@ -24,7 +24,7 @@ export default function ContactPopup() {
   const openPopup = useCallback(() => {
     setSent(false)
     setSubmitting(false)
-    setForm({ name: '', mobile: '',  message: 'I Need To Know More About Your Programs '  })
+    setForm({ name: '', mobile: '', challenge: '', message: 'I Need To Know More About Your Programs '  })
     setOpen(true)
     requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)))
   }, [])
@@ -50,7 +50,7 @@ export default function ContactPopup() {
       // Always open when triggered manually, even if auto-dismissed
       setSent(false)
       setSubmitting(false)
-      setForm({ name: '', mobile: '',  message: 'I Need To Know More About Your Programs '  })
+      setForm({ name: '', mobile: '', challenge: '', message: 'I Need To Know More About Your Programs '  })
       setOpen(true)
       requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)))
     }
@@ -76,6 +76,7 @@ export default function ContactPopup() {
           PhoneNumber: form.mobile,
           Message: form.message,
           Subject: SUBJECT,
+          Challenge: form.challenge,
         }),
       })
     } catch (err) {
@@ -205,6 +206,21 @@ export default function ContactPopup() {
                   placeholder="+971 50 000 0000"
                   value={form.mobile}
                   onChange={e => setForm({ ...form, mobile: e.target.value })}
+                  required
+                  className="w-full border border-black/[0.12] rounded-xl px-4 py-[13px] text-[16px] md:text-[14px] text-black placeholder:text-black/25 outline-none transition-colors focus:border-black/35 bg-white"
+                />
+              </div>
+
+              {/* Biggest trading challenge */}
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[11.5px] text-black/40 tracking-[0.08em] uppercase">
+                  What is your biggest challenge in trading right now?
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. Managing risk and emotions while trading"
+                  value={form.challenge}
+                  onChange={e => setForm({ ...form, challenge: e.target.value })}
                   required
                   className="w-full border border-black/[0.12] rounded-xl px-4 py-[13px] text-[16px] md:text-[14px] text-black placeholder:text-black/25 outline-none transition-colors focus:border-black/35 bg-white"
                 />
