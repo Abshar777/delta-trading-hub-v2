@@ -2,13 +2,11 @@ import PDFDocument from 'pdfkit'
 import { EVENT } from './event'
 import { getLogoBuffer } from './logo'
 import { ascii } from './pdfText'
+import type { PaymentLink } from './paymentLinks'
 
-export function buildInvitationPdf(reg: {
-  name: string
-  orderId: string
-  paymentId?: string
-  amount: number
-}): Promise<Buffer> {
+const inr = (paise: number) => 'INR ' + (paise / 100).toLocaleString('en-IN')
+
+export function buildReceiptPdf(link: PaymentLink): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument({ size: 'A4', margin: 50 })
     const chunks: Buffer[] = []
@@ -19,7 +17,6 @@ export function buildInvitationPdf(reg: {
     const W = doc.page.width
     const M = 50
     const cw = W - M * 2
-    const rupees = 'INR ' + (reg.amount / 100).toLocaleString('en-IN')
 
     /* ── Header band ── */
     doc.rect(0, 0, W, 120).fill('#0b0a08')
@@ -32,17 +29,14 @@ export function buildInvitationPdf(reg: {
     if (!logoDrawn) {
       doc.fillColor('#e6c14e').font('Helvetica-Bold').fontSize(10).text('DELTA TRADING ACADEMY', M, 40, { characterSpacing: 2 })
     }
-    doc.fillColor('#ffffff').font('Helvetica-Bold').fontSize(23).text('Your seat is confirmed', M, 63)
-    doc.fillColor('#b9b4ad').font('Helvetica').fontSize(11).text(ascii('Official invitation - ' + EVENT.title + ', ' + EVENT.city), M, 94)
+    doc.fillColor('#ffffff').font('Helvetica-Bold').fontSize(23).text('Payment receipt', M, 63)
+    doc.fillColor('#b9b4ad').font('Helvetica').fontSize(11).text(ascii(link.description), M, 94)
 
     /* ── Greeting + body ── */
-    doc.fillColor('#1a1a1a').font('Helvetica').fontSize(12).text('Dear ' + ascii(reg.name || 'Guest') + ',', M, 150)
+    doc.fillColor('#1a1a1a').font('Helvetica').fontSize(12).text('Dear ' + ascii(link.customerName || 'Customer') + ',', M, 150)
     doc.moveDown(0.6)
     doc.fillColor('#333333').font('Helvetica').fontSize(10.5).text(
-      ascii(
-        'It is our pleasure to invite you to the ' + EVENT.title + ' in ' + EVENT.city +
-        '. Your registration is confirmed and your seat is reserved. We look forward to hosting you for a focused day of live trading, practical strategy, and a premium experience at one of ' + EVENT.city + "'s finest venues.",
-      ),
+      ascii(`Thank you for your payment. This receipt confirms we've received ${inr(link.totalAmount)} for ${link.description}.`),
       { width: cw, lineGap: 3 },
     )
     doc.moveDown(1)
@@ -56,39 +50,22 @@ export function buildInvitationPdf(reg: {
       doc.y = endY + 9
     }
 
-    doc.fillColor('#b8901f').font('Helvetica-Bold').fontSize(10).text('EVENT DETAILS', M, doc.y, { characterSpacing: 1 })
+    doc.fillColor('#b8901f').font('Helvetica-Bold').fontSize(10).text('PAYMENT DETAILS', M, doc.y, { characterSpacing: 1 })
     doc.moveDown(0.6)
-    detailRow('Event', EVENT.title)
-    detailRow('Date', EVENT.date)
-    detailRow('Time', EVENT.time)
-    detailRow('Venue', EVENT.venue)
-    detailRow('Address', EVENT.venueAddress)
+    detailRow('Description', link.description)
+    detailRow('Amount', inr(link.baseAmount))
+    detailRow(`GST (${link.gstPct}%)`, inr(link.gstAmount))
+    detailRow('Total paid', inr(link.totalAmount))
+    detailRow('Paid at', link.paidAt ? new Date(link.paidAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : '-')
 
     doc.moveDown(0.4)
-    doc.fillColor('#b8901f').font('Helvetica-Bold').fontSize(10).text('YOUR REGISTRATION', M, doc.y, { characterSpacing: 1 })
+    doc.fillColor('#b8901f').font('Helvetica-Bold').fontSize(10).text('CUSTOMER', M, doc.y, { characterSpacing: 1 })
     doc.moveDown(0.6)
-    detailRow('Attendee', reg.name || '-')
-    detailRow('Amount paid', rupees)
-    detailRow('Order ID', reg.orderId)
-    if (reg.paymentId) detailRow('Payment ID', reg.paymentId)
-
-    /* ── Before you arrive ── */
-    doc.moveDown(0.4)
-    doc.fillColor('#1a1a1a').font('Helvetica-Bold').fontSize(11).text('Before you arrive', M, doc.y)
-    doc.moveDown(0.4)
-    const bullets = [
-      'Please arrive 15 minutes early for check-in.',
-      'Carry a valid photo ID and this invitation.',
-      'Bring a notebook or laptop for the hands-on sessions.',
-      'A premium buffet lunch is included - no need to arrange your own.',
-    ]
-    doc.font('Helvetica').fontSize(10).fillColor('#444444')
-    bullets.forEach((b) => {
-      const y = doc.y
-      doc.circle(M + 3, y + 5, 1.8).fill('#d4af37')
-      doc.fillColor('#444444').text(ascii(b), M + 14, y, { width: cw - 14 })
-      doc.moveDown(0.3)
-    })
+    detailRow('Name', link.customerName || '-')
+    detailRow('Email', link.customerEmail || '-')
+    detailRow('Phone', link.customerPhone || '-')
+    if (link.orderId) detailRow('Order ID', link.orderId)
+    if (link.paymentId) detailRow('Payment ID', link.paymentId)
 
     /* ── Sign-off ── */
     doc.moveDown(0.8)

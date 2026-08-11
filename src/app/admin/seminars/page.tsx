@@ -160,6 +160,12 @@ export default function AdminSeminarsPage() {
             <p className="text-white/45 text-[13px] mt-0.5">Bangalore seminar · live data</p>
           </div>
           <div className="flex items-center gap-2.5">
+            <a
+              href="/admin/payment-links"
+              className="text-white/45 text-[13px] px-3 py-2 hover:text-white transition-colors"
+            >
+              Payment links →
+            </a>
             <button
               onClick={() => fetchData(adminKey, page, status, q)}
               className="bg-white/[0.08] border border-white/15 text-white/85 text-[13px] px-4 py-2 rounded-full hover:bg-white/[0.14] transition-colors"

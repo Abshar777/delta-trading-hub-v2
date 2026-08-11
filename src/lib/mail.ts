@@ -1,18 +1,10 @@
-import nodemailer from 'nodemailer'
 import type { Registration } from './registrations'
 import { EVENT } from './event'
 import { buildInvitationPdf } from './pdf'
 import { getLogoBuffer } from './logo'
+import { createMailTransporter, isMailConfigured, MAIL_FROM as FROM } from './mailer'
 
-const HOST = process.env.SMTP_HOST
-const PORT = Number(process.env.SMTP_PORT || 465)
-const USER = process.env.SMTP_USER
-const PASS = process.env.SMTP_PASS
-const FROM = process.env.MAIL_FROM || 'Delta Trading Academy <info@deltainstitutions.com>'
-
-export function isMailConfigured() {
-  return Boolean(HOST && USER && PASS)
-}
+export { isMailConfigured }
 
 export function buildInvitationHtml(reg: {
   name: string
@@ -111,12 +103,7 @@ export async function sendInvitationEmail(reg: Registration) {
   }
 
   try {
-    const transporter = nodemailer.createTransport({
-      host: HOST,
-      port: PORT,
-      secure: PORT === 465,
-      auth: { user: USER, pass: PASS },
-    })
+    const transporter = createMailTransporter()
     const info = await transporter.sendMail({
       from: FROM,
       to: reg.email,
