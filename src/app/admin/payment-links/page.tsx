@@ -298,7 +298,11 @@ export default function AdminPaymentLinksPage() {
               {rows.map((r) => (
                 <tr key={r.linkId} className="border-t border-white/[0.06]">
                   <td className="px-4 py-3 text-white/60 whitespace-nowrap">{fmt(r.createdAt)}</td>
-                  <td className="px-4 py-3 text-white/85 max-w-[220px] truncate">{r.description || '—'}</td>
+                  <td className="px-4 py-3 max-w-[220px] truncate">
+                    <a href={`/admin/payment-links/${r.linkId}`} className="text-white/85 hover:text-[#e6c14e] transition-colors">
+                      {r.description || '—'}
+                    </a>
+                  </td>
                   <td className="px-4 py-3 text-white/70 whitespace-nowrap tabular-nums">{inr(r.baseAmount)}</td>
                   <td className="px-4 py-3 text-white/50 whitespace-nowrap tabular-nums">{inr(r.gstAmount)}</td>
                   <td className="px-4 py-3 text-white/90 whitespace-nowrap tabular-nums">{inr(r.totalAmount)}</td>
@@ -320,12 +324,20 @@ export default function AdminPaymentLinksPage() {
                     </span>
                   </td>
                   <td className="px-4 py-3">
-                    <button
-                      onClick={() => copyLink(r.linkId)}
-                      className="text-white/45 hover:text-white text-[12px] px-2.5 py-1 rounded-full border border-white/12 hover:border-white/30 transition-colors whitespace-nowrap"
-                    >
-                      Copy
-                    </button>
+                    <div className="flex items-center gap-1.5">
+                      <a
+                        href={`/admin/payment-links/${r.linkId}`}
+                        className="text-white/45 hover:text-white text-[12px] px-2.5 py-1 rounded-full border border-white/12 hover:border-white/30 transition-colors whitespace-nowrap"
+                      >
+                        View
+                      </a>
+                      <button
+                        onClick={() => copyLink(r.linkId)}
+                        className="text-white/45 hover:text-white text-[12px] px-2.5 py-1 rounded-full border border-white/12 hover:border-white/30 transition-colors whitespace-nowrap"
+                      >
+                        Copy
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
