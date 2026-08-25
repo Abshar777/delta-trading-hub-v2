@@ -37,13 +37,13 @@ const CONTACT = {
   address: '4th Floor, Prestige Towers (Bangalore Branch & ATM), 99/100, Residency Rd, Shanthala Nagar, Ashok Nagar, Bengaluru, Karnataka 560025',
   gst: '29AAJCE53644R1ZP',
   email: 'deltainternational.blr@gmail.com',
-  phone: '+919187236408',
-  phoneLabel: '+91 9187236408',
+  phone: '+919187236407',
+  phoneLabel: '+91 9187236407',
 }
 
 /* ── Seminar team contacts ── */
 const TEAM = [
-  { name: 'Ambili B', role: 'Regional Operations', tel: '+919187236408', label: '+91 91872 36408' },
+  { name: 'Ambili B', role: 'Regional Operations', tel: '+919187236407', label: '+91 91872 36407' },
   { name: 'Ajvad',    role: 'Sales TL',            tel: '+919187236412', label: '+91 91872 36412' },
 ]
 

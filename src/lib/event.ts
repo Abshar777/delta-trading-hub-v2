@@ -10,7 +10,7 @@ export const EVENT = {
   venueAddress: 'The Google Meet link will be emailed and shared on WhatsApp before the session.',
   /* Company contact (shown in the footer / contact line) */
   email: 'deltainternational.blr@gmail.com',
-  phone: '+91 9187236408',
+  phone: '+91 9187236407',
   officeAddress: '4th Floor, Prestige Towers (Bangalore Branch & ATM), 99/100, Residency Rd, Shanthala Nagar, Ashok Nagar, Bengaluru, Karnataka 560025',
 }
 
