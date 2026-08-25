@@ -29,7 +29,7 @@ const SEMINAR = {
   venue: 'Live on Google Meet',
   address: 'The Google Meet link will be emailed and shared on WhatsApp before the session.',
   seats: 'Limited to 50 attendees',
-  priceLabel: '₹299',
+  priceLabel: '₹199',
 }
 
 /* ── Contact — Bangalore branch ── */
@@ -85,6 +85,15 @@ const REQUIREMENTS = [
   'A laptop or smartphone with a stable internet connection',
   'The Google Meet link — emailed after registration',
   '5–10 minutes to spare before the session starts',
+]
+
+/* ── Highlights from past bootcamps ── */
+const GALLERY = [
+  { src: '/g2.jpg', label: 'Live trade walkthroughs' },
+  { src: '/g3.jpg', label: 'Hands-on strategy sessions' },
+  { src: '/g4.jpg', label: 'Our trading community' },
+  { src: '/1.jpg',  label: 'Real-time chart analysis' },
+  { src: '/2.jpg',  label: 'Mentor-led sessions' },
 ]
 
 export default function SeminarOnlineBootcampPage() {
@@ -309,6 +318,32 @@ export default function SeminarOnlineBootcampPage() {
               ))}
             </ul>
           </div>
+        </div>
+      </section>
+
+      {/* ── Gallery — highlights from past bootcamps ── */}
+      <section className="px-6 md:px-[60px] py-12 md:py-16 max-w-[1240px] mx-auto">
+        <p className="text-[13px] text-black/40 tracking-[0.12em] uppercase mb-2">Gallery</p>
+        <h2 className="text-[28px] md:text-[36px] font-normal tracking-[-0.02em] text-black leading-[1.1] mb-8 max-w-[560px]">
+          Highlights from <span className="anniversary-gold">past bootcamps</span>
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          {GALLERY.map((g, i) => (
+            <div
+              key={i}
+              className="relative overflow-hidden rounded-2xl bg-[#f4f3f1] group aspect-[4/3]"
+            >
+              <Image
+                src={g.src}
+                alt={g.label}
+                fill
+                sizes="(max-width: 768px) 50vw, 33vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
+              <span className="absolute bottom-3 left-3.5 text-[12px] text-white/90 tracking-[0.01em]">{g.label}</span>
+            </div>
+          ))}
         </div>
       </section>
 

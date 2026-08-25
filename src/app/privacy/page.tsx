@@ -52,7 +52,7 @@ const POLICY: Policy = {
     {
       "heading": "Payment Information",
       "paragraphs": [
-        "The seminar ticket price is INR 299 per seat. All payments are processed securely by Razorpay, our third-party payment processor, which supports UPI, cards, and netbanking.",
+        "The seminar ticket price is INR 199 per seat. All payments are processed securely by Razorpay, our third-party payment processor, which supports UPI, cards, and netbanking.",
         "We do not collect, see, or store your card numbers, UPI IDs, CVV, bank credentials, or other sensitive payment details. This information is entered directly into Razorpay's secure systems and is handled by Razorpay in accordance with its own privacy policy and applicable payment-industry security standards. We only receive confirmation of whether your payment was successful, along with a transaction reference, so that we can confirm your registration."
       ]
     },

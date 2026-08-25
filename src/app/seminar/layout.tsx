@@ -7,7 +7,7 @@ import { EVENT } from '@/lib/event'
 const title = `${EVENT.title} — Online · Delta Trading Academy`
 const description =
   `Join the ${EVENT.title} — a live online trading session on ${EVENT.date}, ${EVENT.time}, hosted on Google Meet. ` +
-  `Expert mentors, live Q&A and hands-on strategy — seats limited to 50. Reserve yours for ₹299.`
+  `Expert mentors, live Q&A and hands-on strategy — seats limited to 50. Reserve yours for ₹199.`
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://deltatradinghub.com'),

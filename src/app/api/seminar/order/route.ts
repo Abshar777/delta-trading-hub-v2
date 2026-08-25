@@ -3,8 +3,8 @@ import { saveRegistration } from '@/lib/registrations'
 import { getSeatAvailability } from '@/lib/seats'
 import { EVENT_TAG } from '@/lib/event'
 
-/* Ticket price in paise (₹299 = 29900). Change here to update the amount. */
-export const SEMINAR_AMOUNT = 29_900
+/* Ticket price in paise (₹199 = 19900). Change here to update the amount. */
+export const SEMINAR_AMOUNT = 19_900
 const KEY_ID = process.env.RAZORPAY_KEY_ID
 const KEY_SECRET = process.env.RAZORPAY_KEY_SECRET
 

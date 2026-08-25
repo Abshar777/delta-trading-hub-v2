@@ -49,7 +49,7 @@ const POLICY: Policy = {
     {
       "heading": "Pricing and Payment via Razorpay",
       "paragraphs": [
-        "The ticket price for the Forex Trading Bootcamp seminar is INR 299 per seat. All prices are stated in Indian Rupees and, where applicable, are inclusive of taxes as indicated at checkout.",
+        "The ticket price for the Forex Trading Bootcamp seminar is INR 199 per seat. All prices are stated in Indian Rupees and, where applicable, are inclusive of taxes as indicated at checkout.",
         "Payments are processed securely by our payment partner, Razorpay, which supports UPI, credit and debit cards, and netbanking. We do not collect, store, or have access to your full card or UPI credentials; these are handled directly by Razorpay in accordance with applicable payment security standards."
       ],
       "bullets": [

@@ -10,7 +10,7 @@ const POLICY: Policy = {
     {
       "heading": "Overview",
       "paragraphs": [
-        "The Forex Trading Bootcamp is a paid, one-day, in-person trading seminar priced at INR 299 per seat. It includes live trading sessions, a premium buffet lunch, and a graduation ceremony, and seating is strictly limited to between 60 and 72 attendees per event.",
+        "The Forex Trading Bootcamp is a paid, one-day, in-person trading seminar priced at INR 199 per seat. It includes live trading sessions, a premium buffet lunch, and a graduation ceremony, and seating is strictly limited to between 60 and 72 attendees per event.",
         "Because seating is capacity-limited and we commit to venue, catering, and staffing costs in advance, we operate a clear, tiered cancellation and refund structure. This policy is designed to be fair to both attendees and to Delta, and to comply with applicable Indian consumer-protection norms.",
         "All payments for the seminar are collected online through Razorpay, which supports UPI, credit and debit cards, and netbanking. We do not store or have access to your card or UPI credentials; these are handled securely by Razorpay. Any approved refund is therefore returned through Razorpay to the original payment method used at the time of purchase."
       ]
@@ -18,10 +18,10 @@ const POLICY: Policy = {
     {
       "heading": "Your Ticket and What It Covers",
       "paragraphs": [
-        "Each INR 299 ticket entitles one named person to attend a single scheduled Forex Trading Bootcamp event on the date selected at the time of registration."
+        "Each INR 199 ticket entitles one named person to attend a single scheduled Forex Trading Bootcamp event on the date selected at the time of registration."
       ],
       "bullets": [
-        "Ticket price: INR 299 per seat (inclusive of applicable taxes as shown at checkout).",
+        "Ticket price: INR 199 per seat (inclusive of applicable taxes as shown at checkout).",
         "The ticket covers admission to the live trading sessions, the premium buffet lunch, and the graduation ceremony for the selected event date only.",
         "Tickets are issued against the full name, email address, and mobile number provided during registration.",
         "Tickets are valid solely for the specific event date and venue for which they were purchased and cannot be applied to a different date except as set out in this policy."
@@ -30,10 +30,10 @@ const POLICY: Policy = {
     {
       "heading": "Cancellation by You (Refund Tiers)",
       "paragraphs": [
-        "If you wish to cancel your registration and request a refund, the amount refunded depends on how far in advance of the event start date and time you submit your cancellation request to us. The following tiers apply to the INR 299 ticket price:"
+        "If you wish to cancel your registration and request a refund, the amount refunded depends on how far in advance of the event start date and time you submit your cancellation request to us. The following tiers apply to the INR 199 ticket price:"
       ],
       "bullets": [
-        "Cancellation 7 or more days before the event: full refund of 100% of the ticket price (INR 299).",
+        "Cancellation 7 or more days before the event: full refund of 100% of the ticket price (INR 199).",
         "Cancellation less than 7 days but at least 72 hours (3 days) before the event: partial refund of 50% of the ticket price.",
         "Cancellation within 72 hours (3 days) of the event start time: no refund is available, as the seat and associated venue and catering costs are already committed.",
         "The applicable tier is determined by the date and time we receive your written cancellation request by email, not the date you decided to cancel."
@@ -64,7 +64,7 @@ const POLICY: Policy = {
         "If we cancel or reschedule an event, you are fully protected and may choose one of the options below."
       ],
       "bullets": [
-        "A full refund of 100% of your ticket price (INR 299), regardless of how close to the event the change occurs; or",
+        "A full refund of 100% of your ticket price (INR 199), regardless of how close to the event the change occurs; or",
         "A free transfer of your registration to the new or a future scheduled date of the Forex Trading Bootcamp at no additional cost.",
         "If we do not hear from you within a reasonable period after a cancellation by us, we will process a full refund to your original payment method by default."
       ]
