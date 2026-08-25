@@ -53,12 +53,16 @@ export async function markPaidOnce(orderId: string, paymentId: string): Promise<
   }
 }
 
-/** Count confirmed (paid) registrations — powers the public "seats left" display. */
-export async function countPaidRegistrations(): Promise<number> {
+/** Count confirmed (paid) registrations — powers the public "seats left" display.
+ *  Pass `seminarTag` to scope the count to one specific event occurrence (see
+ *  EVENT_TAG in lib/event.ts) so past events don't count against a new one's capacity. */
+export async function countPaidRegistrations(seminarTag?: string): Promise<number> {
   try {
     const db = await getDb()
     if (!db) return 0
-    return await db.collection<Registration>(COLLECTION).countDocuments({ status: 'paid' })
+    const filter: Record<string, unknown> = { status: 'paid' }
+    if (seminarTag) filter.seminar = seminarTag
+    return await db.collection<Registration>(COLLECTION).countDocuments(filter)
   } catch (err) {
     console.error('countPaidRegistrations failed:', err)
     return 0

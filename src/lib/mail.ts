@@ -31,9 +31,9 @@ export function buildInvitationHtml(reg: {
     <div style="background:#ffffff;border-radius:0 0 20px 20px;padding:32px;">
       <p style="margin:0 0 16px;color:#1a1a1a;font-size:15px;line-height:1.7;">Dear ${name},</p>
       <p style="margin:0 0 16px;color:#444;font-size:14.5px;line-height:1.75;">
-        It is our pleasure to invite you to the <strong>${EVENT.title}</strong> in ${EVENT.city}. Your registration is
-        confirmed and your seat is reserved. We look forward to hosting you for a focused day of live trading,
-        practical strategy, and a premium experience at one of ${EVENT.city}'s finest venues.
+        It is our pleasure to confirm your seat for the <strong>${EVENT.title}</strong> — a live, 100% online
+        session hosted on Google Meet. Your registration is confirmed and your seat is reserved. We look forward
+        to seeing you online for a focused, practical session on live trading and strategy.
       </p>
 
       <div style="background:#faf9f6;border:1px solid #ececec;border-radius:14px;padding:18px 20px;margin:22px 0;">
@@ -42,7 +42,7 @@ export function buildInvitationHtml(reg: {
           ${detail('Date', EVENT.date)}
           ${detail('Time', EVENT.time)}
           ${detail('Venue', EVENT.venue)}
-          ${detail('Address', EVENT.venueAddress)}
+          ${detail('How to join', EVENT.venueAddress)}
         </table>
       </div>
 
@@ -53,12 +53,12 @@ export function buildInvitationHtml(reg: {
         ${reg.paymentId ? detail('Payment ID', reg.paymentId) : ''}
       </table>
 
-      <p style="margin:0 0 8px;color:#1a1a1a;font-size:13px;font-weight:600;">Before you arrive</p>
+      <p style="margin:0 0 8px;color:#1a1a1a;font-size:13px;font-weight:600;">Before the session</p>
       <ul style="margin:0 0 22px;padding-left:18px;color:#555;font-size:13.5px;line-height:1.8;">
-        <li>Please arrive 15 minutes early for check-in.</li>
-        <li>Carry a valid photo ID and this confirmation email.</li>
-        <li>Bring a notebook or laptop for the hands-on sessions.</li>
-        <li>A premium buffet lunch is included &mdash; no need to arrange your own.</li>
+        <li>Join 5&ndash;10 minutes early to test your audio and video.</li>
+        <li>Use a laptop or desktop for the best experience during hands-on sessions.</li>
+        <li>Keep this confirmation email handy &mdash; it has your Google Meet link.</li>
+        <li>Can&rsquo;t attend live? The session recording will be shared with you afterward.</li>
       </ul>
 
       <p style="margin:0;color:#666;font-size:13.5px;line-height:1.7;">

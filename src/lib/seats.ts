@@ -1,9 +1,10 @@
 import { countPaidRegistrations } from './registrations'
+import { EVENT_TAG } from './event'
 
-/* Venue capacity — the real seat limit. */
-export const SEATS_TOTAL = 70
+/* Online session capacity — the Google Meet room limit (50 attendees). */
+export const SEATS_TOTAL = 50
 
-/* Display buffer added to the real paid count for the public "X / 60" figure
+/* Display buffer added to the real paid count for the public "X / 50" figure
    (tune for urgency). Sold-out is ALSO capped at the real paid count, so a
    negative buffer can never let bookings run past the true capacity. */
 export const SEATS_BUFFER = 4
@@ -20,7 +21,7 @@ export interface SeatAvailability {
    Filled when either the shown count (paid + buffer) OR the real paid count
    reaches capacity — so display and payment gating always stay consistent. */
 export async function getSeatAvailability(): Promise<SeatAvailability> {
-  const paid = await countPaidRegistrations()
+  const paid = await countPaidRegistrations(EVENT_TAG)
   const soldOut = paid >= SEATS_TOTAL || paid + SEATS_BUFFER >= SEATS_TOTAL
   const booked = soldOut ? SEATS_TOTAL : Math.max(0, Math.min(SEATS_TOTAL, paid + SEATS_BUFFER))
   const left = SEATS_TOTAL - booked

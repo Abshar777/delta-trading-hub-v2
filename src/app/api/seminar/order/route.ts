@@ -1,6 +1,7 @@
 import Razorpay from 'razorpay'
 import { saveRegistration } from '@/lib/registrations'
 import { getSeatAvailability } from '@/lib/seats'
+import { EVENT_TAG } from '@/lib/event'
 
 /* Ticket price in paise (₹299 = 29900). Change here to update the amount. */
 export const SEMINAR_AMOUNT = 29_900
@@ -35,7 +36,7 @@ export async function POST(request: Request) {
       currency: 'INR',
       receipt: `sem_blr_${Date.now()}`,
       notes: {
-        seminar: 'Bangalore',
+        seminar: EVENT_TAG,
         name: String(body.name ?? ''),
         email: String(body.email ?? ''),
         phone: String(body.phone ?? ''),
@@ -47,7 +48,7 @@ export async function POST(request: Request) {
       name: String(body.name ?? ''),
       email: String(body.email ?? ''),
       phone: String(body.phone ?? ''),
-      seminar: 'Bangalore',
+      seminar: EVENT_TAG,
       amount: SEMINAR_AMOUNT,
       currency: 'INR',
       orderId: order.id,

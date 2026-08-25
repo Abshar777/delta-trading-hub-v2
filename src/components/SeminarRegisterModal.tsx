@@ -157,7 +157,7 @@ export default function SeminarRegisterModal({
               </div>
               <h3 className="text-[22px] text-black tracking-[-0.01em] mb-2">You&apos;re in! 🎉</h3>
               <p className="text-[13.5px] text-black/50 leading-[1.6] max-w-[280px]">
-                Your seat for the {city} seminar is confirmed. We&apos;ll email the venue details shortly.
+                Your seat for the {city} seminar is confirmed. We&apos;ll email your Google Meet link shortly.
               </p>
             </div>
           ) : (

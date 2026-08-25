@@ -40,8 +40,9 @@ export function buildInvitationPdf(reg: {
     doc.moveDown(0.6)
     doc.fillColor('#333333').font('Helvetica').fontSize(10.5).text(
       ascii(
-        'It is our pleasure to invite you to the ' + EVENT.title + ' in ' + EVENT.city +
-        '. Your registration is confirmed and your seat is reserved. We look forward to hosting you for a focused day of live trading, practical strategy, and a premium experience at one of ' + EVENT.city + "'s finest venues.",
+        'It is our pleasure to confirm your seat for the ' + EVENT.title + ' - a live, 100% online session ' +
+        'hosted on Google Meet. Your registration is confirmed and your seat is reserved. We look forward to ' +
+        'seeing you online for a focused, practical session on live trading and strategy.',
       ),
       { width: cw, lineGap: 3 },
     )
@@ -62,7 +63,7 @@ export function buildInvitationPdf(reg: {
     detailRow('Date', EVENT.date)
     detailRow('Time', EVENT.time)
     detailRow('Venue', EVENT.venue)
-    detailRow('Address', EVENT.venueAddress)
+    detailRow('How to join', EVENT.venueAddress)
 
     doc.moveDown(0.4)
     doc.fillColor('#b8901f').font('Helvetica-Bold').fontSize(10).text('YOUR REGISTRATION', M, doc.y, { characterSpacing: 1 })
@@ -72,15 +73,15 @@ export function buildInvitationPdf(reg: {
     detailRow('Order ID', reg.orderId)
     if (reg.paymentId) detailRow('Payment ID', reg.paymentId)
 
-    /* ── Before you arrive ── */
+    /* ── Before the session ── */
     doc.moveDown(0.4)
-    doc.fillColor('#1a1a1a').font('Helvetica-Bold').fontSize(11).text('Before you arrive', M, doc.y)
+    doc.fillColor('#1a1a1a').font('Helvetica-Bold').fontSize(11).text('Before the session', M, doc.y)
     doc.moveDown(0.4)
     const bullets = [
-      'Please arrive 15 minutes early for check-in.',
-      'Carry a valid photo ID and this invitation.',
-      'Bring a notebook or laptop for the hands-on sessions.',
-      'A premium buffet lunch is included - no need to arrange your own.',
+      'Join 5-10 minutes early to test your audio and video.',
+      'Use a laptop or desktop for the best experience during hands-on sessions.',
+      'Keep this invitation handy - it has your Google Meet link.',
+      "Can't attend live? The session recording will be shared with you afterward.",
     ]
     doc.font('Helvetica').fontSize(10).fillColor('#444444')
     bullets.forEach((b) => {

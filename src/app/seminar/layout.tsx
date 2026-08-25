@@ -4,10 +4,10 @@ import { EVENT } from '@/lib/event'
 /* The /seminar route is a client component, so it can't export its own
    metadata — this layout supplies it (and covers /seminar/thank-you too).
    Values come from EVENT so the title/description track the event details. */
-const title = `${EVENT.title} in ${EVENT.city} · Delta Trading Academy`
+const title = `${EVENT.title} — Online · Delta Trading Academy`
 const description =
-  `Join the ${EVENT.title} on ${EVENT.date} at ${EVENT.venue}. One focused day of live trading, ` +
-  `expert mentors and a premium buffet lunch — seats are limited. Reserve yours for ₹299.`
+  `Join the ${EVENT.title} — a live online trading session on ${EVENT.date}, ${EVENT.time}, hosted on Google Meet. ` +
+  `Expert mentors, live Q&A and hands-on strategy — seats limited to 50. Reserve yours for ₹299.`
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://deltatradinghub.com'),
@@ -22,11 +22,11 @@ export const metadata: Metadata = {
   },
   keywords: [
     'Forex Trading Bootcamp',
-    'trading seminar Bangalore',
-    'forex seminar Bengaluru',
+    'online forex bootcamp',
+    'live trading webinar',
+    'Google Meet trading session',
     'Delta Trading Academy',
-    'live trading workshop',
-    'The Oberoi Bengaluru',
+    'live trading workshop India',
   ],
   alternates: { canonical: '/seminar' },
   openGraph: {

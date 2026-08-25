@@ -23,12 +23,12 @@ const NAV_LINKS = [
 /* ── Seminar details — placeholders, easy to edit ── */
 const SEMINAR = {
   title: 'Forex Trading Bootcamp',
-  city: 'Bangalore',
-  date: 'Sunday, 9 August 2026',
-  time: '11:00 AM – 4:00 PM',
-  venue: 'The Oberoi, Bengaluru',
-  address: '37-39, Mahatma Gandhi Rd, Yellappa Chetty Layout, Sivanchetti Gardens, Bengaluru, Karnataka 560001',
-  seats: 'Limited to 60 guests',
+  city: 'Online',
+  date: 'Sunday, 30 August 2026',
+  time: '6:00 PM – 9:00 PM',
+  venue: 'Live on Google Meet',
+  address: 'The Google Meet link will be emailed and shared on WhatsApp before the session.',
+  seats: 'Limited to 50 attendees',
   priceLabel: '₹299',
 }
 
@@ -50,7 +50,7 @@ const TEAM = [
 /* ── Seat availability — total + buffer must match /api/seminar/seats.
    The live "left"/"booked" values come from that endpoint (real paid count
    + a head-start buffer); these are just the pre-fetch fallback. ── */
-const SEATS_TOTAL = 60
+const SEATS_TOTAL = 50
 const SEATS_BUFFER = 0 // must match BUFFER in /api/seminar/seats (0 = show actual count)
 
 
@@ -70,31 +70,24 @@ const DETAILS = [
   { label: 'Seats', value: SEMINAR.seats },
 ]
 
-/* ── Venue, experience & food gallery ── */
-const GALLERY = [
-  { src: '/oberoi-ballroom.webp', label: 'The Oberoi ballroom' },
-  { src: '/g2.jpg',     label: 'Forex Trading Bootcamp' },
-  { src: '/g3.jpg',     label: 'The experience' },
-  { src: '/g4.jpg',     label: 'Networking' },
-  { src: '/1.jpg',      label: 'On-stage sessions' },
-  { src: '/2.jpg',      label: 'Fine dining & lunch' },
-]
-
-/* ── What's included (covers food) ── */
+/* ── What's included ── */
 const INCLUDED = [
-  'Full-day seminar access',
-  'Gourmet lunch at The Oberoi',
-  'Tea, coffee & hi-tea refreshments',
-  'Course workbook & resources',
+  '3-hour live bootcamp access',
+  'Session recording (watch anytime)',
+  'Downloadable course workbook & resources',
   'Certificate of participation',
-  'Networking session with mentors',
+  'Live Q&A with mentors',
+  'Private community group access',
 ]
 
-/* Keyless Google Maps embed for The Oberoi, Bengaluru */
-const MAP_SRC =
-  'https://maps.google.com/maps?q=The%20Oberoi%20Bengaluru&t=&z=15&ie=UTF8&iwloc=&output=embed'
+/* ── What you'll need to join ── */
+const REQUIREMENTS = [
+  'A laptop or smartphone with a stable internet connection',
+  'The Google Meet link — emailed after registration',
+  '5–10 minutes to spare before the session starts',
+]
 
-export default function SeminarBangalorePage() {
+export default function SeminarOnlineBootcampPage() {
   const [scrolled, setScrolled] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
 
@@ -185,14 +178,14 @@ export default function SeminarBangalorePage() {
           <div className="max-w-[820px]">
             <span className="inline-flex items-center gap-1.5 text-[12px] md:text-[13px] text-white/75 tracking-[0.01em] mb-5">
               <IoCheckmarkDoneCircle className="text-[15px]" />
-              Live In-Person Seminar · {SEMINAR.city}
+              Live Online Bootcamp · Google Meet
             </span>
             <h1 className="font-normal tracking-[-0.03em] text-white text-[40px] sm:text-[52px] md:text-[64px] leading-[1.05] mb-5">
-              {SEMINAR.title} in <span className="anniversary-gold">{SEMINAR.city}</span>
+              {SEMINAR.title} <span className="anniversary-gold">Online</span>
             </h1>
             <p className="text-[14px] md:text-[15px] leading-[1.7] text-white/55 max-w-[560px] tracking-[0.005em] mb-8">
-              One focused day with our expert mentors — real charts, real strategies, and live
-              practice. Walk in curious, walk out with a plan. Seats are limited.
+              A focused 3-hour live session with our expert mentors — real charts, real strategies, and live
+              practice, streamed straight to your screen via Google Meet. Seats are limited to 50.
             </p>
             <div className="flex flex-wrap items-center gap-3">
               <button
@@ -226,22 +219,22 @@ export default function SeminarBangalorePage() {
         </section>
       </div>
 
-      {/* ── Highlights: premium buffet + limited seats ── */}
+      {/* ── Highlights: session recording + limited seats ── */}
       <section className="px-6 md:px-[60px] pt-10 md:pt-14 max-w-[1240px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 
-          {/* Premium buffet */}
+          {/* Session recording */}
           <div className="spotlight-btn spotlight-btn-gold relative overflow-hidden rounded-2xl bg-[#0b0a08] border border-[#d4af37]/25 p-6 md:p-7 flex items-center gap-4">
             <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(90% 120% at 100% 0%, rgba(212,175,55,0.16), transparent 60%)' }} />
             <div className="relative w-12 h-12 rounded-full bg-[#d4af37]/[0.12] border border-[#d4af37]/30 flex items-center justify-center text-[#e6c14e] shrink-0">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M3 18h18" /><path d="M4 18a8 8 0 0 1 16 0" /><path d="M12 6.5V8" /><circle cx="12" cy="5" r="1.2" />
+                <circle cx="12" cy="12" r="9" /><path d="M10 8.5v7l6-3.5-6-3.5z" fill="currentColor" stroke="none" />
               </svg>
             </div>
             <div className="relative">
               <p className="text-[10.5px] text-[#e6c14e] tracking-[0.14em] uppercase mb-1.5">Included · no extra cost</p>
-              <h3 className="text-[16px] md:text-[18px] text-white tracking-[-0.01em] leading-snug mb-1">Premium buffet lunch at The Oberoi</h3>
-              <p className="text-[12.5px] text-white/50 leading-[1.5]">A full fine-dining spread — appetizers, live counters, mains &amp; desserts.</p>
+              <h3 className="text-[16px] md:text-[18px] text-white tracking-[-0.01em] leading-snug mb-1">Session recording included</h3>
+              <p className="text-[12.5px] text-white/50 leading-[1.5]">Can&apos;t make it live? Get the full recording plus downloadable resources.</p>
             </div>
           </div>
 
@@ -305,7 +298,7 @@ export default function SeminarBangalorePage() {
           <div className="relative">
             <p className="text-[11px] text-[#e6c14e] tracking-[0.14em] uppercase mb-4">What you&apos;ll learn</p>
             <h2 className="text-[26px] md:text-[32px] font-normal tracking-[-0.02em] text-white leading-[1.12] mb-8 max-w-[560px]">
-              A full day of <span className="anniversary-gold">real trading</span>
+              3 hours of <span className="anniversary-gold">real trading</span>
             </h2>
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-4">
               {HIGHLIGHTS.map((h) => (
@@ -319,66 +312,35 @@ export default function SeminarBangalorePage() {
         </div>
       </section>
 
-      {/* ── Gallery — venue & experience ── */}
-      <section className="px-6 md:px-[60px] py-12 md:py-16 max-w-[1240px] mx-auto">
-        <p className="text-[13px] text-black/40 tracking-[0.12em] uppercase mb-2">Venue, experience &amp; food</p>
-        <h2 className="text-[28px] md:text-[36px] font-normal tracking-[-0.02em] text-black leading-[1.1] mb-8 max-w-[560px]">
-          A premium day at <span className="anniversary-gold">{SEMINAR.venue}</span>
-        </h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-          {GALLERY.map((g, i) => (
-            <div
-              key={i}
-              className="relative overflow-hidden rounded-2xl bg-[#f4f3f1] group aspect-[4/3]"
-            >
-              <Image
-                src={g.src}
-                alt={g.label}
-                fill
-                sizes="(max-width: 768px) 50vw, 33vw"
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent" />
-              <span className="absolute bottom-3 left-3.5 text-[12px] text-white/90 tracking-[0.01em]">{g.label}</span>
-            </div>
-          ))}
-        </div>
-
-        {/* What's included (incl. food) */}
-    
-      </section>
-
-      {/* ── Location / map ── */}
+      {/* ── How to join — online via Google Meet ── */}
       <section className="px-6 md:px-[60px] pb-14 md:pb-20 max-w-[1240px] mx-auto">
         <div className="rounded-[24px] overflow-hidden border border-black/[0.08] flex flex-col md:flex-row">
           <div className="md:w-[360px] flex-shrink-0 p-8 md:p-10 bg-[#0b0a08] relative">
             <div className="absolute inset-0 pointer-events-none" style={{ background: 'radial-gradient(80% 80% at 10% 10%, rgba(212,175,55,0.10), transparent 60%)' }} />
             <div className="relative">
-              <p className="text-[11px] text-[#e6c14e] tracking-[0.14em] uppercase mb-4">The location</p>
+              <p className="text-[11px] text-[#e6c14e] tracking-[0.14em] uppercase mb-4">How to join</p>
               <h3 className="text-[24px] md:text-[28px] font-normal tracking-[-0.02em] text-white leading-[1.15] mb-3">
                 {SEMINAR.venue}
               </h3>
               <p className="text-[13.5px] text-white/55 leading-[1.65] mb-6">{SEMINAR.address}</p>
-              <a
-                href="https://www.google.com/maps/search/?api=1&query=The+Oberoi+Bengaluru"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 text-[13.5px] text-white bg-white/[0.08] border border-white/15 px-4 py-2.5 rounded-full hover:bg-white/[0.14] transition-colors"
-              >
-                Open in Google Maps
-                <span className="text-[11px]">↗</span>
-              </a>
+              <span className="inline-flex items-center gap-2 text-[13.5px] text-white bg-white/[0.08] border border-white/15 px-4 py-2.5 rounded-full">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 10l5-3v10l-5-3" /><rect x="1" y="6" width="14" height="12" rx="2" /></svg>
+                No installation needed — join from any browser
+              </span>
             </div>
           </div>
-          <div className="flex-1 min-h-[280px] md:min-h-[360px] bg-[#e8e4df]">
-            <iframe
-              src={MAP_SRC}
-              title={`Map — ${SEMINAR.venue}`}
-              className="w-full h-full min-h-[280px] md:min-h-[360px]"
-              style={{ border: 0 }}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+          <div className="flex-1 min-h-[280px] md:min-h-[360px] bg-[#f4f3f1] p-8 md:p-10 flex flex-col justify-center">
+            <p className="text-[11px] text-black/40 tracking-[0.12em] uppercase mb-5">What you&apos;ll need</p>
+            <ul className="flex flex-col gap-4">
+              {REQUIREMENTS.map((r) => (
+                <li key={r} className="flex items-start gap-3">
+                  <span className="text-[#b8901f] mt-0.5 shrink-0">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
+                  </span>
+                  <span className="text-[14px] text-black/70 leading-snug">{r}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
@@ -458,7 +420,7 @@ export default function SeminarBangalorePage() {
           <div className="h-px bg-black/[0.07] my-8" />
 
           <div className="flex flex-col md:flex-row items-center justify-between gap-3">
-            <p className="text-[12.5px] text-black/35">© 2026 Delta Trading Academy · {SEMINAR.city} Seminar</p>
+            <p className="text-[12.5px] text-black/35">© 2026 Delta Trading Academy · {SEMINAR.city} Bootcamp</p>
             <a href={HUB} className="text-[12.5px] text-black/45 hover:text-black transition-colors">
               ← Back to deltatradinghub.com
             </a>
