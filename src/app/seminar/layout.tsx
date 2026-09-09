@@ -16,9 +16,9 @@ export const metadata: Metadata = {
   /* Seminar-only favicon (the bootcamp poster). Set explicitly so this route
      overrides the site-wide delta favicon.ico — the home page keeps delta. */
   icons: {
-    icon: [{ url: '/favicon.ico', type: 'image/png' }],
-    shortcut: ['/favicon.ico'],
-    apple: [{ url: '/seminar-favicon.png' }],
+    icon: [{ url: '/seminar-favicon.png', type: 'image/png' }],
+    shortcut: ['/seminar-favicon.png'],
+    apple: [{ url: '/seminar-apple-icon.png' }],
   },
   keywords: [
     'Forex Trading Bootcamp',

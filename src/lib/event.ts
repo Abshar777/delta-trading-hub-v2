@@ -2,8 +2,8 @@
 export const EVENT = {
   title: 'Forex Trading Bootcamp',
   city: 'Online',
-  date: 'Sunday, 30 August 2026',
-  time: '6:00 PM - 9:00 PM IST',
+  date: 'Friday, 18 September 2026',
+  time: '7:00 PM - 10:00 PM IST',
   /* Event venue (shown in "Event details") — now a live online session */
   venue: 'Live on Google Meet',
   /* Repurposed for the online format — "how to join", not a physical address */

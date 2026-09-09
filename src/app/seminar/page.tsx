@@ -24,8 +24,8 @@ const NAV_LINKS = [
 const SEMINAR = {
   title: 'Forex Trading Bootcamp',
   city: 'Online',
-  date: 'Sunday, 30 August 2026',
-  time: '6:00 PM – 9:00 PM',
+  date: 'Friday, 18 September 2026',
+  time: '7:00 PM – 10:00 PM',
   venue: 'Live on Google Meet',
   address: 'The Google Meet link will be emailed and shared on WhatsApp before the session.',
   seats: 'Limited to 50 attendees',
