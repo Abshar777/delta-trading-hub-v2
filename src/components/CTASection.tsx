@@ -9,20 +9,20 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 gsap.registerPlugin(ScrollTrigger)
 
 const PROGRAMS = [
-  { label: 'Forex Trading Program',  href: '#courses' },
-  { label: 'Stock Market Courses',   href: '#courses' },
-  { label: 'Crypto Trading Course',  href: '#courses' },
-  { label: 'One-to-One Mentorship',  href: '#courses' },
-  { label: 'Live Mentorship Program',href: '#courses' },
-  { label: 'Blockchain Academy',     href: '#courses' },
+  { label: 'Forex Trading Program', href: '#courses' },
+  { label: 'Stock Market Courses', href: '#courses' },
+  { label: 'Crypto Trading Course', href: '#courses' },
+  { label: 'One-to-One Mentorship', href: '#courses' },
+  { label: 'Live Mentorship Program', href: '#courses' },
+  { label: 'Blockchain Academy', href: '#courses' },
 ]
 
 const COMPANY = [
-  { label: 'About Us',            href: '#about'      },
-  { label: 'Our Mentors',         href: '#mentors'    },
-  { label: 'KHDA Accreditation',  href: '#about'      },
-  { label: 'Guinness Record',     href: '#about'      },
-  { label: 'Reviews',             href: '#reviews'    },
+  { label: 'About Us', href: '#about' },
+  { label: 'Our Mentors', href: '#mentors' },
+  { label: 'KHDA Accreditation', href: '#about' },
+  { label: 'Guinness Record', href: '#about' },
+  { label: 'Reviews', href: '#reviews' },
 ]
 
 function InstagramIcon() {
@@ -37,33 +37,33 @@ function InstagramIcon() {
 function YoutubeIcon() {
   return (
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
-      <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
-      <polygon points="9.75,15.02 15.5,12 9.75,8.98 9.75,15.02" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round"/>
+      <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+      <polygon points="9.75,15.02 15.5,12 9.75,8.98 9.75,15.02" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
     </svg>
   )
 }
 function WhatsAppIcon() {
   return (
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
-      <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+      <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   )
 }
 function LinkedInIcon() {
   return (
     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
-      <rect x="2" y="9" width="4" height="12"/>
-      <circle cx="4" cy="4" r="2"/>
+      <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" />
+      <rect x="2" y="9" width="4" height="12" />
+      <circle cx="4" cy="4" r="2" />
     </svg>
   )
 }
 
 const SOCIALS = [
   { icon: <InstagramIcon />, href: 'https://www.instagram.com/delta_international_institute/', label: 'Instagram' },
-  { icon: <YoutubeIcon />,   href: '#', label: 'YouTube' },
-  { icon: <WhatsAppIcon />,  href: '#', label: 'WhatsApp' },
-  { icon: <LinkedInIcon />,  href: '#', label: 'LinkedIn' },
+  { icon: <YoutubeIcon />, href: '#', label: 'YouTube' },
+  { icon: <WhatsAppIcon />, href: '#', label: 'WhatsApp' },
+  { icon: <LinkedInIcon />, href: '#', label: 'LinkedIn' },
 ]
 
 export default function CTASection() {
@@ -76,20 +76,20 @@ export default function CTASection() {
   }
 
   /* ── refs ── */
-  const sectionRef       = useRef<HTMLElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
   /* CTA block */
-  const eyebrowRef       = useRef<HTMLParagraphElement>(null)
-  const hLine1Ref        = useRef<HTMLSpanElement>(null)
-  const hLine2Ref        = useRef<HTMLSpanElement>(null)
-  const ctaBodyRef       = useRef<HTMLParagraphElement>(null)
-  const ctaBtnRef        = useRef<HTMLButtonElement>(null)
-  const trustRef         = useRef<HTMLParagraphElement>(null)
+  const eyebrowRef = useRef<HTMLParagraphElement>(null)
+  const hLine1Ref = useRef<HTMLSpanElement>(null)
+  const hLine2Ref = useRef<HTMLSpanElement>(null)
+  const ctaBodyRef = useRef<HTMLParagraphElement>(null)
+  const ctaBtnRef = useRef<HTMLButtonElement>(null)
+  const trustRef = useRef<HTMLParagraphElement>(null)
   /* Footer card */
-  const footerCardRef    = useRef<HTMLDivElement>(null)
-  const footerBrandRef   = useRef<HTMLDivElement>(null)
-  const footerNavRef     = useRef<HTMLDivElement>(null)
-  const footerDivRef     = useRef<HTMLDivElement>(null)
-  const footerBottomRef  = useRef<HTMLDivElement>(null)
+  const footerCardRef = useRef<HTMLDivElement>(null)
+  const footerBrandRef = useRef<HTMLDivElement>(null)
+  const footerNavRef = useRef<HTMLDivElement>(null)
+  const footerDivRef = useRef<HTMLDivElement>(null)
+  const footerBottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -270,7 +270,9 @@ export default function CTASection() {
               {/* Contact details */}
               <div className="mt-8 flex flex-col gap-2">
                 <p className="text-[12.5px] text-black/35 leading-[1.6]">
-                  Metro Station, Corniche One Deira - 7th floor -<br />Office - 710 Gold Souq - Al Corniche - Deira - Dubai
+                  Villa No. 25, Al Twar 5, 18th Street,
+                  Al Qusais, near Al Qusais Health Centre,
+                  Dubai
                 </p>
                 <a href="tel:+971507528009" className="text-[12.5px] text-black/35 hover:text-black/60 transition-colors">
                   +971 50 752 8009
