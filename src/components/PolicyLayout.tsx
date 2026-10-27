@@ -90,7 +90,10 @@ export default function PolicyLayout({ policy }: { policy: Policy }) {
               </ul>
             </div>
           </div>
-          <p className="text-[12px] text-black/30 mt-8">© 2026 Delta Trading Academy. All rights reserved.</p>
+          <p className="text-[12px] text-black/40 leading-[1.65] mt-8">
+            Delta Trading Academy is an educational institution and does not provide financial advice or brokerage services.
+          </p>
+          <p className="text-[12px] text-black/30 mt-3">© 2026 Delta Trading Academy. All rights reserved.</p>
         </div>
       </footer>
     </main>

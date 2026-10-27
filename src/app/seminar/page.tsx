@@ -454,6 +454,10 @@ export default function SeminarOnlineBootcampPage() {
 
           <div className="h-px bg-black/[0.07] my-8" />
 
+          <p className="text-[12px] text-black/40 leading-[1.65] mb-4">
+            Delta Trading Academy is an educational institution and does not provide financial advice or brokerage services.
+          </p>
+
           <div className="flex flex-col md:flex-row items-center justify-between gap-3">
             <p className="text-[12.5px] text-black/35">© 2026 Delta Trading Academy · {SEMINAR.city} Bootcamp</p>
             <a href={HUB} className="text-[12.5px] text-black/45 hover:text-black transition-colors">

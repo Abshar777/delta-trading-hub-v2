@@ -354,6 +354,7 @@ export default function CTASection() {
 
             {/* Disclaimer */}
             <p className="text-[11.5px] text-black/22 leading-[1.65] tracking-[0.003em]">
+              Delta Trading Academy is an educational institution and does not provide financial advice or brokerage services.{' '}
               Trading in financial markets involves risk. Past performance is not indicative of future results. Please trade responsibly.
             </p>
 
