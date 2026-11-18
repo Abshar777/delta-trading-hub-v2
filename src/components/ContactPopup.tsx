@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { pushEvent } from '@/lib/dataLayer'
+import { trackLeadCreated } from '@/lib/openaiPixel'
 
 const DELAY_MS = 15_000   // auto-open after 15 s
 export const POPUP_EVENT = 'delta:open-popup'
@@ -85,6 +86,7 @@ export default function ContactPopup() {
     }
 
     pushEvent('generate_lead', { form_name: 'contact_popup' })
+    trackLeadCreated()
     router.push('/thank-you')
   }
 
