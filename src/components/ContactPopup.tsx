@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { pushEvent } from '@/lib/dataLayer'
 
 const DELAY_MS = 15_000   // auto-open after 15 s
 export const POPUP_EVENT = 'delta:open-popup'
@@ -83,6 +84,7 @@ export default function ContactPopup() {
       console.error('Sheet submission failed:', err)
     }
 
+    pushEvent('generate_lead', { form_name: 'contact_popup' })
     router.push('/thank-you')
   }
 

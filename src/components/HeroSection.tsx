@@ -7,6 +7,7 @@ import { FaWhatsapp } from 'react-icons/fa'
 import { POPUP_EVENT } from './ContactPopup'
 import gsap from 'gsap'
 import { WA_LINK } from '@/app/thank-you/page'
+import { pushEvent } from '@/lib/dataLayer'
 
 const NAV_LINKS = [
   { label: 'Courses',  href: '#courses'  },
@@ -213,7 +214,7 @@ export default function HeroSection() {
           >
             Enroll Now
           </button>
-          <a  href={WA_LINK}  target="_blank"  rel="noreferrer"  aria-label="WhatsApp"
+          <a  href={WA_LINK} onClick={() => pushEvent('click_whatsapp', { link_location: 'hero_nav' })}  target="_blank"  rel="noreferrer"  aria-label="WhatsApp"
             className="hidden md:flex w-9 h-9 items-center justify-center bg-[#15bb0c] border border-white/[.10] rounded-full text-white transition-all hover:opacity-80 hover:-translate-y-px">
             <FaWhatsapp />
           </a>

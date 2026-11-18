@@ -4,6 +4,7 @@ import { use, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Script from 'next/script'
+import { pushEvent } from '@/lib/dataLayer'
 
 interface RazorpayResponse {
   razorpay_order_id: string
@@ -94,6 +95,11 @@ export default function PaymentLinkPage({ params }: { params: Promise<{ id: stri
         setPaying(false)
         return
       }
+      pushEvent('begin_checkout', {
+        currency: data.currency,
+        value: data.amount / 100,
+        items: [{ item_id: id, item_name: link.description, price: data.amount / 100, quantity: 1 }],
+      })
       const rzp = new window.Razorpay({
         key: data.keyId,
         amount: data.amount,
@@ -111,7 +117,17 @@ export default function PaymentLinkPage({ params }: { params: Promise<{ id: stri
             body: JSON.stringify(response),
           })
           const vd = await vr.json().catch(() => ({ verified: false }))
-          if (vd.verified) { router.push(`/pay/${id}/thank-you`); return }
+          if (vd.verified) {
+            pushEvent('purchase', {
+              transaction_id: data.orderId,
+              currency: data.currency,
+              value: data.amount / 100,
+              tax: link.gstAmount / 100,
+              items: [{ item_id: id, item_name: link.description, price: data.amount / 100, quantity: 1 }],
+            })
+            router.push(`/pay/${id}/thank-you`)
+            return
+          }
           setError('Payment could not be verified. If you were charged, contact us and we’ll sort it out.')
           setPaying(false)
         },

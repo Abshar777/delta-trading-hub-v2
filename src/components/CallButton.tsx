@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { FaPhoneAlt } from 'react-icons/fa'
+import { pushEvent } from '@/lib/dataLayer'
 
 const DEFAULT_PHONE = '+971507528009'
 
@@ -22,6 +23,7 @@ export default function CallButton({ phone = DEFAULT_PHONE }: { phone?: string }
   return (
     <a
       href={`tel:${phone}`}
+      onClick={() => pushEvent('click_call', { link_location: 'floating_button' })}
       aria-label="Call our expert now"
       className="group fixed z-[90] right-4 bottom-4 md:right-5 md:bottom-5 flex flex-row-reverse items-center gap-3 font-nb"
     >

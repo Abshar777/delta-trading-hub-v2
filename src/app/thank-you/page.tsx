@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FaWhatsapp } from 'react-icons/fa'
 import gsap from 'gsap'
+import { pushEvent } from '@/lib/dataLayer'
 
 export const WA_LINK =
   'https://wa.me/971507528009?text=Hi%2C%20I%20just%20submitted%20my%20details%20and%20would%20like%20to%20know%20more%20about%20your%20trading%20programs.'
@@ -221,6 +222,7 @@ export default function ThankYouPage() {
         <div className="flex items-center gap-2.5 md:gap-3.5 justify-end">
           <a
             href={WA_LINK}
+            onClick={() => pushEvent('click_whatsapp', { link_location: 'thank_you_nav' })}
             target="_blank"
             rel="noreferrer"
             className="bg-white text-[#0a0808] text-[13px] md:text-[13.5px] tracking-[0.005em] py-2 px-4 md:px-5 rounded-full transition-all hover:bg-white/90 hover:-translate-y-px whitespace-nowrap"
@@ -229,6 +231,7 @@ export default function ThankYouPage() {
           </a>
           <a
             href={WA_LINK}
+            onClick={() => pushEvent('click_whatsapp', { link_location: 'thank_you_nav_icon' })}
             target="_blank"
             rel="noreferrer"
             aria-label="WhatsApp"
@@ -281,6 +284,7 @@ export default function ThankYouPage() {
         <a
           ref={btnRef}
           href={WA_LINK}
+            onClick={() => pushEvent('click_whatsapp', { link_location: 'thank_you_cta' })}
           target="_blank"
           rel="noreferrer"
           className="inline-flex items-center gap-2.5 bg-[#0f0e0c] text-white text-[14px] tracking-[0.005em] px-8 py-[15px] rounded-full hover:bg-[#2a2825] transition-all hover:-translate-y-px active:scale-[0.98]"

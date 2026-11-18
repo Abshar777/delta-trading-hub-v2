@@ -6,6 +6,7 @@ import {
   getCookieConsent,
   saveCookieConsent,
 } from '@/lib/cookieConsent'
+import { pushEvent } from '@/lib/dataLayer'
 
 type Prefs = { functional: boolean; analytics: boolean; marketing: boolean }
 
@@ -43,6 +44,7 @@ export default function CookieConsentBanner() {
 
   const decide = (next: Prefs) => {
     saveCookieConsent(next)
+    pushEvent('cookie_consent_update', { analytics: next.analytics, functional: next.functional, marketing: next.marketing })
     setPrefs(next)
     setManaging(false)
     setVisible(false)

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import SmoothScroll from '@/components/SmoothScroll'
 import AnalyticsLoader from '@/components/AnalyticsLoader'
+import PageViewTracker from '@/components/PageViewTracker'
 import CookieConsentBanner from '@/components/CookieConsentBanner'
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body>
         {/* GTM/GA4/Clarity load only once the visitor accepts analytics cookies */}
         <AnalyticsLoader />
+        <PageViewTracker />
 
         <SmoothScroll />
         {children}

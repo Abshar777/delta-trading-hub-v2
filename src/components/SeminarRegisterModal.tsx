@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import { pushEvent } from '@/lib/dataLayer'
 
 interface RazorpayResponse {
   razorpay_order_id: string
@@ -86,6 +87,11 @@ export default function SeminarRegisterModal({
         setLoading(false)
         return
       }
+      pushEvent('begin_checkout', {
+        currency: data.currency,
+        value: data.amount / 100,
+        items: [{ item_id: 'seminar', item_name: seminarTitle, price: data.amount / 100, quantity: 1 }],
+      })
       const rzp = new window.Razorpay({
         key: data.keyId,
         amount: data.amount,
@@ -100,6 +106,12 @@ export default function SeminarRegisterModal({
           const vr = await fetch('/api/seminar/verify', { method: 'POST', body: JSON.stringify(response) })
           const vd = await vr.json().catch(() => ({ verified: false }))
           if (vd.verified) {
+            pushEvent('purchase', {
+              transaction_id: data.orderId,
+              currency: data.currency,
+              value: data.amount / 100,
+              items: [{ item_id: 'seminar', item_name: seminarTitle, price: data.amount / 100, quantity: 1 }],
+            })
             /* animated confirmation → auto-opens the invitation PDF */
             router.push(`/seminar/thank-you?order=${encodeURIComponent(data.orderId)}`)
             return
