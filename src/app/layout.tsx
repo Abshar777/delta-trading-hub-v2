@@ -3,6 +3,7 @@ import './globals.css'
 import SmoothScroll from '@/components/SmoothScroll'
 import AnalyticsLoader from '@/components/AnalyticsLoader'
 import PageViewTracker from '@/components/PageViewTracker'
+import OpenAIPixel from '@/components/OpenAIPixel'
 import CookieConsentBanner from '@/components/CookieConsentBanner'
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
@@ -34,6 +35,8 @@ export default function RootLayout({
         {/* GTM/GA4/Clarity load only once the visitor accepts analytics cookies */}
         <AnalyticsLoader />
         <PageViewTracker />
+        {/* OpenAI ads pixel loads only once the visitor accepts marketing cookies */}
+        <OpenAIPixel />
 
         <SmoothScroll />
         {children}
