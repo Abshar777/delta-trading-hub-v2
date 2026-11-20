@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState, useEffect, useRef } from 'react'
 import { POPUP_EVENT } from './ContactPopup'
 import gsap from 'gsap'
@@ -332,6 +333,8 @@ export default function CTASection() {
                 <a href="#" className="text-[12px] text-black/28 hover:text-black/55 transition-colors">Privacy Policy</a>
                 <span className="text-black/15">|</span>
                 <a href="#" className="text-[12px] text-black/28 hover:text-black/55 transition-colors">Terms &amp; Conditions</a>
+                <span className="text-black/15">|</span>
+                <Link href="/blog" className="text-[12px] text-black/28 hover:text-black/55 transition-colors">Blog</Link>
               </div>
 
               {/* Social icons */}
