@@ -70,14 +70,6 @@ function ClevelandLogo() {
 /* ─── Data ────────────────────────────────────────────────── */
 const DOCTORS = [
   {
-    img: '/team/m14.png',
-    Logo: ClevelandLogo,
-    name: 'Praveen Pathiyil',
-    role: 'Senior Market Analyst',
-    bio: 'SEBI-registered research analyst with 11+ years of experience. Expertise in Commodities, Stocks, and Forex. Mentor at Delta Institutions.',
-  },
-
-  {
     img: '/team/m6.png',
     Logo: StanfordLogo,
     name: 'Raghav Selvaraj',
