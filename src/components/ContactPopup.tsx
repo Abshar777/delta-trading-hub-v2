@@ -18,7 +18,7 @@ export default function ContactPopup() {
   const router = useRouter()
   const [open,    setOpen]    = useState(false)
   const [visible, setVisible] = useState(false)
-  const [form,    setForm]    = useState({ name: '', mobile: '', challenge: '', message: 'I Need To Know More About Your Programs ' })
+  const [form,    setForm]    = useState({ name: '', email: '', mobile: '', challenge: '', message: 'I Need To Know More About Your Programs ' })
   const [sent,    setSent]    = useState(false)
   const [submitting, setSubmitting] = useState(false)
 
@@ -26,7 +26,7 @@ export default function ContactPopup() {
   const openPopup = useCallback(() => {
     setSent(false)
     setSubmitting(false)
-    setForm({ name: '', mobile: '', challenge: '', message: 'I Need To Know More About Your Programs '  })
+    setForm({ name: '', email: '', mobile: '', challenge: '', message: 'I Need To Know More About Your Programs '  })
     setOpen(true)
     requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)))
   }, [])
@@ -52,7 +52,7 @@ export default function ContactPopup() {
       // Always open when triggered manually, even if auto-dismissed
       setSent(false)
       setSubmitting(false)
-      setForm({ name: '', mobile: '', challenge: '', message: 'I Need To Know More About Your Programs '  })
+      setForm({ name: '', email: '', mobile: '', challenge: '', message: 'I Need To Know More About Your Programs '  })
       setOpen(true)
       requestAnimationFrame(() => requestAnimationFrame(() => setVisible(true)))
     }
@@ -74,7 +74,7 @@ export default function ContactPopup() {
         method: 'POST',
         body: JSON.stringify({
           Name: form.name,
-          Email: '',
+          Email: form.email.trim(),
           PhoneNumber: form.mobile,
           Message: form.message,
           Subject: SUBJECT,
@@ -86,7 +86,7 @@ export default function ContactPopup() {
     }
 
     pushEvent('generate_lead', { form_name: 'contact_popup' })
-    void trackLeadCreated({ name: form.name, phone: form.mobile })
+    void trackLeadCreated({ name: form.name, email: form.email, phone: form.mobile })
     router.push('/thank-you')
   }
 
@@ -195,6 +195,23 @@ export default function ContactPopup() {
                   placeholder="e.g. Ahmed Al Mansoori"
                   value={form.name}
                   onChange={e => setForm({ ...form, name: e.target.value })}
+                  required
+                  className="w-full border border-black/[0.12] rounded-xl px-4 py-[13px] text-[16px] md:text-[14px] text-black placeholder:text-black/25 outline-none transition-colors focus:border-black/35 bg-white"
+                />
+              </div>
+
+              {/* Email */}
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[11.5px] text-black/40 tracking-[0.08em] uppercase">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  inputMode="email"
+                  autoComplete="email"
+                  placeholder="you@example.com"
+                  value={form.email}
+                  onChange={e => setForm({ ...form, email: e.target.value })}
                   required
                   className="w-full border border-black/[0.12] rounded-xl px-4 py-[13px] text-[16px] md:text-[14px] text-black placeholder:text-black/25 outline-none transition-colors focus:border-black/35 bg-white"
                 />
