@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { pushEvent } from '@/lib/dataLayer'
 import { trackLeadCreated } from '@/lib/openaiPixel'
+import { useScrollLock } from '@/lib/useScrollLock'
 
 const DELAY_MS = 15_000   // auto-open after 15 s
 export const POPUP_EVENT = 'delta:open-popup'
@@ -21,6 +22,8 @@ export default function ContactPopup() {
   const [form,    setForm]    = useState({ name: '', email: '', mobile: '', challenge: '', message: 'I Need To Know More About Your Programs ' })
   const [sent,    setSent]    = useState(false)
   const [submitting, setSubmitting] = useState(false)
+
+  useScrollLock(open)
 
   /* ── Open helper ── */
   const openPopup = useCallback(() => {
@@ -97,6 +100,7 @@ export default function ContactPopup() {
     <div
       role="dialog"
       aria-modal="true"
+      data-lenis-prevent
       onClick={(e) => { if (e.target === e.currentTarget) close() }}
       className="fixed inset-0 z-[100] flex items-center justify-center p-4 font-nb"
       style={{
@@ -108,9 +112,9 @@ export default function ContactPopup() {
     >
       {/* Modal card */}
       <div
-        className="relative bg-white rounded-[24px] overflow-hidden w-full max-w-[860px] flex shadow-2xl"
+        className="relative bg-white rounded-[24px] overflow-hidden w-full max-w-[860px] flex flex-col md:flex-row shadow-2xl"
         style={{
-          maxHeight: '92vh',
+          maxHeight: '92dvh',
           transition: 'transform 340ms cubic-bezier(.22,.68,0,1.2), opacity 320ms ease',
           transform: visible ? 'translateY(0) scale(1)' : 'translateY(28px) scale(0.97)',
           opacity: visible ? 1 : 0,
@@ -142,7 +146,7 @@ export default function ContactPopup() {
         </div>
 
         {/* ── Right: form panel ── */}
-        <div className="flex-1 flex flex-col p-9 overflow-y-auto">
+        <div className="flex-1 min-h-0 flex flex-col p-9 overflow-y-auto overscroll-contain">
 
           {/* Close button */}
           <button

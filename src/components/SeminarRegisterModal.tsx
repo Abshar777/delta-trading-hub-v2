@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { pushEvent } from '@/lib/dataLayer'
 import { identifyUser, trackOrderCreated } from '@/lib/openaiPixel'
+import { useScrollLock } from '@/lib/useScrollLock'
 
 interface RazorpayResponse {
   razorpay_order_id: string
@@ -54,6 +55,8 @@ export default function SeminarRegisterModal({
     form.name.trim().length > 1 &&
     /\S+@\S+\.\S+/.test(form.email) &&
     form.phone.trim().length >= 7
+
+  useScrollLock(open)
 
   /* Reset + animate in whenever the modal opens (sync to the `open` prop) */
   /* eslint-disable react-hooks/set-state-in-effect */
@@ -141,6 +144,7 @@ export default function SeminarRegisterModal({
     <div
       role="dialog"
       aria-modal="true"
+      data-lenis-prevent
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
       className="fixed inset-0 z-[100] flex items-center justify-center p-4 font-nb"
       style={{
@@ -151,15 +155,15 @@ export default function SeminarRegisterModal({
       }}
     >
       <div
-        className="relative bg-white rounded-[24px] overflow-hidden w-full max-w-[440px] shadow-2xl"
+        className="relative bg-white rounded-[24px] overflow-hidden w-full max-w-[440px] flex flex-col shadow-2xl"
         style={{
-          maxHeight: '92vh',
+          maxHeight: '92dvh',
           transition: 'transform 340ms cubic-bezier(.22,.68,0,1.2), opacity 320ms ease',
           transform: visible ? 'translateY(0) scale(1)' : 'translateY(28px) scale(0.97)',
           opacity: visible ? 1 : 0,
         }}
       >
-        <div className="flex flex-col p-9 max-md:p-7 overflow-y-auto">
+        <div className="flex flex-col min-h-0 p-9 max-md:p-7 overflow-y-auto overscroll-contain">
           {/* Close */}
           <button
             onClick={onClose}
