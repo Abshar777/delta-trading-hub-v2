@@ -180,7 +180,7 @@ export default function ForexCoursesDubaiPage() {
         </p>
         <p className={P}>A few things students often ask about:</p>
         <Bullets>
-          <li className={LI}>{DOT}<span><strong className="font-semibold text-black">Who teaches:</strong> a team of market analysts and mentors, including senior market analyst Praveen Pathiyil, who has over 11 years of market experience. Mentors teach in more than five languages.</span></li>
+          <li className={LI}>{DOT}<span><strong className="font-semibold text-black">Who teaches:</strong> a team of market analysts and mentors with years of hands-on market experience. Mentors teach in more than five languages.</span></li>
           <li className={LI}>{DOT}<span><strong className="font-semibold text-black">After the course:</strong> students can continue with one-to-one mentorship or the ongoing live mentorship programme.</span></li>
           <li className={LI}>{DOT}<span><strong className="font-semibold text-black">Track record:</strong> over 7,000 students trained, and a 4.9-star rating from 518+ Google reviews (as of November 2026).</span></li>
           <li className={LI}>{DOT}<span><strong className="font-semibold text-black">A fun one:</strong> Delta holds a Guinness World Record for the most nationalities in a single trading lesson.</span></li>
