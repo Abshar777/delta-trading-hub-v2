@@ -204,6 +204,21 @@ export default function ContactPopup() {
                 />
               </div>
 
+              {/* Mobile */}
+              <div className="flex flex-col gap-1.5">
+                <label className="text-[11.5px] text-black/40 tracking-[0.08em] uppercase">
+                  Mobile Number
+                </label>
+                <input
+                  type="tel"
+                  placeholder="+971 50 000 0000"
+                  value={form.mobile}
+                  onChange={e => setForm({ ...form, mobile: e.target.value })}
+                  required
+                  className="w-full border border-black/[0.12] rounded-xl px-4 py-[13px] text-[16px] md:text-[14px] text-black placeholder:text-black/25 outline-none transition-colors focus:border-black/35 bg-white"
+                />
+              </div>
+
               {/* Email */}
               <div className="flex flex-col gap-1.5">
                 <label className="text-[11.5px] text-black/40 tracking-[0.08em] uppercase">
@@ -216,21 +231,6 @@ export default function ContactPopup() {
                   placeholder="you@example.com"
                   value={form.email}
                   onChange={e => setForm({ ...form, email: e.target.value })}
-                  required
-                  className="w-full border border-black/[0.12] rounded-xl px-4 py-[13px] text-[16px] md:text-[14px] text-black placeholder:text-black/25 outline-none transition-colors focus:border-black/35 bg-white"
-                />
-              </div>
-
-              {/* Mobile */}
-              <div className="flex flex-col gap-1.5">
-                <label className="text-[11.5px] text-black/40 tracking-[0.08em] uppercase">
-                  Mobile Number
-                </label>
-                <input
-                  type="tel"
-                  placeholder="+971 50 000 0000"
-                  value={form.mobile}
-                  onChange={e => setForm({ ...form, mobile: e.target.value })}
                   required
                   className="w-full border border-black/[0.12] rounded-xl px-4 py-[13px] text-[16px] md:text-[14px] text-black placeholder:text-black/25 outline-none transition-colors focus:border-black/35 bg-white"
                 />
