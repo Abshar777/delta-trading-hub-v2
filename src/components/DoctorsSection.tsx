@@ -84,6 +84,13 @@ const DOCTORS = [
     bio: 'World-leading researcher on aging and longevity. Author of Lifespan. Co-Director of the Paul F. Glenn Center.',
   },
   {
+    img: '/team/mujeeb.jpg',
+    Logo: ClevelandLogo,
+    name: 'Mujeeb Rahman',
+    role: 'Chief Crypto/Blockchain Analyst',
+    bio: '9 years of experience in Forex and Distributed Ledger Technology. Chief Technology Developer at Delta. Postgraduate degree in DLT Development from IIT Kanpur.',
+  },
+  {
     img: '/team/nadeem.jpg',
     Logo: ClevelandLogo,
     name: 'Nadeem M',
