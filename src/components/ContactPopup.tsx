@@ -86,7 +86,7 @@ export default function ContactPopup() {
     }
 
     pushEvent('generate_lead', { form_name: 'contact_popup' })
-    trackLeadCreated()
+    void trackLeadCreated({ name: form.name, phone: form.mobile })
     router.push('/thank-you')
   }
 

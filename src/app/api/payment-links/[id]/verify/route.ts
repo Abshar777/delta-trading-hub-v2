@@ -1,6 +1,7 @@
 import crypto from 'crypto'
 import { markPaymentLinkPaidOnce } from '@/lib/paymentLinks'
 import { sendPaymentReceipt } from '@/lib/paymentReceiptMail'
+import { reportPaymentLinkPaid } from '@/lib/openaiConversions'
 
 const KEY_SECRET = process.env.RAZORPAY_KEY_SECRET
 
@@ -28,7 +29,7 @@ export async function POST(request: Request) {
       /* idempotent — only send the receipt when THIS call transitioned the
          link to paid (the webhook may already have handled it) */
       const link = await markPaymentLinkPaidOnce(razorpay_order_id, razorpay_payment_id)
-      if (link) await sendPaymentReceipt(link)
+      if (link) await Promise.all([sendPaymentReceipt(link), reportPaymentLinkPaid(link)])
     }
     return Response.json({ verified }, { status: verified ? 200 : 400 })
   } catch (err) {

@@ -1,6 +1,7 @@
 import type { Registration } from './registrations'
 import { sendToSheet } from './sheet'
 import { sendInvitationEmail } from './mail'
+import { reportSeminarPaid } from './openaiConversions'
 
 /** Side-effects for a newly-paid registration: mirror to the Google Sheet and
  *  email the invitation + PDF. Best-effort, run in parallel, never throws.
@@ -21,5 +22,6 @@ export async function fulfillPaid(reg: Registration) {
       paidAt,
     }),
     sendInvitationEmail(reg),
+    reportSeminarPaid(reg), // OpenAI Ads conversion (no-op without OPENAI_ADS_CAPI_KEY)
   ])
 }

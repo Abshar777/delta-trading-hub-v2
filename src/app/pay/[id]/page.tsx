@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Script from 'next/script'
 import { pushEvent } from '@/lib/dataLayer'
+import { identifyUser, trackOrderCreated } from '@/lib/openaiPixel'
 
 interface RazorpayResponse {
   razorpay_order_id: string
@@ -100,6 +101,7 @@ export default function PaymentLinkPage({ params }: { params: Promise<{ id: stri
         value: data.amount / 100,
         items: [{ item_id: id, item_name: link.description, price: data.amount / 100, quantity: 1 }],
       })
+      void identifyUser({ name: form.name, email: form.email, phone: form.phone })
       const rzp = new window.Razorpay({
         key: data.keyId,
         amount: data.amount,
@@ -124,6 +126,13 @@ export default function PaymentLinkPage({ params }: { params: Promise<{ id: stri
               value: data.amount / 100,
               tax: link.gstAmount / 100,
               items: [{ item_id: id, item_name: link.description, price: data.amount / 100, quantity: 1 }],
+            })
+            trackOrderCreated({
+              orderId: data.orderId,
+              amount: data.amount,
+              currency: data.currency,
+              itemId: id,
+              itemName: link.description,
             })
             router.push(`/pay/${id}/thank-you`)
             return

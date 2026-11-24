@@ -3,6 +3,7 @@ import { markPaidOnce } from '@/lib/registrations'
 import { fulfillPaid } from '@/lib/fulfill'
 import { markPaymentLinkPaidOnce } from '@/lib/paymentLinks'
 import { sendPaymentReceipt } from '@/lib/paymentReceiptMail'
+import { reportPaymentLinkPaid } from '@/lib/openaiConversions'
 
 const WEBHOOK_SECRET = process.env.RAZORPAY_WEBHOOK_SECRET
 
@@ -40,7 +41,7 @@ export async function POST(request: Request) {
       } else {
         // not a seminar order — try it as a /pay payment link
         const link = await markPaymentLinkPaidOnce(orderId, paymentId)
-        if (link) await sendPaymentReceipt(link)
+        if (link) await Promise.all([sendPaymentReceipt(link), reportPaymentLinkPaid(link)])
       }
     }
 

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { pushEvent } from '@/lib/dataLayer'
+import { identifyUser, trackOrderCreated } from '@/lib/openaiPixel'
 
 interface RazorpayResponse {
   razorpay_order_id: string
@@ -92,6 +93,7 @@ export default function SeminarRegisterModal({
         value: data.amount / 100,
         items: [{ item_id: 'seminar', item_name: seminarTitle, price: data.amount / 100, quantity: 1 }],
       })
+      void identifyUser({ name: form.name, email: form.email, phone: form.phone })
       const rzp = new window.Razorpay({
         key: data.keyId,
         amount: data.amount,
@@ -111,6 +113,13 @@ export default function SeminarRegisterModal({
               currency: data.currency,
               value: data.amount / 100,
               items: [{ item_id: 'seminar', item_name: seminarTitle, price: data.amount / 100, quantity: 1 }],
+            })
+            trackOrderCreated({
+              orderId: data.orderId,
+              amount: data.amount,
+              currency: data.currency,
+              itemId: 'seminar',
+              itemName: seminarTitle,
             })
             /* animated confirmation → auto-opens the invitation PDF */
             router.push(`/seminar/thank-you?order=${encodeURIComponent(data.orderId)}`)
