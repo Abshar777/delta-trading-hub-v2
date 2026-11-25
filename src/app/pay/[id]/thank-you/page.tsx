@@ -2,9 +2,11 @@
 
 import { use, useEffect, useState } from 'react'
 import Image from 'next/image'
+import { formatMoney } from '@/lib/money'
 
 interface LinkInfo {
   description: string
+  currency: string
   baseAmount: number
   gstPct: number
   gstAmount: number
@@ -12,7 +14,6 @@ interface LinkInfo {
   status: 'pending' | 'paid'
 }
 
-const inr = (paise: number) => '₹' + (paise / 100).toLocaleString('en-IN')
 
 export default function PaymentThankYouPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
@@ -51,7 +52,7 @@ export default function PaymentThankYouPage({ params }: { params: Promise<{ id: 
 
           {!loading && link && (
             <p className="text-[13.5px] text-black/45 leading-[1.65] mb-1">
-              {inr(link.totalAmount)} received for <span className="text-black/70">{link.description}</span>
+              {formatMoney(link.totalAmount, link.currency)} received for <span className="text-black/70">{link.description}</span>
             </p>
           )}
           <p className="text-[13.5px] text-black/45 leading-[1.65] mb-7">

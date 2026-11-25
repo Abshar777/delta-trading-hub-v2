@@ -1,5 +1,6 @@
 import crypto from 'crypto'
-import { createPaymentLink, listPaymentLinks } from '@/lib/paymentLinks'
+import { createPaymentLink, listPaymentLinks, GST_PCT } from '@/lib/paymentLinks'
+import { DEFAULT_CURRENCY, isCurrency } from '@/lib/money'
 import { isDbConfigured } from '@/lib/mongodb'
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
@@ -46,14 +47,24 @@ export async function POST(request: Request) {
 
   try {
     const body = await request.json().catch(() => ({}))
-    const amountRupees = Number(body.amount)
+    const amount = Number(body.amount)
     const description = String(body.description ?? '').trim().slice(0, 200)
 
-    if (!Number.isFinite(amountRupees) || amountRupees <= 0) {
+    if (!Number.isFinite(amount) || amount <= 0) {
       return Response.json({ error: 'Enter a valid amount.' }, { status: 400 })
     }
 
-    const link = await createPaymentLink({ description, amountRupees })
+    const currency = body.currency === undefined || body.currency === '' ? DEFAULT_CURRENCY : body.currency
+    if (!isCurrency(currency)) {
+      return Response.json({ error: 'Unsupported currency.' }, { status: 400 })
+    }
+
+    const gstPct = body.gstPct === undefined || body.gstPct === '' ? GST_PCT : Number(body.gstPct)
+    if (!Number.isFinite(gstPct) || gstPct < 0 || gstPct > 100) {
+      return Response.json({ error: 'GST must be between 0 and 100.' }, { status: 400 })
+    }
+
+    const link = await createPaymentLink({ description, amount, currency, gstPct: Math.round(gstPct * 100) / 100 })
     if (!link) {
       return Response.json({ error: 'Could not create the payment link.' }, { status: 500 })
     }

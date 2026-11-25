@@ -1,11 +1,13 @@
 import crypto from 'crypto'
 import type { Collection } from 'mongodb'
 import { getDb } from './mongodb'
+import { DEFAULT_CURRENCY, toMinor, type CurrencyCode } from './money'
 
 export interface PaymentLink {
   linkId: string
   description: string
-  baseAmount: number    // paise, before GST
+  currency?: CurrencyCode // links created before currencies existed have none → INR (see linkCurrency)
+  baseAmount: number    // minor units (paise/fils/cents), before GST
   gstPct: number
   gstAmount: number     // paise
   totalAmount: number   // paise, what the customer actually pays
@@ -37,21 +39,33 @@ async function generateLinkId(col: Collection<PaymentLink>) {
   throw new Error('Could not generate a unique payment link id')
 }
 
-/** Create a new payment link with a fresh id. Amount is in rupees (whole ₹, admin input). */
-export async function createPaymentLink({ description, amountRupees }: { description: string; amountRupees: number }) {
+/** Create a new payment link with a fresh id. `amount` is in the major unit of `currency`
+ *  (e.g. 15000 = ₹15,000 / AED 15,000 / $15,000), admin input. */
+export async function createPaymentLink({
+  description,
+  amount,
+  currency = DEFAULT_CURRENCY,
+  gstPct = GST_PCT,
+}: {
+  description: string
+  amount: number
+  currency?: CurrencyCode
+  gstPct?: number
+}) {
   const db = await getDb()
   if (!db) return null
   const col = db.collection<PaymentLink>(COLLECTION)
 
-  const baseAmount = Math.round(amountRupees * 100)
-  const { gstAmount, totalAmount } = computeGst(baseAmount)
+  const baseAmount = toMinor(amount)
+  const { gstAmount, totalAmount } = computeGst(baseAmount, gstPct)
   const linkId = await generateLinkId(col)
 
   const doc: PaymentLink = {
     linkId,
     description: description || 'Course payment',
+    currency,
     baseAmount,
-    gstPct: GST_PCT,
+    gstPct,
     gstAmount,
     totalAmount,
     status: 'pending',

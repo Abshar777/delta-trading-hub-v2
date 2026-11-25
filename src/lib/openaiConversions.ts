@@ -2,6 +2,7 @@ import crypto from 'crypto'
 import { EVENT } from './event'
 import { OPENAI_PIXEL_ID, normEmail, normPhone, splitName } from './openaiAds'
 import { SITE_URL } from './site'
+import { linkCurrency } from './money'
 import type { PaymentLink } from './paymentLinks'
 import type { Registration } from './registrations'
 
@@ -100,7 +101,7 @@ export function reportPaymentLinkPaid(link: PaymentLink): Promise<void> {
   return sendOrderCreated({
     orderId: link.orderId,
     amount: link.totalAmount,
-    currency: 'INR',
+    currency: linkCurrency(link),
     paidAt: link.paidAt,
     sourceUrl: `${SITE_URL}/pay/${link.linkId}/thank-you`,
     itemId: link.linkId,

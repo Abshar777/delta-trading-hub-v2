@@ -2,6 +2,7 @@
 
 import { use, useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
+import { formatMoney } from '@/lib/money'
 
 const KEY_STORE = 'admin-key'
 const HUB = 'https://deltatradinghub.com'
@@ -9,6 +10,7 @@ const HUB = 'https://deltatradinghub.com'
 interface PaymentLink {
   linkId: string
   description: string
+  currency?: string
   baseAmount: number
   gstPct: number
   gstAmount: number
@@ -23,7 +25,6 @@ interface PaymentLink {
   paidAt?: string
 }
 
-const inr = (paise: number) => '₹' + (paise / 100).toLocaleString('en-IN')
 const fmt = (d?: string) =>
   d ? new Date(d).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : '—'
 
@@ -174,16 +175,18 @@ export default function AdminPaymentLinkDetailPage({ params }: { params: Promise
               <p className="text-[11px] text-white/40 tracking-[0.1em] uppercase mb-4">Amount</p>
               <div className="flex items-center justify-between text-[14px] text-white/70 py-1">
                 <span>Amount</span>
-                <span className="tabular-nums">{inr(link.baseAmount)}</span>
+                <span className="tabular-nums">{formatMoney(link.baseAmount, link.currency)}</span>
               </div>
-              <div className="flex items-center justify-between text-[13px] text-white/45 py-1">
-                <span>+{link.gstPct}% GST</span>
-                <span className="tabular-nums">{inr(link.gstAmount)}</span>
-              </div>
+              {link.gstPct > 0 && (
+                <div className="flex items-center justify-between text-[13px] text-white/45 py-1">
+                  <span>+{link.gstPct}% GST</span>
+                  <span className="tabular-nums">{formatMoney(link.gstAmount, link.currency)}</span>
+                </div>
+              )}
               <div className="h-px bg-white/10 my-2.5" />
               <div className="flex items-center justify-between text-[16px] text-white">
                 <span>Total</span>
-                <span className="tabular-nums font-medium">{inr(link.totalAmount)}</span>
+                <span className="tabular-nums font-medium">{formatMoney(link.totalAmount, link.currency)}</span>
               </div>
             </div>
 

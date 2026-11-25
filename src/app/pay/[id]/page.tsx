@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Script from 'next/script'
 import { pushEvent } from '@/lib/dataLayer'
 import { identifyUser, trackOrderCreated } from '@/lib/openaiPixel'
+import { formatMoney } from '@/lib/money'
 
 interface RazorpayResponse {
   razorpay_order_id: string
@@ -34,6 +35,7 @@ declare global {
 
 interface LinkInfo {
   description: string
+  currency: string
   baseAmount: number
   gstPct: number
   gstAmount: number
@@ -41,7 +43,6 @@ interface LinkInfo {
   status: 'pending' | 'paid'
 }
 
-const inr = (paise: number) => '₹' + (paise / 100).toLocaleString('en-IN')
 
 export default function PaymentLinkPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params)
@@ -181,16 +182,18 @@ export default function PaymentLinkPage({ params }: { params: Promise<{ id: stri
               <div className="rounded-2xl bg-black/[0.03] border border-black/[0.06] px-5 py-4 mb-6">
                 <div className="flex items-center justify-between text-[14px] text-black/70 py-1">
                   <span>Amount</span>
-                  <span className="tabular-nums">{inr(link.baseAmount)}</span>
+                  <span className="tabular-nums">{formatMoney(link.baseAmount, link.currency)}</span>
                 </div>
-                <div className="flex items-center justify-between text-[13px] text-black/45 py-1">
-                  <span>+{link.gstPct}% GST</span>
-                  <span className="tabular-nums">{inr(link.gstAmount)}</span>
-                </div>
+                {link.gstPct > 0 && (
+                  <div className="flex items-center justify-between text-[13px] text-black/45 py-1">
+                    <span>+{link.gstPct}% GST</span>
+                    <span className="tabular-nums">{formatMoney(link.gstAmount, link.currency)}</span>
+                  </div>
+                )}
                 <div className="h-px bg-black/[0.08] my-2.5" />
                 <div className="flex items-center justify-between text-[16px] text-black">
                   <span>Total</span>
-                  <span className="tabular-nums font-medium">{inr(link.totalAmount)}</span>
+                  <span className="tabular-nums font-medium">{formatMoney(link.totalAmount, link.currency)}</span>
                 </div>
               </div>
 
@@ -231,7 +234,7 @@ export default function PaymentLinkPage({ params }: { params: Promise<{ id: stri
                   disabled={!valid || paying}
                   className="w-full bg-[#0f0e0c] text-white text-[14.5px] tracking-[0.005em] py-[15px] rounded-xl hover:bg-[#2a2825] transition-colors mt-1 disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  {paying ? 'Processing…' : `Pay ${inr(link.totalAmount)}`}
+                  {paying ? 'Processing…' : `Pay ${formatMoney(link.totalAmount, link.currency)}`}
                 </button>
               </form>
             </div>

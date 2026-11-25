@@ -3,10 +3,11 @@ import { getLogoBuffer } from './logo'
 import { buildReceiptPdf } from './receiptPdf'
 import { createMailTransporter, isMailConfigured, MAIL_FROM as FROM } from './mailer'
 import type { PaymentLink } from './paymentLinks'
+import { formatMoney } from './money'
 
-const inr = (paise: number) => '₹' + (paise / 100).toLocaleString('en-IN')
 
 export function buildReceiptHtml(link: PaymentLink) {
+  const inr = (minor: number) => formatMoney(minor, link.currency)
   const name = link.customerName || 'there'
   const detail = (label: string, value: string) => `
     <tr>
@@ -33,7 +34,7 @@ export function buildReceiptHtml(link: PaymentLink) {
         <table style="width:100%;border-collapse:collapse;">
           ${detail('Description', link.description)}
           ${detail('Amount', inr(link.baseAmount))}
-          ${detail(`GST (${link.gstPct}%)`, inr(link.gstAmount))}
+          ${link.gstPct > 0 ? detail(`GST (${link.gstPct}%)`, inr(link.gstAmount)) : ''}
           ${detail('Total paid', inr(link.totalAmount))}
           ${link.orderId ? detail('Order ID', link.orderId) : ''}
           ${link.paymentId ? detail('Payment ID', link.paymentId) : ''}

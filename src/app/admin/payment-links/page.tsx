@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { CURRENCIES, DEFAULT_CURRENCY, formatMoney, toMinor, type CurrencyCode } from '@/lib/money'
 
 const KEY_STORE = 'admin-key'
 const HUB = 'https://deltatradinghub.com'
@@ -9,6 +10,7 @@ const GST_PCT = 18
 interface PaymentLink {
   linkId: string
   description: string
+  currency?: string
   baseAmount: number
   gstPct: number
   gstAmount: number
@@ -21,7 +23,6 @@ interface PaymentLink {
   paidAt?: string
 }
 
-const inr = (paise: number) => '₹' + (paise / 100).toLocaleString('en-IN')
 const fmt = (d?: string) =>
   d ? new Date(d).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : '—'
 
@@ -37,6 +38,8 @@ export default function AdminPaymentLinksPage() {
 
   const [description, setDescription] = useState('')
   const [amountInput, setAmountInput] = useState('')
+  const [currency, setCurrency] = useState<CurrencyCode>(DEFAULT_CURRENCY)
+  const [gstInput, setGstInput] = useState(String(GST_PCT))
   const [creating, setCreating] = useState(false)
   const [createError, setCreateError] = useState('')
   const [justCreated, setJustCreated] = useState<PaymentLink | null>(null)
@@ -90,12 +93,14 @@ export default function AdminPaymentLinksPage() {
 
   /* Live breakdown as the admin types the amount */
   const breakdown = useMemo(() => {
-    const rupees = Number(amountInput)
-    if (!Number.isFinite(rupees) || rupees <= 0) return null
-    const base = Math.round(rupees * 100)
-    const gst = Math.round((base * GST_PCT) / 100)
-    return { base, gst, total: base + gst }
-  }, [amountInput])
+    const amount = Number(amountInput)
+    const gstPct = gstInput.trim() === '' ? GST_PCT : Number(gstInput)
+    if (!Number.isFinite(amount) || amount <= 0) return null
+    if (!Number.isFinite(gstPct) || gstPct < 0 || gstPct > 100) return null
+    const base = toMinor(amount)
+    const gst = Math.round((base * gstPct) / 100)
+    return { base, gst, gstPct, total: base + gst }
+  }, [amountInput, gstInput])
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -108,7 +113,7 @@ export default function AdminPaymentLinksPage() {
       const res = await fetch('/api/admin/payment-links', {
         method: 'POST',
         headers: { 'x-admin-key': adminKey, 'content-type': 'application/json' },
-        body: JSON.stringify({ description, amount: Number(amountInput) }),
+        body: JSON.stringify({ description, amount: Number(amountInput), currency, gstPct: breakdown.gstPct }),
       })
       const data = await res.json().catch(() => ({}))
       if (!res.ok) {
@@ -181,7 +186,7 @@ export default function AdminPaymentLinksPage() {
         <div className="flex items-center justify-between gap-4 mb-8 flex-wrap">
           <div>
             <h1 className="text-[22px] tracking-[-0.01em]">Payment Links</h1>
-            <p className="text-white/45 text-[13px] mt-0.5">Generate a course payment link · amount + 18% GST</p>
+            <p className="text-white/45 text-[13px] mt-0.5">Generate a course payment link · choose a currency · GST optional</p>
           </div>
           <div className="flex items-center gap-2.5">
             <a
@@ -214,7 +219,7 @@ export default function AdminPaymentLinksPage() {
         {/* ── Create link ── */}
         <div className="rounded-2xl bg-white/[0.04] border border-white/10 p-5 md:p-6 mb-8">
           <p className="text-[11px] text-white/40 tracking-[0.1em] uppercase mb-4">Generate a new link</p>
-          <form onSubmit={handleCreate} className="grid grid-cols-1 md:grid-cols-[1fr_220px_auto] gap-3 items-end">
+          <form onSubmit={handleCreate} className="grid grid-cols-1 md:grid-cols-[1fr_130px_170px_100px_auto] gap-3 items-end">
             <div className="flex flex-col gap-1.5">
               <label className="text-[11px] text-white/40 tracking-[0.06em] uppercase">Course / Description</label>
               <input
@@ -226,7 +231,19 @@ export default function AdminPaymentLinksPage() {
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <label className="text-[11px] text-white/40 tracking-[0.06em] uppercase">Amount (₹)</label>
+              <label className="text-[11px] text-white/40 tracking-[0.06em] uppercase">Currency</label>
+              <select
+                value={currency}
+                onChange={(e) => setCurrency(e.target.value as CurrencyCode)}
+                className="w-full bg-white/[0.05] border border-white/12 rounded-xl px-3 py-2.5 text-[13.5px] text-white outline-none focus:border-white/35"
+              >
+                {CURRENCIES.map((c) => (
+                  <option key={c.code} value={c.code} className="text-black">{c.label}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[11px] text-white/40 tracking-[0.06em] uppercase">Amount ({currency})</label>
               <input
                 type="number"
                 min="1"
@@ -235,6 +252,19 @@ export default function AdminPaymentLinksPage() {
                 value={amountInput}
                 onChange={(e) => setAmountInput(e.target.value)}
                 required
+                className="w-full bg-white/[0.05] border border-white/12 rounded-xl px-4 py-2.5 text-[13.5px] text-white placeholder:text-white/25 outline-none focus:border-white/35 tabular-nums"
+              />
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-[11px] text-white/40 tracking-[0.06em] uppercase">GST %</label>
+              <input
+                type="number"
+                min="0"
+                max="100"
+                step="0.01"
+                placeholder="18"
+                value={gstInput}
+                onChange={(e) => setGstInput(e.target.value)}
                 className="w-full bg-white/[0.05] border border-white/12 rounded-xl px-4 py-2.5 text-[13.5px] text-white placeholder:text-white/25 outline-none focus:border-white/35 tabular-nums"
               />
             </div>
@@ -250,10 +280,12 @@ export default function AdminPaymentLinksPage() {
           {/* live breakdown */}
           {breakdown && (
             <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-1 text-[13.5px] text-white/70 tabular-nums">
-              <span>{inr(breakdown.base)}</span>
-              <span className="text-white/40">+18% GST ({inr(breakdown.gst)})</span>
+              <span>{formatMoney(breakdown.base, currency)}</span>
+              {breakdown.gstPct > 0 && (
+                <span className="text-white/40">+{breakdown.gstPct}% GST ({formatMoney(breakdown.gst, currency)})</span>
+              )}
               <span className="text-white/25">—</span>
-              <span className="text-white text-[15px]">{inr(breakdown.total)} total</span>
+              <span className="text-white text-[15px]">{formatMoney(breakdown.total, currency)} total</span>
             </div>
           )}
 
@@ -303,9 +335,9 @@ export default function AdminPaymentLinksPage() {
                       {r.description || '—'}
                     </a>
                   </td>
-                  <td className="px-4 py-3 text-white/70 whitespace-nowrap tabular-nums">{inr(r.baseAmount)}</td>
-                  <td className="px-4 py-3 text-white/50 whitespace-nowrap tabular-nums">{inr(r.gstAmount)}</td>
-                  <td className="px-4 py-3 text-white/90 whitespace-nowrap tabular-nums">{inr(r.totalAmount)}</td>
+                  <td className="px-4 py-3 text-white/70 whitespace-nowrap tabular-nums">{formatMoney(r.baseAmount, r.currency)}</td>
+                  <td className="px-4 py-3 text-white/50 whitespace-nowrap tabular-nums">{formatMoney(r.gstAmount, r.currency)}</td>
+                  <td className="px-4 py-3 text-white/90 whitespace-nowrap tabular-nums">{formatMoney(r.totalAmount, r.currency)}</td>
                   <td className="px-4 py-3 text-white/60">
                     {r.customerName
                       ? <div><p className="text-white/80">{r.customerName}</p><p className="text-[11.5px] text-white/40">{r.customerEmail} · {r.customerPhone}</p></div>

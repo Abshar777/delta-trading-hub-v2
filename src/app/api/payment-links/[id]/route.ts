@@ -1,4 +1,5 @@
 import { getPaymentLink } from '@/lib/paymentLinks'
+import { linkCurrency } from '@/lib/money'
 
 /* Public — powers the /pay/[id] checkout page. Only exposes what's safe to
    show a paying customer (no internal ids beyond the link itself). */
@@ -11,6 +12,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ id:
 
   return Response.json({
     description: link.description,
+    currency: linkCurrency(link),
     baseAmount: link.baseAmount,
     gstPct: link.gstPct,
     gstAmount: link.gstAmount,

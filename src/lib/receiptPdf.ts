@@ -3,10 +3,10 @@ import { EVENT } from './event'
 import { getLogoBuffer } from './logo'
 import { ascii } from './pdfText'
 import type { PaymentLink } from './paymentLinks'
-
-const inr = (paise: number) => 'INR ' + (paise / 100).toLocaleString('en-IN')
+import { formatMoneyAscii } from './money'
 
 export function buildReceiptPdf(link: PaymentLink): Promise<Buffer> {
+  const inr = (minor: number) => formatMoneyAscii(minor, link.currency)
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument({ size: 'A4', margin: 50 })
     const chunks: Buffer[] = []
@@ -54,7 +54,7 @@ export function buildReceiptPdf(link: PaymentLink): Promise<Buffer> {
     doc.moveDown(0.6)
     detailRow('Description', link.description)
     detailRow('Amount', inr(link.baseAmount))
-    detailRow(`GST (${link.gstPct}%)`, inr(link.gstAmount))
+    if (link.gstPct > 0) detailRow(`GST (${link.gstPct}%)`, inr(link.gstAmount))
     detailRow('Total paid', inr(link.totalAmount))
     detailRow('Paid at', link.paidAt ? new Date(link.paidAt).toLocaleString('en-IN', { dateStyle: 'medium', timeStyle: 'short' }) : '-')
 

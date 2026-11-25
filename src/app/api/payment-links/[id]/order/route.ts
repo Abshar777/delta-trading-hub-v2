@@ -1,5 +1,6 @@
 import Razorpay from 'razorpay'
 import { attachOrderToLink, getPaymentLink } from '@/lib/paymentLinks'
+import { linkCurrency } from '@/lib/money'
 
 const KEY_ID = process.env.RAZORPAY_KEY_ID
 const KEY_SECRET = process.env.RAZORPAY_KEY_SECRET
@@ -30,10 +31,11 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
       return Response.json({ error: 'Name, email and phone are required.' }, { status: 400 })
     }
 
+    const currency = linkCurrency(link)
     const rzp = new Razorpay({ key_id: KEY_ID, key_secret: KEY_SECRET })
     const order = await rzp.orders.create({
       amount: link.totalAmount,
-      currency: 'INR',
+      currency,
       receipt: `paylink_${id}_${Date.now()}`,
       notes: {
         linkId: id,
@@ -51,7 +53,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
     return Response.json({
       orderId: order.id,
       amount: link.totalAmount,
-      currency: 'INR',
+      currency,
       keyId: KEY_ID,
     })
   } catch (err) {
